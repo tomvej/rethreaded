@@ -1,5 +1,9 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {DefinePlugin} = require('webpack');
+const CssExtractPlugin = require('mini-css-extract-plugin');
+const sass = require('sass');
+
+const array = (...items) => items.filter(Boolean);
 
 module.exports = (env, {mode}) => ({
     entry: './src/index.tsx',
@@ -7,7 +11,7 @@ module.exports = (env, {mode}) => ({
         filename: 'main.js',
         path: `${__dirname}/dist`,
     },
-    plugins: [
+    plugins: array(
         new HtmlWebpackPlugin({
             template: 'src/index.html',
             inject: true,
@@ -16,12 +20,35 @@ module.exports = (env, {mode}) => ({
             __DEVELOPMENT__: mode === 'development',
             __PRODUCTION__: mode === 'production',
         }),
-    ],
+        mode === 'development' && new CssExtractPlugin(),
+    ),
     module: {
         rules: [{
             test: /\.tsx?$/,
             loader: 'ts-loader',
             exclude: /node_modules/,
+        }, {
+            test: /\.scss$/,
+            exclude: /node_modules/,
+            use: [
+                mode === 'development' ? 'style-loader' : CssExtractPlugin.loader,
+                {
+                    loader: 'css-loader',
+                    options: {
+                        importLoaders: 1,
+                        modules: {
+                            mode: 'local',
+                            localIdentName: mode === 'development' ? '[name]__[local]__[hash:base64]' : '[hash:base64]',
+                        },
+                    }
+                },
+                {
+                    loader: 'sass-loader',
+                    options: {
+                        implementation: sass,
+                    },
+                }
+            ],
         }],
     },
     resolve: {
