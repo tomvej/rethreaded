@@ -6,9 +6,12 @@
   "author": "Tomáš Vejpustek <tom.vejpustek@centrum.cz>",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --progress --mode development"
+    "start": "webpack-dev-server --progress --mode development",
+    "build": "webpack --progress --mode production",
+    "serve": "node ./serve.js"
   },
   "devDependencies": {
+    "express": "4.17.1",
     "ts-loader": "6.2.1",
     "typescript": "3.7.5",
     "webpack": "4.41.6",
