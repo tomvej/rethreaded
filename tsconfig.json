@@ -5,7 +5,11 @@
         "jsx": "react",
         "sourceMap": true,
         "allowJs": true,
-        "noImplicitAny": true
+        "noImplicitAny": true,
+        "moduleResolution": "Node"
     },
-    "include": ["src"]
+    "include": [
+        "src",
+        "global.d.ts"
+    ]
 }
