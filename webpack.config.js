@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const {DefinePlugin} = require('webpack');
 
-module.exports = {
+module.exports = (env, {mode}) => ({
     entry: './src/index.tsx',
     output: {
         filename: 'main.js',
@@ -10,6 +11,10 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: 'src/index.html',
             inject: true,
+        }),
+        new DefinePlugin({
+            __DEVELOPMENT__: mode === 'development',
+            __PRODUCTION__: mode === 'production',
         }),
     ],
     module: {
@@ -27,4 +32,4 @@ module.exports = {
         hot: true,
         port: 8080,
     },
-};
+});
