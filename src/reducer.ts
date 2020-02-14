@@ -1,1 +1,1 @@
-export default (state = 'text') => state;
+export default (state = 'text'): string => state;
