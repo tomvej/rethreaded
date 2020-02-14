@@ -20,4 +20,7 @@ module.exports = {
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
         'plugin:react/recommended',
     ],
+    rules: {
+        'react/prop-types': 'off', // typescript is enough
+    },
 };

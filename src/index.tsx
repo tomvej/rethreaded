@@ -3,9 +3,14 @@ import {render} from 'react-dom';
 import {Provider} from 'react-redux';
 import store from './store';
 
+import {Thread} from './components';
+
 const Component: FunctionComponent = () => (
     <Provider store={store}>
-        <div>It works!</div>
+        <div>
+            <Thread color="#ffccff" />
+            <Thread color="#ab3400" />
+        </div>
     </Provider>
 );
 
