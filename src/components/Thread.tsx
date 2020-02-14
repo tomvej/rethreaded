@@ -2,7 +2,7 @@ import React, {FunctionComponent} from 'react';
 import {Color} from '../types';
 import {toHex} from '../utils/color';
 
-const style = require('./Thread.scss');
+import style from './Thread.scss';
 
 type ThreadColorProps = {
     color: Color;
