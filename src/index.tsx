@@ -4,12 +4,13 @@ import {Provider} from 'react-redux';
 import store from './store';
 
 import {Thread} from './components';
+import {fromHex} from './utils/color';
 
 const Component: FunctionComponent = () => (
     <Provider store={store}>
         <div>
-            <Thread color="#ffccff" />
-            <Thread color="#ab3400" />
+            <Thread color={fromHex('#ffccff')} />
+            <Thread color={fromHex('#ab3400')} />
         </div>
     </Provider>
 );
