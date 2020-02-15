@@ -1,9 +1,9 @@
 import React, {FunctionComponent} from 'react';
 import classnames from 'classnames';
-import {Color, Direction, ThreadingType} from '../types';
+import {Color, Direction, ThreadingType} from '~/types';
+import {toHex} from '~/utils/color';
 
 import style from './ThreadingCell.scss';
-import {toHex} from '../utils/color';
 
 const getDirectionStyle = (direction: Direction): string => ({
     [Direction.Forward]: style.forward,

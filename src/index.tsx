@@ -1,14 +1,13 @@
 import React, {FunctionComponent} from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
+import {fromHex} from '~/utils/color';
+import {Thread, ThreadingCell} from '~/components';
+import {Direction, ThreadingType} from '~/types';
+import {FocusContainer} from '~/containers';
+
 import store from './store';
-
 import './style.scss';
-
-import {Thread, ThreadingCell} from './components';
-import {fromHex} from './utils/color';
-import {Direction, ThreadingType} from './types';
-import {FocusContainer} from './containers';
 
 const Component: FunctionComponent = () => (
     <Provider store={store}>

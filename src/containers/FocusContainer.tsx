@@ -1,7 +1,7 @@
 import {Dispatch} from 'redux';
 import {connect} from 'react-redux';
-import {FocusArea} from '../components';
-import {focusGained, focusLost} from '../core/focus';
+import {FocusArea} from '~/components';
+import {focusGained, focusLost} from '~/core/focus';
 
 type OwnProps = {
     id: string;

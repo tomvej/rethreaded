@@ -53,6 +53,9 @@ module.exports = (env, {mode}) => ({
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
+        alias: {
+            '~': `${__dirname}/src`,
+        },
     },
     devServer: {
         inline: true,
