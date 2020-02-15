@@ -1,21 +1,15 @@
 import React, {FC} from 'react';
 import {Provider} from 'react-redux';
-import {KeyBinder, KeyHandler} from '~core/keyboard';
+import {KeyBinder} from '~core/keyboard';
+import RootKeyHandler from './RootKeyHandler';
 import store from './store';
-import {REDO, UNDO} from '~shortcuts';
 
 const AppProvider: FC = ({children}) => (
     <Provider store={store}>
         <KeyBinder>
-            <KeyHandler
-                focus
-                handlers={{
-                    [UNDO]: (): void => console.log('undo'),
-                    [REDO]: (): void => console.log('redo'),
-                }}
-            >
+            <RootKeyHandler>
                 {children}
-            </KeyHandler>
+            </RootKeyHandler>
         </KeyBinder>
     </Provider>
 );
