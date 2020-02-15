@@ -5,10 +5,9 @@
         "jsx": "react",
         "sourceMap": true,
         "allowJs": true,
-        "noImplicitAny": true,
-        "moduleResolution": "Node",
+        "moduleResolution": "node",
         "allowSyntheticDefaultImports": true,
-        "strictNullChecks": true
+        "strict": true
     },
     "include": [
         "src",

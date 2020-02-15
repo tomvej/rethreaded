@@ -1,13 +1,14 @@
-import React, {FunctionComponent} from 'react';
+import React, {FC, ReactNode} from 'react';
 
 import style from './FocusArea.scss';
 
-type FocusAreaPropTypes = {
+type FocusAreaProps = {
     onFocus: () => void;
     onBlur: () => void;
+    children: ReactNode;
 };
 
-const FocusArea: FunctionComponent<FocusAreaPropTypes> = ({onFocus, onBlur, children}) => (
+const FocusArea: FC<FocusAreaProps> = ({onFocus, onBlur, children}) => (
     <div
         tabIndex={0}
         onFocus={onFocus}
