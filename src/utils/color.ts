@@ -1,4 +1,4 @@
-import {Color} from '~/types';
+import {Color} from '~types';
 import assert from 'assert';
 
 export const fromHex = (color: string): Color => {

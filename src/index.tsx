@@ -1,10 +1,10 @@
 import React, {FunctionComponent} from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
-import {fromHex} from '~/utils/color';
-import {Thread, ThreadingCell} from '~/components';
-import {Direction, ThreadingType} from '~/types';
-import {FocusContainer} from '~/containers';
+import {fromHex} from '~utils/color';
+import {Thread, ThreadingCell} from '~components';
+import {Direction, ThreadingType} from '~types';
+import {FocusContainer} from '~containers';
 
 import store from './store';
 import './style.scss';

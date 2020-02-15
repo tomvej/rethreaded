@@ -54,7 +54,12 @@ module.exports = (env, {mode}) => ({
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
         alias: {
-            '~': `${__dirname}/src`,
+            '~components': `${__dirname}/src/components`,
+            '~containers': `${__dirname}/src/containers`,
+            '~core': `${__dirname}/src/core`,
+            '~utils': `${__dirname}/src/utils`,
+            '~types': `${__dirname}/src/types`,
+            '~reducer': `${__dirname}/src/reducer`,
         },
     },
     devServer: {
