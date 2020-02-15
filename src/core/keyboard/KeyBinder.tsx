@@ -3,6 +3,7 @@ import Mousetrap from 'mousetrap';
 import shortcuts from '~shortcuts';
 import {ListenerType} from './types';
 import {KeyboardContextProvider} from './context';
+import {assert} from '~utils/assert';
 
 type KeyBinderProps = {
     children: ReactNode;
@@ -28,11 +29,8 @@ const KeyBinder: FC<KeyBinderProps> = ({children}) => {
         });
         Object.entries(keyMap).forEach(([key, commands]) => {
             Mousetrap.bind(key, () => {
-                if (rootListener.current) {
-                    rootListener.current(commands, () => {/* do nothing */});
-                } else {
-                    throw new Error('No keyboard handler registered at root level!');
-                }
+                assert(rootListener.current, 'No keyboard handler registered at root level!');
+                rootListener.current(commands, () => {/* do nothing */});
             })
         });
 

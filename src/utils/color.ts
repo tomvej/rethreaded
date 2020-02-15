@@ -1,5 +1,5 @@
 import {Color} from '~types';
-import assert from 'assert';
+import {assert} from './assert';
 
 export const fromHex = (color: string): Color => {
     assert(/^#[0-9a-fA-F]{6}$/.test(color), `${color} is not a hex color.`);
