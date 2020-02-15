@@ -3,7 +3,7 @@ import {Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {FocusArea} from '~components';
 import {focusGained, focusLost, isFocused} from '~core/focus';
-import {KeyboardHandler} from '~core/keyboard';
+import {KeyHandler} from '~core/keyboard';
 import {RootState} from '~reducer';
 import {REDO, UNDO} from '~shortcuts';
 
@@ -29,7 +29,7 @@ type KeyboardFocusAreaProps = {
 }
 
 const KeyboardFocusArea: FC<KeyboardFocusAreaProps> = ({focus, id, onFocus, onBlur, children}) => (
-    <KeyboardHandler
+    <KeyHandler
         focus={focus}
         handlers={{
             [UNDO]: (): void => console.log(`undo ${id}`),
@@ -39,7 +39,7 @@ const KeyboardFocusArea: FC<KeyboardFocusAreaProps> = ({focus, id, onFocus, onBl
         <FocusArea onFocus={onFocus} onBlur={onBlur}>
             {children}
         </FocusArea>
-    </KeyboardHandler>
+    </KeyHandler>
 );
 
 const FocusContainer = connect(mapStateToProps, mapDispatchToProps)(KeyboardFocusArea);

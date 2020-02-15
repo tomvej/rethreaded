@@ -1,7 +1,7 @@
 import React, {FC, ReactNode, useEffect, useRef, useCallback} from 'react';
 import {useKeyboardContext, KeyboardContextProvider} from './context';
 
-type KeyboardHandlerProps = {
+type KeyHandlerProps = {
     focus: boolean;
     children: ReactNode;
     handlers: {[command: string]: () => void};
@@ -9,7 +9,7 @@ type KeyboardHandlerProps = {
 
 type ListenerType = (commands: string[], callback: () => void) => void;
 
-const KeyboardHandler: FC<KeyboardHandlerProps> = ({focus, handlers, children}) => {
+const KeyHandler: FC<KeyHandlerProps> = ({focus, handlers, children}) => {
     const registerAtParent = useKeyboardContext();
     const listeners = useRef<Array<ListenerType>>([]);
 
@@ -57,4 +57,4 @@ const KeyboardHandler: FC<KeyboardHandlerProps> = ({focus, handlers, children}) 
     );
 };
 
-export default KeyboardHandler;
+export default KeyHandler;

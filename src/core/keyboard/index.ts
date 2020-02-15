@@ -1,2 +1,2 @@
-export {default as KeyboardHandler} from './KeyboardHandler';
-export {default as KeyboardBinder} from './KeyboardBinder';
+export {default as KeyHandler} from './KeyHandler';
+export {default as KeyBinder} from './KeyBinder';

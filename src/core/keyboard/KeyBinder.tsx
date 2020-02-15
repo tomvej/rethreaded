@@ -4,11 +4,11 @@ import shortcuts from '~shortcuts';
 import {ListenerType} from './types';
 import {KeyboardContextProvider} from './context';
 
-type KeyboardBinderProps = {
+type KeyBinderProps = {
     children: ReactNode;
 }
 
-const KeyboardBinder: FC<KeyboardBinderProps> = ({children}) => {
+const KeyBinder: FC<KeyBinderProps> = ({children}) => {
     const rootListener = useRef<ListenerType | null>(null);
     const register = useCallback((listener) => {
         rootListener.current = listener;
@@ -50,4 +50,4 @@ const KeyboardBinder: FC<KeyboardBinderProps> = ({children}) => {
     )
 };
 
-export default KeyboardBinder;
+export default KeyBinder;

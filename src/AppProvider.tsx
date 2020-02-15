@@ -1,13 +1,13 @@
 import React, {FC} from 'react';
 import {Provider} from 'react-redux';
-import {KeyboardBinder, KeyboardHandler} from '~core/keyboard';
+import {KeyBinder, KeyHandler} from '~core/keyboard';
 import store from './store';
 import {REDO, UNDO} from '~shortcuts';
 
 const AppProvider: FC = ({children}) => (
     <Provider store={store}>
-        <KeyboardBinder>
-            <KeyboardHandler
+        <KeyBinder>
+            <KeyHandler
                 focus
                 handlers={{
                     [UNDO]: (): void => console.log('undo'),
@@ -15,8 +15,8 @@ const AppProvider: FC = ({children}) => (
                 }}
             >
                 {children}
-            </KeyboardHandler>
-        </KeyboardBinder>
+            </KeyHandler>
+        </KeyBinder>
     </Provider>
 );
 
