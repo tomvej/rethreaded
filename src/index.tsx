@@ -1,16 +1,15 @@
 import React, {FunctionComponent} from 'react';
 import {render} from 'react-dom';
-import {Provider} from 'react-redux';
 import {fromHex} from '~utils/color';
 import {Thread, ThreadingCell} from '~components';
 import {Direction, ThreadingType} from '~types';
 import {FocusContainer} from '~containers';
 
-import store from './store';
+import AppProvider from './AppProvider';
 import './style.scss';
 
 const Component: FunctionComponent = () => (
-    <Provider store={store}>
+    <AppProvider>
         <div>
             <FocusContainer id="threads">
                 <Thread color={fromHex('#ffccff')} label="1"/>
@@ -23,7 +22,7 @@ const Component: FunctionComponent = () => (
                 <ThreadingCell direction={Direction.Backward} threading={ThreadingType.Z} color={fromHex('#4444FF')}/>
             </FocusContainer>
         </div>
-    </Provider>
+    </AppProvider>
 );
 
 render(
