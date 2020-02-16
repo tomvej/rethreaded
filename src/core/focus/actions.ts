@@ -1,7 +1,7 @@
-import {NAME} from './constants';
+import {FULL_NAME} from './constants';
 
-export const FOCUS_GAINED = `${NAME}/focus-gained`;
-export const FOCUS_LOST = `${NAME}/focus-lost`;
+export const FOCUS_GAINED = `${FULL_NAME}/focus-gained`;
+export const FOCUS_LOST = `${FULL_NAME}/focus-lost`;
 
 export interface FocusGainedActionType {
     type: typeof FOCUS_GAINED;
