@@ -1,4 +1,4 @@
-import {Color} from '~types';
+import {Color, ColorCmp} from '~types';
 import {assert} from './assert';
 
 export const fromHex = (color: string): Color => {
@@ -12,5 +12,11 @@ export const fromHex = (color: string): Color => {
 };
 
 const format = (number: number): string => number.toString(16).padStart(2, '0');
+export const toHex = (color: Color): string => `#${format(color[ColorCmp.RED])}${format(color[ColorCmp.GREEN])}${format(color[ColorCmp.BLUE])}`;
 
-export const toHex = (color: Color): string => `#${format(color[0])}${format(color[1])}${format(color[2])}`;
+// according to the HSP model: http://alienryderflex.com/hsp.html
+export const brightness = (color: Color): number => Math.sqrt(
+    .299 * Math.pow(color[ColorCmp.RED], 2)
+    + .587 * Math.pow(color[ColorCmp.GREEN], 2)
+    + .114 * Math.pow(color[ColorCmp.BLUE], 2)
+);

@@ -1,5 +1,6 @@
 import React, {FC} from 'react';
-import {toHex} from '~utils/color';
+import classnames from 'classnames';
+import {brightness, toHex} from '~utils/color';
 import {Color} from '~types';
 
 import style from './Thread.scss';
@@ -11,7 +12,7 @@ type ThreadProps = {
 
 const Thread: FC<ThreadProps> = ({label, color}) => (
     <div
-        className={style.main}
+        className={classnames(style.main, {[style.dark]: brightness(color) < 128})}
         style={{backgroundColor: toHex(color)}}
     >
         {label}
