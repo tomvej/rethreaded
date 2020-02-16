@@ -4,6 +4,7 @@ import {fromHex} from '~utils/color';
 import {Thread, ThreadingCell} from '~components';
 import {Direction, ThreadingType} from '~types';
 import {FocusContainer} from '~containers';
+import {Container as Pattern} from './pattern';
 
 import AppProvider from './AppProvider';
 import './style.scss';
@@ -21,6 +22,7 @@ const Component: FunctionComponent = () => (
                 <ThreadingCell direction={Direction.Forward} threading={ThreadingType.Z} color={fromHex('#4444FF')}/>
                 <ThreadingCell direction={Direction.Backward} threading={ThreadingType.Z} color={fromHex('#4444FF')}/>
             </FocusContainer>
+            <Pattern />
         </div>
     </AppProvider>
 );
