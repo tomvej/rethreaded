@@ -12,6 +12,7 @@ module.exports = {
     },
     plugins: [
         '@typescript-eslint',
+        'react',
     ],
     extends: [
         'eslint:recommended',

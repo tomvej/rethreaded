@@ -8,7 +8,8 @@
   "scripts": {
     "start": "webpack-dev-server --progress --mode=development",
     "build": "webpack --progress --mode=production",
-    "serve": "node ./serve.js"
+    "serve": "node ./serve.js",
+    "lint": "eslint src/ --ext .ts,.tsx"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "2.19.2",
