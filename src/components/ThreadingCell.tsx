@@ -1,7 +1,8 @@
-import React, {FunctionComponent} from 'react';
 import classnames from 'classnames';
-import {toHex} from '~utils/color';
+import React, {FunctionComponent} from 'react';
+
 import {Color, Direction, ThreadingType} from '~types';
+import {toHex} from '~utils/color';
 
 import style from './ThreadingCell.scss';
 

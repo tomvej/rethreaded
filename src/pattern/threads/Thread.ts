@@ -1,7 +1,9 @@
 import {connect} from 'react-redux';
-import {RootState} from '~reducer';
-import {getColor} from './selectors';
+
 import {Thread} from '~components';
+import {RootState} from '~reducer';
+
+import {getColor} from './selectors';
 
 type OwnProps = {
     number: number;

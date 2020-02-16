@@ -1,13 +1,15 @@
+import './style.scss';
+
 import React, {FunctionComponent} from 'react';
 import {render} from 'react-dom';
-import {fromHex} from '~utils/color';
+
 import {ThreadingCell} from '~components';
-import {Direction, ThreadingType} from '~types';
 import {FocusContainer} from '~containers';
-import {Container as Pattern} from './pattern';
+import {Direction, ThreadingType} from '~types';
+import {fromHex} from '~utils/color';
 
 import AppProvider from './AppProvider';
-import './style.scss';
+import {Container as Pattern} from './pattern';
 
 const Component: FunctionComponent = () => (
     <AppProvider>

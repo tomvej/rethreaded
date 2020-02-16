@@ -1,6 +1,7 @@
+import {combineReducers} from 'redux';
+
 import {Color} from '~types';
 import {fromHex} from '~utils/color';
-import {combineReducers} from 'redux';
 
 type ColorsState = Array<Color>; // TODO should be ReadonlyArray, but that has problems with length
 

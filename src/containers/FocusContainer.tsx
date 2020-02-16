@@ -1,6 +1,7 @@
 import React, {FC, ReactNode} from 'react';
-import {Dispatch} from 'redux';
 import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
+
 import {FocusArea} from '~components';
 import {focusGained, focusLost, isFocused} from '~core/focus';
 import {KeyHandler} from '~core/keyboard';

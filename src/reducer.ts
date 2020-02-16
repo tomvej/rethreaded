@@ -1,4 +1,5 @@
 import {combineReducers} from 'redux';
+
 import * as core from './core';
 import * as pattern from './pattern';
 

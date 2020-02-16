@@ -1,4 +1,4 @@
-import {ActionType, FOCUS_LOST, FOCUS_GAINED} from './actions';
+import {ActionType, FOCUS_GAINED,FOCUS_LOST} from './actions';
 
 export type StateType = string | null;
 

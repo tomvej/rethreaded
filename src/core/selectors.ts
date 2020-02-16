@@ -1,4 +1,5 @@
 import {RootState} from '~reducer';
+
 import {NAME} from './constants';
 import {CoreState} from './reducer';
 

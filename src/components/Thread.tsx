@@ -1,7 +1,8 @@
-import React, {FC} from 'react';
 import classnames from 'classnames';
-import {brightness, toHex} from '~utils/color';
+import React, {FC} from 'react';
+
 import {Color} from '~types';
+import {brightness, toHex} from '~utils/color';
 
 import style from './Thread.scss';
 

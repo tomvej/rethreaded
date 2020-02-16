@@ -1,7 +1,9 @@
 import React, {FC, Fragment} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
+
 import {RootState} from '~reducer';
 import {seq} from '~utils/func';
+
 import {getThreadNumber} from './selectors';
 import Thread from './Thread';
 

@@ -1,10 +1,12 @@
-import React, {FC, ReactNode, useCallback, useEffect, useRef} from 'react';
 import Mousetrap from 'mousetrap';
+import React, {FC, ReactNode, useCallback, useEffect, useRef} from 'react';
+
 import shortcuts from '~shortcuts';
-import {ListenerType} from './types';
-import {KeyboardContextProvider} from './context';
 import {assert} from '~utils/assert';
 import {noop} from '~utils/func';
+
+import {KeyboardContextProvider} from './context';
+import {ListenerType} from './types';
 
 type KeyBinderProps = {
     children: ReactNode;

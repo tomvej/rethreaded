@@ -1,6 +1,8 @@
 import React, {FC} from 'react';
 import {Provider} from 'react-redux';
+
 import {KeyBinder} from '~core/keyboard';
+
 import RootKeyHandler from './RootKeyHandler';
 import store from './store';
 

@@ -1,8 +1,9 @@
-import {getModel as getParentModel} from '../selectors';
 import {RootState} from '~reducer';
-import {ThreadsState} from './reducer';
-import {NAME} from './constants';
 import {Color} from '~types';
+
+import {getModel as getParentModel} from '../selectors';
+import {NAME} from './constants';
+import {ThreadsState} from './reducer';
 
 const getModel = (state: RootState): ThreadsState => getParentModel(state)[NAME];
 

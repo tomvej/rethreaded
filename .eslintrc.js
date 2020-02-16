@@ -13,6 +13,9 @@ module.exports = {
     plugins: [
         '@typescript-eslint',
         'react',
+        /* using eslint-plugin-import would have been nicer, but for some reason it breaks on default imports
+           (classnames) when paired with eslint-import-resolver-typescript which is necessary for aliases */
+        'simple-import-sort',
     ],
     extends: [
         'eslint:recommended',
@@ -23,5 +26,6 @@ module.exports = {
     ],
     rules: {
         'react/prop-types': 'off', // typescript is enough
+        'simple-import-sort/sort': 'error',
     },
 };

@@ -1,7 +1,8 @@
+import {ReactNode} from 'react';
 import {connect} from 'react-redux';
+
 import {KeyHandler} from '~core/keyboard';
 import {REDO, UNDO} from '~shortcuts';
-import {ReactNode} from 'react';
 
 /******************************/
 

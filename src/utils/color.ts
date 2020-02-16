@@ -1,4 +1,5 @@
 import {Color, ColorCmp} from '~types';
+
 import {assert} from './assert';
 
 export const fromHex = (color: string): Color => {

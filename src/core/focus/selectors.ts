@@ -1,4 +1,5 @@
 import {RootState} from '~reducer';
+
 import {getModel as getParentModel} from '../selectors';
 import {NAME} from './constants';
 import {StateType} from './reducer';

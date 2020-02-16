@@ -1,4 +1,5 @@
 import {combineReducers} from 'redux';
+
 import * as focus from './focus';
 
 const reducer = combineReducers({
