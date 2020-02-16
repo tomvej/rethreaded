@@ -1,8 +1,9 @@
 import React, {FC, Fragment} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '~reducer';
-import {getThreadNumber} from './selectors';
 import {seq} from '~utils/func';
+import {getThreadNumber} from './selectors';
+import Thread from './Thread';
 
 const mapStateToProps = (state: RootState) => ({
     number: getThreadNumber(state),
@@ -14,7 +15,7 @@ type ContainerProps = ConnectedProps<typeof connector>;
 
 const Container: FC<ContainerProps> = ({number}) => (
     <Fragment>
-        {seq(number).map((i) => <div key={i}>{i}</div>)}
+        {seq(number).map((i) => <Thread key={i} number={i} />)}
     </Fragment>
 );
 
