@@ -3,7 +3,7 @@ import {fromHex} from '~utils/color';
 
 import {ActionTypes, SELECT, SELECT_NEXT, SELECT_PREVIOUS} from './actions';
 
-export type ThreadsState = {
+export type StateType = {
     colors: Array<Color>; // TODO should be ReadonlyArray, but that has problems with length
     selected: number;
 };
@@ -13,7 +13,7 @@ const initialState = {
     selected: 0,
 };
 
-const reducer = (state = initialState, action: ActionTypes): ThreadsState => {
+const reducer = (state = initialState, action: ActionTypes): StateType => {
     switch (action.type) {
         case SELECT_PREVIOUS:
             return Object.assign({

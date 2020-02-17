@@ -1,9 +1,13 @@
-import React, {FC} from 'react';
+import React, {FC, Fragment} from 'react';
 
+import {Container as Threading} from './threading';
 import {Container as Threads} from './threads';
 
 const Container: FC = () => (
-    <Threads />
+    <Fragment>
+        <Threading/>
+        <Threads/>
+    </Fragment>
 );
 
 export default Container;

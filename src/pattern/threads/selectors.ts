@@ -4,9 +4,9 @@ import {Color} from '~types';
 
 import {getModel as getParentModel} from '../selectors';
 import {NAME} from './constants';
-import {ThreadsState} from './reducer';
+import {StateType} from './reducer';
 
-const getModel = (state: RootState): ThreadsState => getParentModel(state)[NAME];
+const getModel = (state: RootState): StateType => getParentModel(state)[NAME];
 
 export const isFocused = (state: RootState): boolean => focus.isFocused(state, NAME);
 
