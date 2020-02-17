@@ -1,7 +1,7 @@
 import {Hole, Tablet, ThreadingType} from '~types';
 import {update} from '~utils/func';
 
-import {ActionType, SELECT_NEXT_HOLE, SELECT_PREV_HOLE} from './actions';
+import {ActionType, SELECT_NEXT_HOLE, SELECT_NEXT_TABLET, SELECT_PREV_HOLE, SELECT_PREV_TABLET} from './actions';
 
 const TABLET_NUMBER = 8;
 
@@ -28,6 +28,14 @@ const reducer = (state: StateType = initialState, action: ActionType): StateType
         case SELECT_PREV_HOLE:
             return update(state, 'selectedHole',
                 (hole) => hole !== Hole.A ? hole - 1 : Hole.D,
+            );
+        case SELECT_NEXT_TABLET:
+            return update(state, 'selectedTablet',
+                (tablet) => tablet < state.threading.length - 1 ? tablet + 1 : 0,
+            );
+        case SELECT_PREV_TABLET:
+            return update(state, 'selectedTablet',
+                (tablet) => tablet > 0 ? tablet - 1 : state.threading.length - 1,
             );
         default:
             return state;
