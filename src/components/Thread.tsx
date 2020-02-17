@@ -13,7 +13,7 @@ type ThreadProps = {
 
 const black = fromHex('#000000'); // TODO import from scss?
 
-const Thread: FC<ThreadProps> = ({label, color}) => (console.log(contrastRatio(color, black)),
+const Thread: FC<ThreadProps> = ({label, color}) => (
     <div
         className={classnames(style.main, {[style.dark]: contrastRatio(color, black) < 3})}
         style={{backgroundColor: toHex(color)}}
