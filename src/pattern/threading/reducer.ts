@@ -1,5 +1,5 @@
 import {Hole, Tablet, ThreadingType} from '~types';
-import {updateArray, updateObject} from '~utils/func';
+import {updateArray, updateObject, updateTablet} from '~utils/func';
 
 import {
     ActionType,
@@ -7,6 +7,7 @@ import {
     SELECT_NEXT_TABLET,
     SELECT_PREV_HOLE,
     SELECT_PREV_TABLET,
+    SELECT_THREAD,
     SET_S_THREADING,
     SET_Z_THREADING,
 } from './actions';
@@ -52,6 +53,12 @@ const reducer = (state: StateType = initialState, action: ActionType): StateType
         case SET_Z_THREADING:
             return updateObject(state, 'threading',
                 (threading) => updateArray(threading, state.selectedTablet, () => ThreadingType.Z),
+            );
+        case SELECT_THREAD:
+            return updateObject(state, 'threads',
+                (threads) => updateArray(threads, state.selectedTablet,
+                    (tablet) => updateTablet(tablet, state.selectedHole, () => action.number),
+                ),
             );
         default:
             return state;

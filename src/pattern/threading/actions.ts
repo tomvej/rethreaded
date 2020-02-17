@@ -6,6 +6,7 @@ export const SELECT_NEXT_HOLE = `${FULL_NAME}/next-hole` as 'next-hole';
 export const SELECT_PREV_HOLE = `${FULL_NAME}/prev-hole` as 'prev-hole';
 export const SET_S_THREADING = `${FULL_NAME}/set-s-threading` as 'set-s-threading';
 export const SET_Z_THREADING = `${FULL_NAME}/set-z-threading` as 'set-z-threading';
+export const SELECT_THREAD = `${FULL_NAME}/select-thread` as 'select-thread';
 
 export interface SelectNextTabletActionType {
     type: typeof SELECT_NEXT_TABLET;
@@ -25,6 +26,10 @@ export interface SetSThreadingActionType {
 export interface SetZThreadingActionType {
     type: typeof SET_Z_THREADING;
 }
+export interface SelectThreadActionType {
+    type: typeof SELECT_THREAD;
+    number: number;
+}
 
 export const selectNextTablet = (): SelectNextTabletActionType => ({type: SELECT_NEXT_TABLET});
 export const selectPreviousTablet = (): SelectPrevTabletActionType => ({type: SELECT_PREV_TABLET});
@@ -32,6 +37,7 @@ export const selectNextHole = (): SelectNextHoleActionType => ({type: SELECT_NEX
 export const selectPreviousHole = (): SelectPrevHoleActionType => ({type: SELECT_PREV_HOLE});
 export const setSThreading = (): SetSThreadingActionType => ({type: SET_S_THREADING});
 export const setZThreading = (): SetZThreadingActionType => ({type: SET_Z_THREADING});
+export const selectThread = (number: number): SelectThreadActionType => ({type: SELECT_THREAD, number});
 
 export type ActionType =
     SelectNextHoleActionType
@@ -39,4 +45,5 @@ export type ActionType =
     | SelectPrevHoleActionType
     | SetSThreadingActionType
     | SetZThreadingActionType
+    | SelectThreadActionType
     | SelectPrevTabletActionType;
