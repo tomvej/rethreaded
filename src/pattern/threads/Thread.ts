@@ -1,9 +1,11 @@
 import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
 
 import {Thread} from '~components';
 import {RootState} from '~reducer';
 
-import {getColor} from './selectors';
+import {select} from './actions';
+import {getColor, isSelected} from './selectors';
 
 type OwnProps = {
     number: number;
@@ -11,13 +13,21 @@ type OwnProps = {
 
 const mapStateToProps = (state: RootState, {number}: OwnProps) => ({
     color: getColor(state, number),
+    active: isSelected(state, number),
 });
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 
-const mergeProps = ({color}: StateProps, _: any, {number}: OwnProps) => ({
-    color,
+const mapDispatchToProps = (dispatch: Dispatch, {number}: OwnProps) => ({
+    onClick: () => dispatch(select(number)),
+});
+
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
+
+const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps, {number}: OwnProps) => ({
+    ...stateProps,
+    ...dispatchProps,
     label: String(number),
 });
 
-export default connect(mapStateToProps, undefined, mergeProps)(Thread);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Thread);

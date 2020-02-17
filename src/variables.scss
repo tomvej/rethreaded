@@ -1,3 +1,6 @@
 $color-black: #000000;
 $color-white: #ffffff;
 $color-grey: #888888;
+
+$color-active: #498ebf;
+$color-focus: lighten($color-active, 20%);

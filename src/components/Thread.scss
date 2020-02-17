@@ -13,8 +13,14 @@
 
     border: .1rem solid $color-black;
     border-radius: .25rem;
+
+    cursor: pointer;
 }
 
 .dark {
     color: $color-white;
+}
+
+.active {
+    border-color: $color-active;
 }

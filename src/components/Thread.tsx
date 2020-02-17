@@ -8,15 +8,21 @@ import style from './Thread.scss';
 
 type ThreadProps = {
     color: Color;
+    onClick: () => void;
+    active: boolean;
     label?: string;
 };
 
 const black = fromHex('#000000'); // TODO import from scss?
 
-const Thread: FC<ThreadProps> = ({label, color}) => (
+const Thread: FC<ThreadProps> = ({label, color, onClick, active}) => (
     <div
-        className={classnames(style.main, {[style.dark]: contrastRatio(color, black) < 3})}
+        className={classnames(style.main, {
+            [style.dark]: contrastRatio(color, black) < 3,
+            [style.active]: active,
+        })}
         style={{backgroundColor: toHex(color)}}
+        onClick={onClick}
     >
         {label}
     </div>

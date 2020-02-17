@@ -1,21 +1,38 @@
-import {combineReducers} from 'redux';
-
 import {Color} from '~types';
 import {fromHex} from '~utils/color';
 
-type ColorsState = Array<Color>; // TODO should be ReadonlyArray, but that has problems with length
+import {ActionTypes, SELECT, SELECT_NEXT, SELECT_PREVIOUS} from './actions';
 
-const initialColors = [fromHex('#000000'), fromHex('#ffffff'), fromHex('#0F52BA')];
+export type ThreadsState = {
+    colors: Array<Color>; // TODO should be ReadonlyArray, but that has problems with length
+    selected: number;
+};
 
-const colors = (state = initialColors): ColorsState => state;
+const initialState = {
+    colors: [fromHex('#000000'), fromHex('#ffffff'), fromHex('#0F52BA')],
+    selected: 0,
+};
 
-const selected = (state = 0): number => state;
-
-const reducer = combineReducers({
-    colors,
-    selected,
-});
-
-export type ThreadsState = ReturnType<typeof reducer>;
+const reducer = (state = initialState, action: ActionTypes): ThreadsState => {
+    switch (action.type) {
+        case SELECT_PREVIOUS:
+            return Object.assign({
+                ...state,
+                selected: state.selected > 0 ? state.selected - 1 : state.colors.length - 1,
+            });
+        case SELECT_NEXT:
+            return Object.assign({
+                ...state,
+                selected: state.selected < state.colors.length - 1 ? state.selected + 1 : 0,
+            });
+        case SELECT:
+            return Object.assign({
+                ...state,
+                selected: action.number,
+            });
+        default:
+            return state;
+    }
+};
 
 export default reducer;
