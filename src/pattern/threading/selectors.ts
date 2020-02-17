@@ -17,9 +17,6 @@ const getThread = (state: RootState, tablet: number, hole: Hole): number => getM
 
 export const getColor = (state: RootState, tablet: number, hole: Hole): Color => getThreadColor(state, getThread(state, tablet, hole));
 
-export const isSelected = (state: RootState, tablet: number, hole: Hole): boolean => {
-    const selection = getModel(state).selection;
-    return getModel(state).selectedHole === hole && selection.tablet === tablet;
-};
+export const isSelected = (state: RootState, tablet: number, hole: Hole): boolean => getModel(state).selectedHole === hole && getModel(state).selectedTablet === tablet;
 
 export const isFocused = (state: RootState): boolean => focus.isFocused(state, NAME);
