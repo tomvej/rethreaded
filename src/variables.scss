@@ -3,4 +3,4 @@ $color-white: #ffffff;
 $color-grey: #888888;
 
 $color-active: #498ebf;
-$color-focus: lighten($color-active, 35%);
+$color-focus: fade-out($color-active, .35);
