@@ -1,7 +1,15 @@
 import {Hole, Tablet, ThreadingType} from '~types';
-import {update} from '~utils/func';
+import {updateArray, updateObject} from '~utils/func';
 
-import {ActionType, SELECT_NEXT_HOLE, SELECT_NEXT_TABLET, SELECT_PREV_HOLE, SELECT_PREV_TABLET} from './actions';
+import {
+    ActionType,
+    SELECT_NEXT_HOLE,
+    SELECT_NEXT_TABLET,
+    SELECT_PREV_HOLE,
+    SELECT_PREV_TABLET,
+    SET_S_THREADING,
+    SET_Z_THREADING,
+} from './actions';
 
 const TABLET_NUMBER = 8;
 
@@ -22,20 +30,28 @@ const initialState: StateType = {
 const reducer = (state: StateType = initialState, action: ActionType): StateType => {
     switch (action.type) {
         case SELECT_NEXT_HOLE:
-            return update(state, 'selectedHole',
+            return updateObject(state, 'selectedHole',
                 (hole) => hole !== Hole.D ?  hole + 1 : Hole.A,
             );
         case SELECT_PREV_HOLE:
-            return update(state, 'selectedHole',
+            return updateObject(state, 'selectedHole',
                 (hole) => hole !== Hole.A ? hole - 1 : Hole.D,
             );
         case SELECT_NEXT_TABLET:
-            return update(state, 'selectedTablet',
+            return updateObject(state, 'selectedTablet',
                 (tablet) => tablet < state.threading.length - 1 ? tablet + 1 : 0,
             );
         case SELECT_PREV_TABLET:
-            return update(state, 'selectedTablet',
+            return updateObject(state, 'selectedTablet',
                 (tablet) => tablet > 0 ? tablet - 1 : state.threading.length - 1,
+            );
+        case SET_S_THREADING:
+            return updateObject(state, 'threading',
+                (threading) => updateArray(threading, state.selectedTablet, () => ThreadingType.S),
+            );
+        case SET_Z_THREADING:
+            return updateObject(state, 'threading',
+                (threading) => updateArray(threading, state.selectedTablet, () => ThreadingType.Z),
             );
         default:
             return state;
