@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import React, {FC} from 'react';
 
 import {Color} from '~types';
-import {brightness, toHex} from '~utils/color';
+import {contrastRatio, fromHex, toHex} from '~utils/color';
 
 import style from './Thread.scss';
 
@@ -11,9 +11,11 @@ type ThreadProps = {
     label?: string;
 };
 
-const Thread: FC<ThreadProps> = ({label, color}) => (
+const black = fromHex('#000000'); // TODO import from scss?
+
+const Thread: FC<ThreadProps> = ({label, color}) => (console.log(contrastRatio(color, black)),
     <div
-        className={classnames(style.main, {[style.dark]: brightness(color) < 128})}
+        className={classnames(style.main, {[style.dark]: contrastRatio(color, black) < 3})}
         style={{backgroundColor: toHex(color)}}
     >
         {label}
