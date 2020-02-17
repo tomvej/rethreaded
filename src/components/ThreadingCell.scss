@@ -1,5 +1,7 @@
 @import "../variables";
 
+$active-width: .2rem;
+
 .main {
     width: 2em;
     height: 2em;
@@ -13,4 +15,8 @@
 
 .backward {
     background-color: $color-grey;
+}
+
+.main:hover, .focus {
+    box-shadow: 0 0 $active-width $active-width $color-focus;
 }

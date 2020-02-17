@@ -25,11 +25,16 @@ type ThreadingProps = {
     direction: Direction;
     threading: ThreadingType;
     color: Color;
+    focus: boolean;
 }
 
-const ThreadingCell: FunctionComponent<ThreadingProps> = ({direction, threading, color}) => (
+const ThreadingCell: FunctionComponent<ThreadingProps> = ({direction, threading, color, focus}) => (
     <svg
-        className={classnames(style.main, getDirectionStyle(direction))}
+        className={classnames(
+            style.main,
+            getDirectionStyle(direction),
+            {[style.focus]: focus},
+        )}
         viewBox="-128 -128 256 256"
     >
         <g transform={`scale(${getDirectionScale(direction)},${getThreadingScale(threading)})`}>

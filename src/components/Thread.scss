@@ -29,10 +29,6 @@ $active-width: .2rem;
     border-color: $color-active;
 }
 
-.main:hover {
-    box-shadow: 0 0 $active-width $active-width $color-focus;
-}
-
-.focus {
+.main:hover, .focus {
     box-shadow: 0 0 $active-width $active-width $color-focus;
 }

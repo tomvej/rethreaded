@@ -14,6 +14,4 @@ export const getThreadNumber = (state: RootState): number => getModel(state).col
 
 export const getColor = (state: RootState, thread: number): Color => getModel(state).colors[thread];
 
-export const getSelected = (state: RootState): number => getModel(state).selected;
-
-export const isSelected = (state: RootState, thread: number): boolean => getSelected(state) === thread;
+export const isSelected = (state: RootState, thread: number): boolean => getModel(state).selected === thread;
