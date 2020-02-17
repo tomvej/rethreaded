@@ -1,5 +1,7 @@
 @import "../variables";
 
+$active-width: .2rem;
+
 .main {
     font-size: 1.5em;
     width: 1.5em;
@@ -12,9 +14,11 @@
     color: $color-black;
 
     border: .1rem solid $color-black;
-    border-radius: .25rem;
+    border-radius: .3rem;
 
     cursor: pointer;
+
+    margin: $active-width;
 }
 
 .dark {
@@ -23,4 +27,12 @@
 
 .active {
     border-color: $color-active;
+}
+
+.main:hover {
+    box-shadow: 0 0 $active-width $active-width $color-focus;
+}
+
+.focus {
+    box-shadow: 0 0 $active-width $active-width $color-focus;
 }

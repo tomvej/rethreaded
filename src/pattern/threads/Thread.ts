@@ -5,7 +5,7 @@ import {Thread} from '~components';
 import {RootState} from '~reducer';
 
 import {select} from './actions';
-import {getColor, isSelected} from './selectors';
+import {getColor, isFocused, isSelected} from './selectors';
 
 type OwnProps = {
     number: number;
@@ -14,6 +14,7 @@ type OwnProps = {
 const mapStateToProps = (state: RootState, {number}: OwnProps) => ({
     color: getColor(state, number),
     active: isSelected(state, number),
+    focus: isSelected(state, number) && isFocused(state),
 });
 
 type StateProps = ReturnType<typeof mapStateToProps>;
