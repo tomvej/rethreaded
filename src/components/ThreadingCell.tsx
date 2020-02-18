@@ -26,9 +26,10 @@ type ThreadingProps = {
     threading: ThreadingType;
     color: Color;
     focus: boolean;
+    onClick: () => void;
 }
 
-const ThreadingCell: FunctionComponent<ThreadingProps> = ({direction, threading, color, focus}) => (
+const ThreadingCell: FunctionComponent<ThreadingProps> = ({direction, threading, color, focus, onClick}) => (
     <svg
         className={classnames(
             style.main,
@@ -36,6 +37,7 @@ const ThreadingCell: FunctionComponent<ThreadingProps> = ({direction, threading,
             {[style.focus]: focus},
         )}
         viewBox="-128 -128 256 256"
+        onClick={onClick}
     >
         <g transform={`scale(${getDirectionScale(direction)},${getThreadingScale(threading)})`}>
             <ellipse

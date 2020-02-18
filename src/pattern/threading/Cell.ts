@@ -1,8 +1,10 @@
 import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
 
 import {ThreadingCell} from '~components';
 import {RootState} from '~reducer';
 import {Direction, Hole} from '~types';
+import {selectAndApplyThread} from './actions';
 
 import {getColor, getThreading, isFocused, isSelected} from './selectors';
 
@@ -19,9 +21,16 @@ const mapStateToProps = (state: RootState, {tablet, hole}: OwnProps) => ({
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 
-const mergeProps = (stateProps: StateProps) => ({
+const mapDispatchToProps = (dispatch: Dispatch, {tablet, hole}: OwnProps) => ({
+    onClick: () => dispatch(selectAndApplyThread(tablet, hole)),
+});
+
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
+
+const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps) => ({
     ...stateProps,
+    ...dispatchProps,
     direction: Direction.Forward,
 });
 
-export default connect(mapStateToProps, undefined, mergeProps)(ThreadingCell);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ThreadingCell);
