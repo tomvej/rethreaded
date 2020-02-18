@@ -28,7 +28,7 @@ type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps, {number}: OwnProps) => ({
     ...stateProps,
     ...dispatchProps,
-    label: String(number),
+    label: String(number + 1),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Thread);
