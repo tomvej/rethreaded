@@ -7,7 +7,7 @@ import {getColor as getThreadColor} from '../threads';
 import {NAME} from './constants';
 import {StateType} from './reducer';
 
-const getModel = (state: RootState): StateType => getParentModel(state)[NAME];
+const getModel = (state: RootState): StateType => getParentModel(state).base[NAME];
 
 export const getTabletNumber = (state: RootState): number => getModel(state).threading.length;
 

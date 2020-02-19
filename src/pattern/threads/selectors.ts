@@ -6,7 +6,7 @@ import {getModel as getParentModel} from '../selectors';
 import {NAME} from './constants';
 import {StateType} from './reducer';
 
-const getModel = (state: RootState): StateType => getParentModel(state)[NAME];
+const getModel = (state: RootState): StateType => getParentModel(state).base[NAME];
 
 export const isFocused = (state: RootState): boolean => focus.isFocused(state, NAME);
 

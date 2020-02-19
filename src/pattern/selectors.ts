@@ -1,6 +1,6 @@
 import {RootState} from '~reducer';
 
 import {NAME} from './constants';
-import {PatternState} from './reducer';
+import {StateType} from './reducer';
 
-export const getModel = (state: RootState): PatternState => state[NAME];
+export const getModel = (state: RootState): StateType => state[NAME];
