@@ -20,7 +20,7 @@ export interface SelectAndApplyThreadActionType {
 }
 export interface ApplyThreadActionType {
     type: typeof APPLY_THREAD;
-    thread: number;
+    thread: number | undefined;
 }
 
 export const setSThreading = (): SetSThreadingActionType => ({type: SET_S_THREADING});
@@ -30,7 +30,7 @@ export const selectAndApplyThread = (tablet: number, hole: Hole): SelectAndApply
     tablet,
     hole,
 });
-export const applyThread = (thread: number): ApplyThreadActionType => ({
+export const applyThread = (thread?: number): ApplyThreadActionType => ({
     type: APPLY_THREAD,
     thread,
 });

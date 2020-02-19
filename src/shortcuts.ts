@@ -9,6 +9,7 @@ export const SET_Z_THREADING = 'set-z-threading';
 export const SELECT_THREAD_1 = 'select-thread-1';
 export const SELECT_THREAD_2 = 'select-thread-2';
 export const SELECT_THREAD_3 = 'select-thread-3';
+export const APPLY = 'apply';
 
 const shortcuts: {[command: string]: string | string[]} = {
     [UNDO]: 'ctrl+z',
@@ -22,6 +23,7 @@ const shortcuts: {[command: string]: string | string[]} = {
     [SELECT_THREAD_1]: '1',
     [SELECT_THREAD_2]: '2',
     [SELECT_THREAD_3]: '3',
+    [APPLY]: 'space',
 };
 
 export default shortcuts;

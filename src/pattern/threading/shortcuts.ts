@@ -1,4 +1,5 @@
 import {
+    APPLY,
     MOVE_DOWN,
     MOVE_LEFT,
     MOVE_RIGHT,
@@ -12,7 +13,7 @@ import {
 import {selectNextHole, selectNextTablet, selectPrevHole, selectPrevTablet} from '../selection';
 import {applyThread, setSThreading, setZThreading} from './actions';
 
-const createSelectThread = (number: number) => () => applyThread(number);
+const createApplyThread = (number?: number) => () => applyThread(number);
 
 export default {
     [MOVE_LEFT]: selectPrevTablet,
@@ -21,7 +22,8 @@ export default {
     [MOVE_DOWN]: selectPrevHole,
     [SET_S_THREADING]: setSThreading,
     [SET_Z_THREADING]: setZThreading,
-    [SELECT_THREAD_1]: createSelectThread(0),
-    [SELECT_THREAD_2]: createSelectThread(1),
-    [SELECT_THREAD_3]: createSelectThread(2),
+    [SELECT_THREAD_1]: createApplyThread(0),
+    [SELECT_THREAD_2]: createApplyThread(1),
+    [SELECT_THREAD_3]: createApplyThread(2),
+    [APPLY]: createApplyThread(),
 }
