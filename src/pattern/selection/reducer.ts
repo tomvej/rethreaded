@@ -1,6 +1,7 @@
 import {Hole} from '~types';
 import {update} from '~utils/func';
 
+import {SELECT_AND_APPLY_THREAD} from '../actions';
 import {SelectionState, Setup} from '../types';
 import {
     ActionType,
@@ -38,6 +39,12 @@ const reducer = (state: SelectionState = initial, action: ActionType, setup: Set
             return update(state, 'thread', decrement(setup.threads - 1));
         case SELECT_THREAD:
             return update(state, 'thread', () => action.thread);
+        case SELECT_AND_APPLY_THREAD:
+            return ({
+                ...state,
+                tablet: action.tablet,
+                hole: action.hole,
+            });
         default:
             return state;
     }

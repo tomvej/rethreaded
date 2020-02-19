@@ -5,7 +5,7 @@ import {ThreadingCell} from '~components';
 import {RootState} from '~reducer';
 import {Direction, Hole} from '~types';
 import {isThreadingSelected} from '../selection';
-import {selectAndApplyThread} from './actions';
+import {selectAndApplyThread} from '../actions';
 
 import {getColor, getThreading, isFocused} from './selectors';
 

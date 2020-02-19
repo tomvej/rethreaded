@@ -1,5 +1,6 @@
-import {Tablet, ThreadingType} from '~types';
+import {Hole, Tablet, ThreadingType} from '~types';
 import {update, updateTablet} from '~utils/func';
+import {SELECT_AND_APPLY_THREAD} from '../actions';
 
 import {SelectionState} from '../types';
 import {ActionType, APPLY_THREAD, SET_S_THREADING, SET_Z_THREADING} from './actions';
@@ -30,6 +31,12 @@ const reducer = (state: StateType = initialState, action: ActionType, selection:
             return update(state, 'threads',
                 (threads) => update(threads, selection.tablet,
                     (tablet) => updateTablet(tablet, selection.hole, () => action.thread || selection.thread),
+                ),
+            );
+        case SELECT_AND_APPLY_THREAD:
+            return update(state, 'threads',
+                (threads) => update(threads, action.tablet,
+                    (tablet) => updateTablet(tablet, action.hole, () => selection.thread),
                 ),
             );
         default:

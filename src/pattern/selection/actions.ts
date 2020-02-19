@@ -1,3 +1,4 @@
+import {SelectAndApplyThreadActionType} from '../actions';
 import {FULL_NAME} from './constants';
 
 export const NEXT_THREAD = `${FULL_NAME}/next-thread` as 'next-thread';
@@ -37,3 +38,4 @@ export type ActionType = NextThreadActionType
     | NextHoleActionType
     | PrevHoleActionType
     | SelectThreadActionType
+    | SelectAndApplyThreadActionType
