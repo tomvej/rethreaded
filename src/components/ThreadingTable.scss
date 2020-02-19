@@ -1,0 +1,17 @@
+@import "../variables";
+
+.main {
+    display: flex;
+    z-index: 0;
+}
+
+.column {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.cell {
+    border: 1px solid $color-threading-border;
+    margin: -.5px;
+    display: flex;
+}

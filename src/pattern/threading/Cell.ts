@@ -11,10 +11,10 @@ import {getColor, getThreading, isFocused} from './selectors';
 
 type OwnProps = {
     tablet: number;
-    hole: Hole;
+    row: Hole;
 }
 
-const mapStateToProps = (state: RootState, {tablet, hole}: OwnProps) => ({
+const mapStateToProps = (state: RootState, {tablet, row: hole}: OwnProps) => ({
     threading: getThreading(state, tablet),
     color: getColor(state, tablet, hole),
     focus: isThreadingSelected(state, tablet, hole) && isFocused(state),
@@ -22,7 +22,7 @@ const mapStateToProps = (state: RootState, {tablet, hole}: OwnProps) => ({
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 
-const mapDispatchToProps = (dispatch: Dispatch, {tablet, hole}: OwnProps) => ({
+const mapDispatchToProps = (dispatch: Dispatch, {tablet, row: hole}: OwnProps) => ({
     onClick: () => dispatch(selectAndApplyThread(tablet, hole)),
 });
 

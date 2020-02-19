@@ -19,4 +19,5 @@ $active-width: .2rem;
 
 .main:hover, .focus {
     box-shadow: 0 0 $active-width $active-width $color-focus;
+    z-index: 1;
 }
