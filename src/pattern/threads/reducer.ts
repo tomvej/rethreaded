@@ -1,6 +1,6 @@
 import {Color} from '~types';
 import {fromHex} from '~utils/color';
-import {updateObject} from '~utils/func';
+import {update} from '~utils/func';
 
 import {ActionTypes, SELECT, SELECT_NEXT, SELECT_PREVIOUS} from './actions';
 
@@ -17,15 +17,15 @@ const initialState = {
 const reducer = (state = initialState, action: ActionTypes): StateType => {
     switch (action.type) {
         case SELECT_PREVIOUS:
-            return updateObject(state, 'selected',
+            return update(state, 'selected',
                 (selected) => selected > 0 ? selected - 1 : state.colors.length - 1,
             );
         case SELECT_NEXT:
-            return updateObject(state, 'selected',
+            return update(state, 'selected',
                 (selected) => selected < state.colors.length - 1 ? selected + 1 : 0,
             );
         case SELECT:
-            return updateObject(state, 'selected',
+            return update(state, 'selected',
                 () => action.number,
             );
         default:

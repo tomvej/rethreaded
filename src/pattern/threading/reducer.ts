@@ -1,5 +1,5 @@
 import {Hole, Tablet, ThreadingType} from '~types';
-import {updateArray, updateObject, updateTablet} from '~utils/func';
+import {update, updateTablet} from '~utils/func';
 
 import {
     ActionType,
@@ -31,32 +31,32 @@ const initialState: StateType = {
 const reducer = (state: StateType = initialState, action: ActionType): StateType => {
     switch (action.type) {
         case SELECT_NEXT_HOLE:
-            return updateObject(state, 'selectedHole',
+            return update(state, 'selectedHole',
                 (hole) => hole !== Hole.D ?  hole + 1 : Hole.A,
             );
         case SELECT_PREV_HOLE:
-            return updateObject(state, 'selectedHole',
+            return update(state, 'selectedHole',
                 (hole) => hole !== Hole.A ? hole - 1 : Hole.D,
             );
         case SELECT_NEXT_TABLET:
-            return updateObject(state, 'selectedTablet',
+            return update(state, 'selectedTablet',
                 (tablet) => tablet < state.threading.length - 1 ? tablet + 1 : 0,
             );
         case SELECT_PREV_TABLET:
-            return updateObject(state, 'selectedTablet',
+            return update(state, 'selectedTablet',
                 (tablet) => tablet > 0 ? tablet - 1 : state.threading.length - 1,
             );
         case SET_S_THREADING:
-            return updateObject(state, 'threading',
-                (threading) => updateArray(threading, state.selectedTablet, () => ThreadingType.S),
+            return update(state, 'threading',
+                (threading) => update(threading, state.selectedTablet, () => ThreadingType.S),
             );
         case SET_Z_THREADING:
-            return updateObject(state, 'threading',
-                (threading) => updateArray(threading, state.selectedTablet, () => ThreadingType.Z),
+            return update(state, 'threading',
+                (threading) => update(threading, state.selectedTablet, () => ThreadingType.Z),
             );
         case SELECT_THREAD:
-            return updateObject(state, 'threads',
-                (threads) => updateArray(threads, state.selectedTablet,
+            return update(state, 'threads',
+                (threads) => update(threads, state.selectedTablet,
                     (tablet) => updateTablet(tablet, state.selectedHole, () => action.number),
                 ),
             );
