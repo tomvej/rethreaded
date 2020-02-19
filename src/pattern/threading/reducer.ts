@@ -30,7 +30,7 @@ const reducer = (state: StateType = initialState, action: ActionType, selection:
         case APPLY_THREAD:
             return update(state, 'threads',
                 (threads) => update(threads, selection.tablet,
-                    (tablet) => updateTablet(tablet, selection.hole, () => action.thread || selection.thread),
+                    (tablet) => updateTablet(tablet, selection.hole, () => action.thread ?? selection.thread),
                 ),
             );
         case SELECT_AND_APPLY_THREAD:
