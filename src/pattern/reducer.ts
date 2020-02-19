@@ -1,34 +1,39 @@
-import {Action, combineReducers} from 'redux';
+import {Action} from 'redux';
+import {Hole} from '~types';
 
 import * as selection from './selection';
 import * as threading from './threading';
 import * as threads from './threads'
 import {SelectionState} from './types';
 
-const baseReducer = combineReducers({
-    [threads.NAME]: threads.reducer,
-    [threading.NAME]: threading.reducer,
-});
-
 export type StateType = {
-    base: ReturnType<typeof baseReducer>;
+    threads: ReturnType<typeof threads.reducer>;
+    threading: ReturnType<typeof threading.reducer>;
     selection: SelectionState;
 }
 
+const emptySelection = {
+    thread: 0,
+    tablet: 0,
+    hole: Hole.A,
+};
+
 const initial = {
-    base: baseReducer(undefined, {} as Action),
+    threads: threads.reducer(undefined),
+    threading: threading.reducer(undefined, {} as Action, emptySelection),
     selection: selection.reducer(undefined, {} as Action, {threads: 0, tablets: 0}),
 };
 
 // FIXME
 const reducer = (state: StateType = initial, action: Action): StateType => {
     const nextSelection = selection.reducer(state.selection, action, {
-        threads: state.base.threads.colors.length,
-        tablets: state.base.threading.threading.length,
+        threads: state.threads.length,
+        tablets: state.threading.threading.length,
     });
 
     return {
-        base: baseReducer(state.base, action),
+        threads: threads.reducer(state.threads),
+        threading: threading.reducer(state.threading, action, nextSelection),
         selection: nextSelection,
     };
 };

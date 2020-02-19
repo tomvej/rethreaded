@@ -9,10 +9,10 @@ import {
     SET_Z_THREADING,
 } from '~shortcuts';
 
-import {selectNextHole, selectNextTablet, selectPrevHole, selectPrevTablet, selectThread} from '../selection';
-import {setSThreading, setZThreading} from './actions';
+import {selectNextHole, selectNextTablet, selectPrevHole, selectPrevTablet} from '../selection';
+import {applyThread, setSThreading, setZThreading} from './actions';
 
-const createSelectThread = (number: number) => () => selectThread(number);
+const createSelectThread = (number: number) => () => applyThread(number);
 
 export default {
     [MOVE_LEFT]: selectPrevTablet,
