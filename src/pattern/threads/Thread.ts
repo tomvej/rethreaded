@@ -4,8 +4,8 @@ import {Dispatch} from 'redux';
 import {Thread} from '~components';
 import {RootState} from '~reducer';
 
-import {select} from './actions';
-import {getColor, isFocused, isSelected} from './selectors';
+import {isThreadSelected, selectThread} from '../selection';
+import {getColor, isFocused} from './selectors';
 
 type OwnProps = {
     number: number;
@@ -13,14 +13,14 @@ type OwnProps = {
 
 const mapStateToProps = (state: RootState, {number}: OwnProps) => ({
     color: getColor(state, number),
-    active: isSelected(state, number),
-    focus: isSelected(state, number) && isFocused(state),
+    active: isThreadSelected(state, number),
+    focus: isThreadSelected(state, number) && isFocused(state),
 });
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (dispatch: Dispatch, {number}: OwnProps) => ({
-    onClick: () => dispatch(select(number)),
+    onClick: () => dispatch(selectThread(number)),
 });
 
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;

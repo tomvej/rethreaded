@@ -4,9 +4,10 @@ import {Dispatch} from 'redux';
 import {ThreadingCell} from '~components';
 import {RootState} from '~reducer';
 import {Direction, Hole} from '~types';
+import {isThreadingSelected} from '../selection';
 import {selectAndApplyThread} from './actions';
 
-import {getColor, getThreading, isFocused, isSelected} from './selectors';
+import {getColor, getThreading, isFocused} from './selectors';
 
 type OwnProps = {
     tablet: number;
@@ -16,7 +17,7 @@ type OwnProps = {
 const mapStateToProps = (state: RootState, {tablet, hole}: OwnProps) => ({
     threading: getThreading(state, tablet),
     color: getColor(state, tablet, hole),
-    focus: isSelected(state, tablet, hole) && isFocused(state),
+    focus: isThreadingSelected(state, tablet, hole) && isFocused(state),
 });
 
 type StateProps = ReturnType<typeof mapStateToProps>;

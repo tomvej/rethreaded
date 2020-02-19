@@ -19,12 +19,12 @@ export type SelectThreadActionType = {
     thread: number;
 };
 
-export const nextThread = (): NextThreadActionType => ({type: NEXT_THREAD});
-export const prevThread = (): PrevThreadActionType => ({type: PREV_THREAD});
-export const nextTablet = (): NextTabletActionType => ({type: NEXT_TABLET});
-export const prevTablet = (): PrevTabletActionType => ({type: PREV_TABLET});
-export const nextHole = (): NextHoleActionType => ({type: NEXT_HOLE});
-export const prevHole = (): PrevHoleActionType => ({type: PREV_HOLE});
+export const selectNextThread = (): NextThreadActionType => ({type: NEXT_THREAD});
+export const selectPrevThread = (): PrevThreadActionType => ({type: PREV_THREAD});
+export const selectNextTablet = (): NextTabletActionType => ({type: NEXT_TABLET});
+export const selectPrevTablet = (): PrevTabletActionType => ({type: PREV_TABLET});
+export const selectNextHole = (): NextHoleActionType => ({type: NEXT_HOLE});
+export const selectPrevHole = (): PrevHoleActionType => ({type: PREV_HOLE});
 export const selectThread = (thread: number): SelectThreadActionType => ({
     type: SELECT_THREAD,
     thread,

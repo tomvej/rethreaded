@@ -3,10 +3,10 @@ export {default as reducer} from './reducer';
 export {isThreadingSelected, isThreadSelected} from './selectors';
 export {
     selectThread,
-    nextHole,
-    nextTablet,
-    nextThread,
-    prevHole,
-    prevTablet,
-    prevThread,
+    selectNextHole,
+    selectNextTablet,
+    selectNextThread,
+    selectPrevHole,
+    selectPrevTablet,
+    selectPrevThread,
 } from './actions';

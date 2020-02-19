@@ -1,8 +1,8 @@
 import {MOVE_LEFT, MOVE_RIGHT} from '~shortcuts';
 
-import {selectNext, selectPrevious} from './actions';
+import {selectNextThread, selectPrevThread} from '../selection';
 
 export default {
-    [MOVE_LEFT]: selectPrevious,
-    [MOVE_RIGHT]: selectNext,
+    [MOVE_LEFT]: selectPrevThread,
+    [MOVE_RIGHT]: selectNextThread,
 };
