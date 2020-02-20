@@ -1,0 +1,41 @@
+@import "../variables";
+
+$radius: 2px;
+
+.wrapper {
+    width: 100%;
+    padding-bottom: 100%;
+
+    cursor: pointer;
+    position: relative;
+}
+
+.main {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+}
+
+.line {
+
+    width: 100%;
+    height: 0;
+
+    border: $radius solid $color-black;
+    border-radius: $radius;
+}
+
+.sThread {
+    transform: rotate(-45deg);
+}
+
+.zThread {
+    transform: rotate(45deg);
+}
+
+.main:hover .line {
+    box-shadow: 0 0 .5rem $color-focus;
+}

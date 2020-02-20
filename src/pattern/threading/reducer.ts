@@ -1,9 +1,9 @@
-import {Hole, Tablet, ThreadingType} from '~types';
+import {Tablet, ThreadingType} from '~types';
 import {update, updateTablet} from '~utils/func';
 import {SELECT_AND_APPLY_THREAD} from '../actions';
 
 import {SelectionState} from '../types';
-import {ActionType, APPLY_THREAD, SET_S_THREADING, SET_Z_THREADING} from './actions';
+import {ActionType, APPLY_THREAD, SET_S_THREADING, SET_Z_THREADING, TOGGLE_THREADING} from './actions';
 
 const TABLET_NUMBER = 8;
 
@@ -17,6 +17,15 @@ const initialState: StateType = {
     threads: Array.from({length: TABLET_NUMBER}).map(() => [0, 1, 2, 1]),
 };
 
+const toggleThreading = (threading: ThreadingType): ThreadingType => {
+    switch (threading) {
+        case ThreadingType.S:
+            return ThreadingType.Z;
+        case ThreadingType.Z:
+            return ThreadingType.S;
+    }
+};
+
 const reducer = (state: StateType = initialState, action: ActionType, selection: SelectionState): StateType => {
     switch (action.type) {
         case SET_S_THREADING:
@@ -26,6 +35,10 @@ const reducer = (state: StateType = initialState, action: ActionType, selection:
         case SET_Z_THREADING:
             return update(state, 'threading',
                 (threading) => update(threading, selection.tablet, () => ThreadingType.Z),
+            );
+        case TOGGLE_THREADING:
+            return update(state, 'threading',
+                (threading) => update(threading, action.tablet, toggleThreading),
             );
         case APPLY_THREAD:
             return update(state, 'threads',
