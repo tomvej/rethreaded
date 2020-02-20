@@ -6,6 +6,7 @@ import {RootState} from '~reducer';
 import {Hole} from '~types';
 import {seq} from '~utils/func';
 
+import {HoleLabel} from '../components';
 import Cell from './Cell';
 import {getTabletNumber} from './selectors';
 
@@ -20,6 +21,8 @@ const Cells: FC<StateProps> = ({tablets}) => (
         cellComponent={Cell}
         rows={[Hole.A, Hole.B, Hole.C, Hole.D]}
         tablets={seq(tablets)}
+        leftMarginComponent={HoleLabel}
+        topMarginComponent={({tablet}) => <div>{String(tablet)}</div>}
     />
 );
 

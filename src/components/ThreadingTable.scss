@@ -1,9 +1,49 @@
 @import "../variables";
 
-.main {
+@mixin cellBorder($color) {
+    border: 1px solid $color;
+    margin: -.5px;
+}
+
+$cell-size: 2em;
+
+.rowMargin {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.columnMargin {
+    display: flex;
+}
+
+.rowMarginCell {
+    height: $cell-size;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+
+    @include cellBorder(transparent);
+}
+
+.columnMarginCell {
+    width: $cell-size;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    @include cellBorder(transparent);
+}
+
+.trailing {
+    align-items: flex-start;
+}
+
+.center {
     display: flex;
     z-index: 0;
 }
+
 
 .column {
     display: flex;
@@ -11,7 +51,9 @@
 }
 
 .cell {
-    border: 1px solid $color-threading-border;
-    margin: -.5px;
+    width: $cell-size;
+    height: $cell-size;
+
+    @include cellBorder($color-threading-border);
     display: flex;
 }
