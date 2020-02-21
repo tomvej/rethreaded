@@ -6,7 +6,8 @@ import {assert} from '~utils/assert';
 import {noop} from '~utils/func';
 
 import {KeyboardContextProvider} from './context';
-import {ListenerType} from './types';
+import {ModalKeyboardContextProvider} from './modalContext';
+import {ListenerType, SimpleListenerType} from './types';
 
 type KeyBinderProps = {
     children: ReactNode;
@@ -20,6 +21,14 @@ const KeyBinder: FC<KeyBinderProps> = ({children}) => {
             rootListener.current = null;
         };
     }, []);
+    const modalListener = useRef<SimpleListenerType | null>(null);
+    const registerModal = useCallback((listener) => {
+        assert(modalListener.current === null, 'Too many registered modal listeners');
+        modalListener.current = listener;
+        return (): void => {
+            modalListener.current = null;
+        }
+    }, []);
 
     useEffect(() => {
         const keyMap = Object.values(shortcuts)
@@ -32,8 +41,12 @@ const KeyBinder: FC<KeyBinderProps> = ({children}) => {
         });
         Object.entries(keyMap).forEach(([key, commands]) => {
             Mousetrap.bind(key, () => {
-                assert(rootListener.current, 'No keyboard handler registered at root level!');
-                rootListener.current(commands, noop);
+                if (modalListener.current) {
+                    modalListener.current(commands);
+                } else {
+                    assert(rootListener.current, 'No keyboard handler registered at root level!');
+                    rootListener.current(commands, noop);
+                }
             })
         });
 
@@ -46,7 +59,9 @@ const KeyBinder: FC<KeyBinderProps> = ({children}) => {
 
     return (
         <KeyboardContextProvider value={register}>
-            {children}
+            <ModalKeyboardContextProvider value={registerModal}>
+                {children}
+            </ModalKeyboardContextProvider>
         </KeyboardContextProvider>
     )
 };

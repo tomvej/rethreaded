@@ -1,14 +1,13 @@
 import React, {FC, ReactNode, useCallback,useEffect, useRef} from 'react';
 
-import {KeyboardContextProvider,useKeyboardContext} from './context';
+import {KeyboardContextProvider, useKeyboardContext} from './context';
+import {ListenerType} from './types';
 
 type KeyHandlerProps = {
     focus: boolean;
     children: ReactNode;
     handlers: {[command: string]: () => void};
 }
-
-type ListenerType = (commands: string[], callback: () => void) => void;
 
 const KeyHandler: FC<KeyHandlerProps> = ({focus, handlers, children}) => {
     const registerAtParent = useKeyboardContext();
