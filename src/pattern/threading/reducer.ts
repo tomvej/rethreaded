@@ -1,9 +1,9 @@
-import {Tablet, ThreadingType} from '~types';
+import {Hole, Tablet, ThreadingType} from '~types';
 import {update, updateTablet} from '~utils/func';
 import {SELECT_AND_APPLY_THREAD} from '../actions';
 
 import {SelectionState} from '../types';
-import {ActionType, APPLY_THREAD, SET_S_THREADING, SET_Z_THREADING, TOGGLE_THREADING} from './actions';
+import {ActionType, APPLY_THREAD, SET_S_THREADING, SET_Z_THREADING, TOGGLE_THREADING, TURN} from './actions';
 
 const TABLET_NUMBER = 8;
 
@@ -24,6 +24,11 @@ const toggleThreading = (threading: ThreadingType): ThreadingType => {
         case ThreadingType.Z:
             return ThreadingType.S;
     }
+};
+
+const getTurnedIndex = (index: number): number => {
+    const normalized = index % 4;
+    return normalized >= 0 ? normalized : 4 + normalized;
 };
 
 const reducer = (state: StateType = initialState, action: ActionType, selection: SelectionState): StateType => {
@@ -50,6 +55,17 @@ const reducer = (state: StateType = initialState, action: ActionType, selection:
             return update(state, 'threads',
                 (threads) => update(threads, action.tablet,
                     (tablet) => updateTablet(tablet, action.hole, () => selection.thread),
+                ),
+            );
+        case TURN:
+            return update(state, 'threads',
+                (threads) => update(threads, selection.tablet,
+                    (tablet): Tablet<number> => [
+                        tablet[getTurnedIndex(Hole.A + action.turns)],
+                        tablet[getTurnedIndex(Hole.B + action.turns)],
+                        tablet[getTurnedIndex(Hole.C + action.turns)],
+                        tablet[getTurnedIndex(Hole.D + action.turns)],
+                    ],
                 ),
             );
         default:

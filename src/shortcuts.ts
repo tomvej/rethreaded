@@ -10,6 +10,8 @@ export const SELECT_THREAD_1 = 'select-thread-1';
 export const SELECT_THREAD_2 = 'select-thread-2';
 export const SELECT_THREAD_3 = 'select-thread-3';
 export const APPLY = 'apply';
+export const TURN_FORWARD = 'turn-forward';
+export const TURN_BACKWARD = 'turn-backward';
 
 const shortcuts: {[command: string]: string | string[]} = {
     [UNDO]: 'ctrl+z',
@@ -24,6 +26,8 @@ const shortcuts: {[command: string]: string | string[]} = {
     [SELECT_THREAD_2]: '2',
     [SELECT_THREAD_3]: '3',
     [APPLY]: 'space',
+    [TURN_BACKWARD]: 'b',
+    [TURN_FORWARD]: 'f',
 };
 
 export default shortcuts;
