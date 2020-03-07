@@ -1,10 +1,29 @@
 import {Color} from '~types';
-import {fromHex} from '~utils/color';
+import {update} from '~utils/func';
+import palette from '~utils/palette';
 
-export type StateType =  Array<Color>; // TODO should be ReadonlyArray, but that has problems with length
+import {SelectionState} from '../types';
+import {ActionType, SET_COLOR, TOGGLE_PICKER} from './actions';
 
-const initial = [fromHex('#000000'), fromHex('#ffffff'), fromHex('#0F52BA')];
+export type StateType = {
+    colors: Array<Color>; // TODO should be ReadonlyArray, but that has problems with length
+    pickerVisible: boolean;
+}
 
-const reducer = (state = initial): StateType => state;
+const initial = {
+    colors: [palette[40], palette[0], palette[23]],
+    pickerVisible: false
+};
+
+const reducer = (state: StateType = initial, action: ActionType, selection: SelectionState): StateType => {
+    switch (action.type) {
+        case SET_COLOR:
+            return update(state, 'colors', (colors) => update(colors, selection.thread, () => action.color));
+        case TOGGLE_PICKER:
+            return update(state, 'pickerVisible', () => action.visible);
+        default:
+            return state;
+    }
+};
 
 export default reducer;

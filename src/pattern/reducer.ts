@@ -20,7 +20,7 @@ const emptySelection = {
 };
 
 const initial = {
-    threads: threads.reducer(undefined),
+    threads: threads.reducer(undefined, {} as Action, emptySelection),
     threading: threading.reducer(undefined, {} as Action, emptySelection),
     selection: selection.reducer(undefined, {} as Action, {threads: 0, tablets: 0}),
 };
@@ -28,12 +28,12 @@ const initial = {
 // FIXME
 const reducer = (state: StateType = initial, action: Action): StateType => {
     const nextSelection = selection.reducer(state.selection, action, {
-        threads: state.threads.length,
+        threads: state.threads.colors.length,
         tablets: state.threading.threading.length,
     });
 
     return {
-        threads: threads.reducer(state.threads),
+        threads: threads.reducer(state.threads, action, nextSelection),
         threading: threading.reducer(state.threading, action, nextSelection),
         selection: nextSelection,
     };
