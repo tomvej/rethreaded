@@ -18,7 +18,10 @@ const initial = {
 const reducer = (state: StateType = initial, action: ActionType, selection: SelectionState): StateType => {
     switch (action.type) {
         case SET_COLOR:
-            return update(state, 'colors', (colors) => update(colors, selection.thread, () => action.color));
+            return {
+                colors: update(state.colors, selection.thread, () => action.color),
+                pickerVisible: false,
+            };
         case TOGGLE_PICKER:
             return update(state, 'pickerVisible', () => action.visible);
         default:

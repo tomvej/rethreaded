@@ -20,6 +20,16 @@ export const setColor = (color: Color): SetColorActionType => ({
     color,
 });
 
+export const showPicker = (): TogglePickerActionType => ({
+    type: TOGGLE_PICKER,
+    visible: true,
+});
+
+export const hidePicker = (): TogglePickerActionType => ({
+    type: TOGGLE_PICKER,
+    visible: false,
+});
+
 export type ActionType =
     SetColorActionType
     | TogglePickerActionType
