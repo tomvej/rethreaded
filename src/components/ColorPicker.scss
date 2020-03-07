@@ -1,0 +1,33 @@
+@import "../variables";
+
+.main {
+    display: inline-block;
+    border: 1px solid black;
+}
+
+.showcase {
+    display: flex;
+    height: 2.5rem;
+}
+
+.showcase > * {
+    flex: 1 1 0;
+}
+
+.row {
+    display: flex;
+}
+
+.cell {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: .15rem;
+    border: 1px solid transparent;
+    border-radius: .1rem;
+    cursor: pointer;
+}
+
+.focus {
+    border-color: $color-focus;
+    box-shadow: 0 0 .2rem .2rem $color-focus;
+}

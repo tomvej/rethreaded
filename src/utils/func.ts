@@ -22,3 +22,6 @@ export const updateTablet = <T>(tablet: Tablet<T>, hole: Hole, updater: (target:
     newTablet[hole] = updater(newTablet[hole]);
     return newTablet;
 };
+
+export const aperture = <T>(array: Array<T>, length: number): Array<Array<T>> => seq(Math.ceil(array.length / length))
+    .map((index) => array.slice(index * length, (index + 1) * length));
