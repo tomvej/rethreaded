@@ -10,10 +10,10 @@ export function update(target: any, index: any, updater: (value: any) => any): a
     if (Array.isArray(target)) {
         return target.map((item, i) => i === index ? updater(item) : item);
     } else if (typeof target === 'object' && target !== null) {
-        return Object.assign({
+        return ({
             ...target,
             [index]: updater(target[index]),
-        })
+        });
     }
 }
 
