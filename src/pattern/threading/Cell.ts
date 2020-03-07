@@ -4,9 +4,9 @@ import {Dispatch} from 'redux';
 import {ThreadingCell} from '~components';
 import {RootState} from '~reducer';
 import {Direction, Hole} from '~types';
-import {isThreadingSelected} from '../selection';
-import {selectAndApplyThread} from '../actions';
 
+import {selectAndApplyThread} from '../actions';
+import {isThreadingSelected} from '../selection';
 import {getColor, getThreading, isFocused} from './selectors';
 
 type OwnProps = {

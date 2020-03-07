@@ -1,4 +1,5 @@
 import {Action} from 'redux';
+
 import {Hole} from '~types';
 
 import * as selection from './selection';

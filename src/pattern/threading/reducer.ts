@@ -1,7 +1,7 @@
 import {Hole, Tablet, ThreadingType} from '~types';
 import {update, updateTablet} from '~utils/func';
-import {SELECT_AND_APPLY_THREAD} from '../actions';
 
+import {SELECT_AND_APPLY_THREAD} from '../actions';
 import {SelectionState} from '../types';
 import {ActionType, APPLY_THREAD, SET_S_THREADING, SET_Z_THREADING, TOGGLE_THREADING, TURN} from './actions';
 
