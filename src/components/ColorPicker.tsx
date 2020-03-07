@@ -19,7 +19,10 @@ type ColorPickerProps = {
 const ColorPicker: FC<ColorPickerProps> = ({
     palette, selectedRow, selectedColumn, handleSelectionChange, handleClick, originalColor
 }) => (
-    <div className={style.main}>
+    <div
+        className={style.main}
+        tabIndex={0}
+    >
         <div className={style.showcase}>
             <div style={{backgroundColor: toHex(originalColor)}} />
             <div style={{backgroundColor: toHex(palette[selectedRow][selectedColumn])}} />

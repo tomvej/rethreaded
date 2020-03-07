@@ -41,3 +41,9 @@ export const contrastRatio = (color1: Color, color2: Color): number => {
     const luminance2 = relativeLuminance(color2) + 0.05;
     return Math.max(luminance1, luminance2) / Math.min(luminance1, luminance2);
 };
+
+export const isEqual = (color1: Color, color2: Color): boolean => (
+    color1[ColorCmp.RED] === color2[ColorCmp.RED]
+    && color1[ColorCmp.GREEN] === color2[ColorCmp.GREEN]
+    && color1[ColorCmp.BLUE] === color2[ColorCmp.BLUE]
+);
