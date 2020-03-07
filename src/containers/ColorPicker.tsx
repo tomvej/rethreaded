@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useMemo, useState} from 'react';
+import React, {FC, useCallback, useState} from 'react';
 
 import {ColorPicker as ColorPickerComponent} from '~components';
 import {APPLY, CANCEL, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, MOVE_UP} from '~shortcuts';
@@ -34,10 +34,11 @@ const ColorPicker: FC<ColorPickerProps> = ({color, onColorChange, onClose}) => {
         setSelectedRow(newRow);
     };
     const updateSelectedColumn = (operation: (column: number) => number): void => setSelectedColumn(operation);
-    const setColor = () => onColorChange(paletteMatrix[selectedRow][selectedColumn]);
+    const setColor = (): void => onColorChange(paletteMatrix[selectedRow][selectedColumn]);
 
     return (
         <ModalContainer
+            onOutsideClick={onClose}
             keyHandlers={{
                 [MOVE_UP]: () => updateSelectedRow(decrement(paletteMatrix.length)),
                 [MOVE_DOWN]: () => updateSelectedRow(increment(paletteMatrix.length)),

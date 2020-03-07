@@ -5,3 +5,4 @@ export {default as RowLayout} from './RowLayout';
 export {default as ThreadingTable} from './ThreadingTable';
 export {default as TabletLine} from './TabletLine';
 export {default as ColorPicker} from './ColorPicker';
+export {default as OutsideClickDetector} from './OutsideClickDetector';
