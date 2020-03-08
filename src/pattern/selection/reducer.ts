@@ -55,11 +55,11 @@ const reducer = (state: SelectionState = initial, action: ActionType, setup: Set
         case ADD_THREAD:
             return update(state, 'thread', () => setup.threads);
         case REMOVE_THREAD:
-            return update(state, 'thread', (thread) => thread <  0 ? thread - 1 : 0);
+            return update(state, 'thread', (thread) => thread < setup.threads - 1 ? thread : thread - 1);
         case ADD_TABLET_AFTER:
             return update(state, 'tablet', (tablet) => tablet + 1);
         case REMOVE_TABLET:
-            return update(state, 'tablet', (tablet) => tablet > 0 ? tablet - 1 : 0);
+            return update(state, 'tablet', (tablet) => tablet < setup.tablets - 1 ? tablet : tablet - 1);
         default:
             return state;
     }
