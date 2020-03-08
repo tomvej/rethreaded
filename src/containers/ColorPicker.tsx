@@ -3,7 +3,7 @@ import React, {FC, useCallback, useState} from 'react';
 import {ColorPicker as ColorPickerComponent} from '~components';
 import {APPLY, CANCEL, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, MOVE_UP} from '~shortcuts';
 import {Color} from '~types';
-import {isEqual} from '~utils/color';
+import {isEqual, toHex} from '~utils/color';
 import {aperture} from '~utils/func';
 import palette from '~utils/palette';
 
@@ -64,4 +64,8 @@ const ColorPicker: FC<ColorPickerProps> = ({color, onColorChange, onClose}) => {
     )
 };
 
-export default ColorPicker;
+const ColorPickerDerivedStateWrapper: FC<ColorPickerProps> = ({color, ...rest}) => (
+    <ColorPicker key={toHex(color)} color={color} {...rest} />
+);
+
+export default ColorPickerDerivedStateWrapper;
