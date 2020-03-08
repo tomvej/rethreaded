@@ -29,6 +29,16 @@ const mapDispatchToProps = (dispatch: Dispatch, {number}: OwnProps) => ({
 
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 
+const getLabel = (number: number): string => {
+    if (number < 9) {
+        return String(number + 1);
+    } else if (number === 9) {
+        return '0';
+    } else {
+        return '';
+    }
+};
+
 const mergeProps = (
     {active, ...stateProps}: StateProps,
     {select, changeColor}: DispatchProps,
@@ -37,7 +47,7 @@ const mergeProps = (
     active,
     ...stateProps,
     onClick: active ? changeColor : select,
-    label: String(number + 1),
+    label: getLabel(number),
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps);

@@ -9,6 +9,13 @@ export const SET_Z_THREADING = 'set-z-threading';
 export const SELECT_THREAD_1 = 'select-thread-1';
 export const SELECT_THREAD_2 = 'select-thread-2';
 export const SELECT_THREAD_3 = 'select-thread-3';
+export const SELECT_THREAD_4 = 'select-thread-4';
+export const SELECT_THREAD_5 = 'select-thread-5';
+export const SELECT_THREAD_6 = 'select-thread-6';
+export const SELECT_THREAD_7 = 'select-thread-7';
+export const SELECT_THREAD_8 = 'select-thread-8';
+export const SELECT_THREAD_9 = 'select-thread-9';
+export const SELECT_THREAD_0 = 'select-thread-0';
 export const APPLY = 'apply';
 export const CANCEL = 'cancel';
 export const TURN_FORWARD = 'turn-forward';
@@ -29,13 +36,20 @@ const shortcuts: {[command: string]: string | string[]} = {
     [SELECT_THREAD_1]: '1',
     [SELECT_THREAD_2]: '2',
     [SELECT_THREAD_3]: '3',
+    [SELECT_THREAD_4]: '4',
+    [SELECT_THREAD_5]: '5',
+    [SELECT_THREAD_6]: '6',
+    [SELECT_THREAD_7]: '7',
+    [SELECT_THREAD_8]: '8',
+    [SELECT_THREAD_9]: '9',
+    [SELECT_THREAD_0]: '0',
     [APPLY]: 'space',
     [CANCEL]: 'escape',
     [TURN_BACKWARD]: 'b',
     [TURN_FORWARD]: 'f',
     [ADD]: 'ins',
     [ADD_ALT]: 'shift+ins',
-    [REMOVE]: 'del'
+    [REMOVE]: 'del',
 };
 
 export default shortcuts;
