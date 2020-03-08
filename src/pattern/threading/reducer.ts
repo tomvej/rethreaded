@@ -31,7 +31,7 @@ const getTurnedIndex = (index: number): number => {
     return normalized >= 0 ? normalized : 4 + normalized;
 };
 
-const reducer = (state: StateType = initialState, action: ActionType, selection: SelectionState): StateType => {
+const reducer = (state: StateType = initialState, action: ActionType, selection: SelectionState, threadNumber: number): StateType => {
     switch (action.type) {
         case SET_S_THREADING:
             return update(state, 'threading',
@@ -48,7 +48,10 @@ const reducer = (state: StateType = initialState, action: ActionType, selection:
         case APPLY_THREAD:
             return update(state, 'threads',
                 (threads) => update(threads, selection.tablet,
-                    (tablet) => updateTablet(tablet, selection.hole, () => action.thread ?? selection.thread),
+                    (tablet) => updateTablet(tablet, selection.hole, (thread) => {
+                        const newThread = action.thread ?? selection.thread;
+                        return newThread < threadNumber ? newThread : thread;
+                    }),
                 ),
             );
         case SELECT_AND_APPLY_THREAD:

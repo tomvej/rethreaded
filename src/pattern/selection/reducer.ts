@@ -38,7 +38,7 @@ const reducer = (state: SelectionState = initial, action: ActionType, setup: Set
         case PREV_THREAD:
             return update(state, 'thread', decrement(setup.threads - 1));
         case SELECT_THREAD:
-            return update(state, 'thread', () => action.thread);
+            return update(state, 'thread', (thread) => action.thread < setup.threads ? action.thread : thread);
         case SELECT_AND_APPLY_THREAD:
             return ({
                 ...state,

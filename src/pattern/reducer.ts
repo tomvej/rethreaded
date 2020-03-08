@@ -22,7 +22,7 @@ const emptySelection = {
 
 const initial = {
     threads: threads.reducer(undefined, {} as Action, emptySelection),
-    threading: threading.reducer(undefined, {} as Action, emptySelection),
+    threading: threading.reducer(undefined, {} as Action, emptySelection, 0),
     selection: selection.reducer(undefined, {} as Action, {threads: 0, tablets: 0}),
 };
 
@@ -33,7 +33,7 @@ const reducer = (state: StateType = initial, action: Action): StateType => {
     }
     return {
         threads: threads.reducer(state.threads, action, state.selection),
-        threading: threading.reducer(state.threading, action, state.selection),
+        threading: threading.reducer(state.threading, action, state.selection, state.threads.colors.length),
         selection: selection.reducer(state.selection, action, {
             threads: state.threads.colors.length,
             tablets: state.threading.threading.length,
