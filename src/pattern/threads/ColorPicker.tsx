@@ -5,10 +5,11 @@ import {ColorPicker as ColorPickerContainer} from '~containers';
 import {RootState} from '~reducer';
 
 import {hidePicker, setColor} from './actions';
-import {isPickerVisible} from './selectors';
+import {getCurrentColor, isPickerVisible} from './selectors';
 
 const mapStateToProps = (state: RootState) => ({
     display: isPickerVisible(state),
+    color: getCurrentColor(state),
 });
 
 const mapDispatchToProps = {

@@ -3,6 +3,7 @@ import React, {FC, useCallback, useState} from 'react';
 import {ColorPicker as ColorPickerComponent} from '~components';
 import {APPLY, CANCEL, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, MOVE_UP} from '~shortcuts';
 import {Color} from '~types';
+import {isEqual} from '~utils/color';
 import {aperture} from '~utils/func';
 import palette from '~utils/palette';
 
@@ -14,13 +15,18 @@ const decrement = (max: number) => (value: number): number => value > 0 ? value 
 type ColorPickerProps = {
     onColorChange: (color: Color) => void;
     onClose: () => void;
+    color: Color;
 }
 
-const paletteMatrix = aperture(palette, 7);
+const COLUMNS = 7;
+const paletteMatrix = aperture(palette, COLUMNS);
+const findColorIndex = (color: Color): number => palette.findIndex((other) => isEqual(color, other));
+const getColumn = (color: Color): number => findColorIndex(color) % COLUMNS;
+const getRow = (color: Color): number => Math.floor(findColorIndex(color) / COLUMNS);
 
-const ColorPicker: FC<ColorPickerProps> = ({onColorChange, onClose}) => {
-    const [selectedColumn, setSelectedColumn] = useState(0);
-    const [selectedRow, setSelectedRow] = useState(0);
+const ColorPicker: FC<ColorPickerProps> = ({color, onColorChange, onClose}) => {
+    const [selectedColumn, setSelectedColumn] = useState(() => getColumn(color));
+    const [selectedRow, setSelectedRow] = useState(() => getRow(color));
     const handleSelectionChange = useCallback((row: number, column: number): void => {
         setSelectedRow(row);
         setSelectedColumn(column);
