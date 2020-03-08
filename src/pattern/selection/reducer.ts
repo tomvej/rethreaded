@@ -3,7 +3,6 @@ import {update} from '~utils/func';
 
 import {
     ADD_TABLET_AFTER,
-    ADD_TABLET_BEFORE,
     ADD_THREAD,
     REMOVE_TABLET,
     REMOVE_THREAD,
