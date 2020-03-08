@@ -34,3 +34,5 @@ export const aperture = <T>(array: Array<T>, length: number): Array<Array<T>> =>
     .map((index) => array.slice(index * length, (index + 1) * length));
 
 export const insert = <T>(array: Array<T>, index: number, element: T): Array<T> => array.slice(0, index).concat([element], array.slice(index));
+
+export const remove = <T>(array: Array<T>, index: number): Array<T> => array.slice(0, index).concat(array.slice(index + 1));

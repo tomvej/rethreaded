@@ -1,7 +1,7 @@
 import {Action} from 'redux';
 
 import {Hole} from '~types';
-import {REMOVE_THREAD} from './actions';
+import {REMOVE_TABLET, REMOVE_THREAD} from './actions';
 
 import * as selection from './selection';
 import * as threading from './threading';
@@ -20,6 +20,9 @@ const emptySelection = {
     hole: Hole.A,
 };
 
+const MIN_THREADS = 2;
+const MIN_TABLETS = 4;
+
 const initial = {
     threads: threads.reducer(undefined, {} as Action, emptySelection),
     threading: threading.reducer(undefined, {} as Action, emptySelection, 0),
@@ -28,7 +31,10 @@ const initial = {
 
 // FIXME
 const reducer = (state: StateType = initial, action: Action): StateType => {
-    if (action.type === REMOVE_THREAD && state.threads.colors.length <= 2) {
+    if (action.type === REMOVE_THREAD && state.threads.colors.length <= MIN_THREADS) {
+        return state;
+    }
+    if (action.type === REMOVE_TABLET && state.threading.threading.length <= MIN_TABLETS) {
         return state;
     }
     return {

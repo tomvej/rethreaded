@@ -1,7 +1,7 @@
 import {Hole, Tablet, ThreadingType} from '~types';
-import {insert, mapTablet, update, updateTablet} from '~utils/func';
+import {insert, mapTablet, remove, update, updateTablet} from '~utils/func';
 
-import {ADD_TABLET_AFTER, ADD_TABLET_BEFORE, REMOVE_THREAD, SELECT_AND_APPLY_THREAD} from '../actions';
+import {ADD_TABLET_AFTER, ADD_TABLET_BEFORE, REMOVE_TABLET, REMOVE_THREAD, SELECT_AND_APPLY_THREAD} from '../actions';
 import {SelectionState} from '../types';
 import {ActionType, APPLY_THREAD, SET_S_THREADING, SET_Z_THREADING, TOGGLE_THREADING, TURN} from './actions';
 
@@ -86,6 +86,11 @@ const reducer = (state: StateType = initialState, action: ActionType, selection:
             return {
                 threading: insert(state.threading, selection.tablet, state.threading[selection.tablet]),
                 threads: insert(state.threads, selection.tablet, state.threads[selection.tablet]),
+            };
+        case REMOVE_TABLET:
+            return {
+                threading: remove(state.threading, selection.tablet),
+                threads: remove(state.threads, selection.tablet),
             };
         default:
             return state;
