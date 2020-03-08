@@ -12,14 +12,13 @@ const increment = (max: number) => (value: number): number => value < max - 1 ? 
 const decrement = (max: number) => (value: number): number => value > 0 ? value - 1 : max - 1;
 
 type ColorPickerProps = {
-    color: Color;
     onColorChange: (color: Color) => void;
     onClose: () => void;
 }
 
 const paletteMatrix = aperture(palette, 7);
 
-const ColorPicker: FC<ColorPickerProps> = ({color, onColorChange, onClose}) => {
+const ColorPicker: FC<ColorPickerProps> = ({onColorChange, onClose}) => {
     const [selectedColumn, setSelectedColumn] = useState(0);
     const [selectedRow, setSelectedRow] = useState(0);
     const handleSelectionChange = useCallback((row: number, column: number): void => {
@@ -50,7 +49,6 @@ const ColorPicker: FC<ColorPickerProps> = ({color, onColorChange, onClose}) => {
         >
             <ColorPickerComponent
                 palette={paletteMatrix}
-                originalColor={color}
                 selectedRow={selectedRow}
                 selectedColumn={selectedColumn}
                 handleSelectionChange={handleSelectionChange}

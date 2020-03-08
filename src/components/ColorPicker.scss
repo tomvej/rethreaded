@@ -2,6 +2,7 @@
 
 .main {
     outline: none;
+    padding: .15rem;
 }
 
 .showcase {
@@ -21,7 +22,7 @@
     width: 1.5rem;
     height: 1.5rem;
     margin: .15rem;
-    border: 1px solid transparent;
+    border: 1px solid $color-grey;
     border-radius: .1rem;
     cursor: pointer;
 }

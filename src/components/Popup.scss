@@ -30,32 +30,66 @@ $arrow: .8rem;
     margin-left: $margin;
 }
 
-.arrow {
+.arrow, .arrowBg {
     position: absolute;
     border-style: solid;
     border-color: transparent;
 }
 
-.bottom .arrow {
+.bottom .arrow, .bottom .arrowBg {
     top: -$margin;
     border-width: 0 $arrow $margin $arrow;
+
+}
+
+.bottom .arrow {
     border-bottom-color: $color-grey;
 }
 
-.top .arrow {
+.bottom .arrowBg {
+    border-bottom-color: $color-white;
+    transform: translateY(1px);
+}
+
+.top .arrow, .top .arrowBg {
     bottom: -$margin;
     border-width: $margin $arrow 0 $arrow;
+
+}
+
+.top .arrow {
     border-top-color: $color-grey;
 }
 
-.left .arrow {
+.top .arrowBg {
+    border-top-color: $color-white;
+    transform: translateY(-1px);
+}
+
+.left .arrow, .left .arrowBg {
     right: -$margin;
     border-width: $arrow 0 $arrow $margin;
+}
+
+.left .arrow {
     border-left-color: $color-grey;
 }
 
-.right .arrow {
+.left .arrowBg {
+    border-left-color: $color-white;
+    transform: translateX(-1px);
+}
+
+.right .arrow, .right .arrowBg {
     left: -$margin;
     border-width: $arrow $margin $arrow 0;
+}
+
+.right .arrow {
     border-right-color: $color-grey;
+}
+
+.right .arrowBg {
+    border-right-color: $color-white;
+    transform: translateX(1px);
 }

@@ -41,6 +41,7 @@ const Popup: FC<PopupProps> = ({placement, children}) => (
                     {children}
                     </div>
                     <div ref={arrowProps.ref} style={arrowProps.style} className={styles.arrow} />
+                    <div style={arrowProps.style} className={styles.arrowBg} />
                 </div>
         )}
     </Popper>

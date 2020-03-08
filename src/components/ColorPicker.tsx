@@ -13,20 +13,15 @@ type ColorPickerProps = {
     selectedColumn: number;
     handleSelectionChange: (row: number, column: number) => void;
     handleClick: () => void;
-    originalColor: Color;
 }
 
 const ColorPicker: FC<ColorPickerProps> = ({
-    palette, selectedRow, selectedColumn, handleSelectionChange, handleClick, originalColor
+    palette, selectedRow, selectedColumn, handleSelectionChange, handleClick
 }) => (
     <div
         className={style.main}
         tabIndex={0}
     >
-        <div className={style.showcase}>
-            <div style={{backgroundColor: toHex(originalColor)}} />
-            <div style={{backgroundColor: toHex(palette[selectedRow][selectedColumn])}} />
-        </div>
         {palette.map((row, rowIndex) => (
             <div key={rowIndex} className={style.row}>
                 {row.map((color, columnIndex) => (
