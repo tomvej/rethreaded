@@ -1,9 +1,10 @@
 import {
+    ADD, ADD_ALT,
     APPLY,
     MOVE_DOWN,
     MOVE_LEFT,
     MOVE_RIGHT,
-    MOVE_UP,
+    MOVE_UP, REMOVE,
     SELECT_THREAD_0,
     SELECT_THREAD_1,
     SELECT_THREAD_2,
@@ -19,6 +20,7 @@ import {
     TURN_BACKWARD,
     TURN_FORWARD,
 } from '~shortcuts';
+import {addTabletAfter, addTabletBefore, removeTablet} from '../actions';
 
 import {selectNextHole, selectNextTablet, selectPrevHole, selectPrevTablet} from '../selection';
 import {applyThread, setSThreading, setZThreading, turnTablet} from './actions';
@@ -45,4 +47,7 @@ export default {
     [APPLY]: createApplyThread(),
     [TURN_FORWARD]: () => turnTablet(1),
     [TURN_BACKWARD]: () => turnTablet(-1),
+    [ADD]: addTabletAfter,
+    [ADD_ALT]: addTabletBefore,
+    [REMOVE]: removeTablet,
 }

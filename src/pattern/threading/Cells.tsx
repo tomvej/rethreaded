@@ -23,7 +23,7 @@ const Cells: FC<StateProps> = ({tablets}) => (
         rows={[Hole.A, Hole.B, Hole.C, Hole.D]}
         tablets={seq(tablets)}
         leftMarginComponent={HoleLabel}
-        topMarginComponent={({tablet}) => <div>{String(tablet)}</div>}
+        topMarginComponent={({tablet}) => <div>{String(tablet + 1)}</div>}
         bottomMarginComponent={ThreadingSwitch}
     />
 );

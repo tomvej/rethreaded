@@ -32,3 +32,5 @@ export const mapTablet = <T, U>(tablet: Tablet<T>, mapper: (target: T) => U): Ta
 
 export const aperture = <T>(array: Array<T>, length: number): Array<Array<T>> => seq(Math.ceil(array.length / length))
     .map((index) => array.slice(index * length, (index + 1) * length));
+
+export const insert = <T>(array: Array<T>, index: number, element: T): Array<T> => array.slice(0, index).concat([element], array.slice(index));
