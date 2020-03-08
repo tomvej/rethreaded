@@ -1,7 +1,9 @@
-import {connect} from 'react-redux';
+import React, {FC} from 'react';
+import {Reference} from 'react-popper';
+import {connect, ConnectedProps} from 'react-redux';
 import {Dispatch} from 'redux';
 
-import {Thread} from '~components';
+import {Thread as ThreadComponent} from '~components';
 import {RootState} from '~reducer';
 
 import {isThreadSelected, selectThread} from '../selection';
@@ -38,4 +40,18 @@ const mergeProps = (
     label: String(number + 1),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Thread);
+const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps);
+
+const Thread: FC<ConnectedProps<typeof connector>> = (props) => {
+    if (props.active) {
+        return (
+            <Reference>
+                {({ref}) => <ThreadComponent ref={ref} {...props} />}
+            </Reference>
+        )
+    } else {
+        return <ThreadComponent {...props} />
+    }
+};
+
+export default connector(Thread);

@@ -1,7 +1,5 @@
 import React, {FC, ReactNode, useEffect, useRef} from 'react';
 
-import style from './OutsideClickDetector.scss';
-
 type OutsideClickDetectorProps = {
     onOutsideClick: () => void;
     children: ReactNode;
@@ -20,10 +18,7 @@ const OutsideClickDetector: FC<OutsideClickDetectorProps> = ({onOutsideClick, ch
     }, [onOutsideClick]);
 
     return (
-        <div
-            ref={wrapper}
-            className={style.main}
-        >
+        <div ref={wrapper}>
             {children}
         </div>
     )

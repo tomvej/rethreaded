@@ -1,0 +1,61 @@
+@import "../variables";
+
+$margin: .6rem;
+$arrow: .8rem;
+
+.main {
+    margin: .3rem;
+}
+
+.children {
+    overflow: hidden;
+    background-color: $color-white;
+    border: 1px solid $color-grey;
+    border-radius: .3rem;
+}
+
+.bottom {
+    margin-top: $margin;
+}
+
+.top {
+    margin-bottom: $margin;
+}
+
+.left {
+    margin-right: $margin;
+}
+
+.right {
+    margin-left: $margin;
+}
+
+.arrow {
+    position: absolute;
+    border-style: solid;
+    border-color: transparent;
+}
+
+.bottom .arrow {
+    top: -$margin;
+    border-width: 0 $arrow $margin $arrow;
+    border-bottom-color: $color-grey;
+}
+
+.top .arrow {
+    bottom: -$margin;
+    border-width: $margin $arrow 0 $arrow;
+    border-top-color: $color-grey;
+}
+
+.left .arrow {
+    right: -$margin;
+    border-width: $arrow 0 $arrow $margin;
+    border-left-color: $color-grey;
+}
+
+.right .arrow {
+    left: -$margin;
+    border-width: $arrow $margin $arrow 0;
+    border-right-color: $color-grey;
+}

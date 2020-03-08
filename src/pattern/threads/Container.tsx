@@ -1,4 +1,5 @@
 import React, {FC} from 'react';
+import {Manager} from 'react-popper';
 
 import {FocusContainer} from '~containers';
 
@@ -12,8 +13,10 @@ const Container: FC = () => (
     <FocusContainer id={NAME} keyHandlers={shortcuts}>
         <section>
             <h1>Threads</h1>
-            <Threads />
-            <ColorPicker />
+            <Manager>
+                <Threads/>
+                <ColorPicker/>
+            </Manager>
         </section>
     </FocusContainer>
 );

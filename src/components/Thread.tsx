@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import React, {FC} from 'react';
+import React, {forwardRef, ForwardRefRenderFunction} from 'react';
 
 import {Color} from '~types';
 import {contrastRatio, fromHex, toHex} from '~utils/color';
@@ -16,7 +16,7 @@ type ThreadProps = {
 
 const black = fromHex('#000000'); // TODO import from scss?
 
-const Thread: FC<ThreadProps> = ({label, color, onClick, focus, active}) => (
+const Thread: ForwardRefRenderFunction<HTMLDivElement, ThreadProps> = ({label, color, onClick, focus, active}, ref?) => (
     <div
         className={classnames(style.main, {
             [style.dark]: contrastRatio(color, black) < 3,
@@ -25,9 +25,10 @@ const Thread: FC<ThreadProps> = ({label, color, onClick, focus, active}) => (
         })}
         style={{backgroundColor: toHex(color)}}
         onClick={onClick}
+        ref={ref}
     >
         {label}
     </div>
 );
 
-export default Thread;
+export default forwardRef(Thread);
