@@ -1,7 +1,7 @@
 import {Hole} from '~types';
 import {update} from '~utils/func';
 
-import {ADD_THREAD, SELECT_AND_APPLY_THREAD} from '../actions';
+import {ADD_THREAD, REMOVE_THREAD, SELECT_AND_APPLY_THREAD} from '../actions';
 import {SelectionState, Setup} from '../types';
 import {
     ActionType,
@@ -47,6 +47,8 @@ const reducer = (state: SelectionState = initial, action: ActionType, setup: Set
             });
         case ADD_THREAD:
             return update(state, 'thread', () => setup.threads);
+        case REMOVE_THREAD:
+            return update(state, 'thread', (thread) => thread > 0 ? thread - 1 : 0);
         default:
             return state;
     }

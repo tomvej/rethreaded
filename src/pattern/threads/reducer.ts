@@ -1,8 +1,9 @@
+import {REMOVE} from '~shortcuts';
 import {Color} from '~types';
 import {update} from '~utils/func';
 import palette from '~utils/palette';
 
-import {ADD_THREAD} from '../actions';
+import {ADD_THREAD, REMOVE_THREAD} from '../actions';
 import {SelectionState} from '../types';
 import {ActionType, SET_COLOR, TOGGLE_PICKER} from './actions';
 
@@ -27,6 +28,8 @@ const reducer = (state: StateType = initial, action: ActionType, selection: Sele
             return update(state, 'pickerVisible', () => action.visible);
         case ADD_THREAD:
             return update(state, 'colors', (colors) => colors.concat([palette[0]]));
+        case REMOVE_THREAD:
+            return update(state, 'colors', (colors) => colors.filter((_, index) => index !== selection.thread));
         default:
             return state;
     }
