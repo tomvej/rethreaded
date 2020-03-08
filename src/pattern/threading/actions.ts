@@ -1,4 +1,4 @@
-import {SelectAndApplyThreadActionType} from '../actions';
+import {ActionType as ParentActionType} from '../actions';
 import {FULL_NAME} from './constants';
 
 export const SET_S_THREADING = `${FULL_NAME}/set-s-threading` as 'set-s-threading';
@@ -45,6 +45,6 @@ export type ActionType =
     SetSThreadingActionType
     | SetZThreadingActionType
     | ApplyThreadActionType
-    | SelectAndApplyThreadActionType
     | ToggleThreadingActionType
     | TurnActionType
+    | ParentActionType

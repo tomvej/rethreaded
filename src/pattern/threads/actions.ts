@@ -1,5 +1,6 @@
 import {Color} from '~types';
 
+import {ActionType as ParentActionType} from '../actions';
 import {FULL_NAME} from './constants';
 
 export const SET_COLOR = `${FULL_NAME}/set-color` as 'set-color';
@@ -33,3 +34,4 @@ export const hidePicker = (): TogglePickerActionType => ({
 export type ActionType =
     SetColorActionType
     | TogglePickerActionType
+    | ParentActionType

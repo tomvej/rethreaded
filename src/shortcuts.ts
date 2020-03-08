@@ -13,6 +13,9 @@ export const APPLY = 'apply';
 export const CANCEL = 'cancel';
 export const TURN_FORWARD = 'turn-forward';
 export const TURN_BACKWARD = 'turn-backward';
+export const ADD = 'add';
+export const ADD_ALT = 'add-alt';
+export const REMOVE = 'remove';
 
 const shortcuts: {[command: string]: string | string[]} = {
     [UNDO]: 'ctrl+z',
@@ -29,7 +32,10 @@ const shortcuts: {[command: string]: string | string[]} = {
     [APPLY]: 'space',
     [CANCEL]: 'escape',
     [TURN_BACKWARD]: 'b',
-    [TURN_FORWARD]: 'f'
+    [TURN_FORWARD]: 'f',
+    [ADD]: 'ins',
+    [ADD_ALT]: 'shift+ins',
+    [REMOVE]: 'del'
 };
 
 export default shortcuts;

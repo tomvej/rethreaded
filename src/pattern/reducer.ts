@@ -1,4 +1,4 @@
-import {Action, ActionFromReducer} from 'redux';
+import {Action} from 'redux';
 
 import {Hole} from '~types';
 
@@ -20,22 +20,20 @@ const emptySelection = {
 };
 
 const initial = {
-    threads: threads.reducer(undefined, {} as ActionFromReducer<typeof threads.reducer>, emptySelection), // FIXME WTF?
+    threads: threads.reducer(undefined, {} as Action, emptySelection),
     threading: threading.reducer(undefined, {} as Action, emptySelection),
     selection: selection.reducer(undefined, {} as Action, {threads: 0, tablets: 0}),
 };
 
 // FIXME
 const reducer = (state: StateType = initial, action: Action): StateType => {
-    const nextSelection = selection.reducer(state.selection, action, {
-        threads: state.threads.colors.length,
-        tablets: state.threading.threading.length,
-    });
-
     return {
-        threads: threads.reducer(state.threads, action as ActionFromReducer<typeof threads.reducer>, nextSelection), // FIXME WTF?
-        threading: threading.reducer(state.threading, action, nextSelection),
-        selection: nextSelection,
+        threads: threads.reducer(state.threads, action, state.selection),
+        threading: threading.reducer(state.threading, action, state.selection),
+        selection: selection.reducer(state.selection, action, {
+            threads: state.threads.colors.length,
+            tablets: state.threading.threading.length,
+        }),
     };
 };
 
