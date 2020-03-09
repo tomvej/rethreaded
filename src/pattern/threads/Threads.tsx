@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import {RowLayout} from '~components';
 import {RootState} from '~reducer';
-import {seq} from '~utils/func';
+import {seq} from '~utils/array';
 
 import {getThreadNumber} from './selectors';
 import Thread from './Thread';

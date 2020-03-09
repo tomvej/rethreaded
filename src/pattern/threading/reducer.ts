@@ -1,6 +1,7 @@
 import {Hole, Tablet, ThreadingType} from '~types';
-import {insert, mapTablet, remove, seq, update, updateTablet} from '~utils/func';
+import {seq, update, insert, remove} from '~utils/array';
 import {combineContextReducers} from '~utils/redux';
+import {map as mapTablet, update as updateTablet} from '~utils/tablet';
 
 import {ADD_TABLET_AFTER, ADD_TABLET_BEFORE, REMOVE_TABLET, REMOVE_THREAD, SELECT_AND_APPLY_THREAD} from '../actions';
 import {Context} from '../types';
@@ -21,11 +22,11 @@ const initialThreading = Array(TABLET_NUMBER).fill(ThreadingType.S);
 const threading = (state = initialThreading, action: ActionType, {selection}: Context): Array<ThreadingType> => {
     switch (action.type) {
         case SET_S_THREADING:
-            return update(state, selection.tablet, () => ThreadingType.S);
+            return update(selection.tablet, () => ThreadingType.S)(state);
         case SET_Z_THREADING:
-            return update(state, selection.tablet, () => ThreadingType.Z);
+            return update(selection.tablet, () => ThreadingType.Z)(state);
         case TOGGLE_THREADING:
-            return update(state, action.tablet, toggleThreading);
+            return update(action.tablet, toggleThreading)(state);
         case ADD_TABLET_AFTER:
             return insert(state, selection.tablet + 1, state[selection.tablet]);
         case ADD_TABLET_BEFORE:
@@ -41,6 +42,12 @@ const getTurnedIndex = (index: number): number => {
     const normalized = index % 4;
     return normalized >= 0 ? normalized : 4 + normalized;
 };
+const turnTablet = (turns: number) => <T>(tablet: Tablet<T>): Tablet<T> => [
+    tablet[getTurnedIndex(Hole.A + turns)],
+    tablet[getTurnedIndex(Hole.B + turns)],
+    tablet[getTurnedIndex(Hole.C + turns)],
+    tablet[getTurnedIndex(Hole.D + turns)],
+];
 
 type ThreadsState = Array<Tablet<number>>;
 const initialThreads: ThreadsState = seq(TABLET_NUMBER).map(() => [0, 1, 2, 1]);
@@ -49,22 +56,17 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
         case APPLY_THREAD: {
             const newThread = action.thread ?? selection.thread;
             if (newThread < threads) {
-                return update(state, selection.tablet, (tablet) => updateTablet(tablet, selection.hole, () => newThread));
+                return update(selection.tablet, updateTablet(selection.hole, () => newThread))(state);
             } else {
                 return state;
             }
         }
         case SELECT_AND_APPLY_THREAD:
-            return update(state, action.tablet, (tablet) => updateTablet(tablet, action.hole, () => selection.thread));
+            return update(action.tablet, updateTablet(action.hole, () => selection.thread))(state);
         case TURN:
-            return update(state, selection.tablet, (tablet): Tablet<number> => [
-                tablet[getTurnedIndex(Hole.A + action.turns)],
-                tablet[getTurnedIndex(Hole.B + action.turns)],
-                tablet[getTurnedIndex(Hole.C + action.turns)],
-                tablet[getTurnedIndex(Hole.D + action.turns)],
-            ]);
+            return update(selection.tablet, turnTablet(action.turns))(state);
         case REMOVE_THREAD:
-            return state.map((tablet) => mapTablet(tablet, (thread) => (thread >= selection.thread && thread > 0) ? thread - 1 : thread));
+            return state.map(mapTablet((thread) => (thread >= selection.thread && thread > 0) ? thread - 1 : thread));
         case ADD_TABLET_AFTER:
             return insert(state, selection.tablet + 1, state[selection.tablet]);
         case ADD_TABLET_BEFORE:
