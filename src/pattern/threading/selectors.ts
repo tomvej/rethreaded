@@ -9,7 +9,8 @@ import {StateType} from './reducer';
 
 const getModel = (state: RootState): StateType => getParentModel(state)[NAME];
 
-export const getTabletNumber = (state: RootState): number => getModel(state).threading.length;
+export const getTabletNumberFromModel = (state: StateType): number => state.threading.length;
+export const getTabletNumber = (state: RootState): number => getTabletNumberFromModel(getModel(state));
 
 export const getThreading = (state: RootState, tablet: number): ThreadingType => getModel(state).threading[tablet];
 

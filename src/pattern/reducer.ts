@@ -5,7 +5,9 @@ import {combineContextReducers} from '~utils/redux';
 
 import {REMOVE_TABLET, REMOVE_THREAD} from './actions';
 import * as selection from './selection';
+import {getTabletNumberFromModel} from './threading';
 import * as threading from './threading';
+import {getThreadNumberFromModel} from './threads';
 import * as threads from './threads';
 
 const MIN_THREADS = 2;
@@ -38,8 +40,8 @@ const reducer = (state: StateType = initial, action: Action): StateType => {
 
     return baseReducer(state, action, {
         selection: state.selection,
-        threads: state.threads.colors.length,
-        tablets: state.threading.threading.length,
+        threads: getThreadNumberFromModel(state.threads),
+        tablets: getTabletNumberFromModel(state.threading),
     });
 };
 

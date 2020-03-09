@@ -11,7 +11,8 @@ const getModel = (state: RootState): StateType => getParentModel(state)[NAME];
 
 export const isFocused = (state: RootState): boolean => focus.isFocused(state, NAME);
 
-export const getThreadNumber = (state: RootState): number => getModel(state).colors.length;
+export const getThreadNumberFromModel = (state: StateType) => state.colors.length;
+export const getThreadNumber = (state: RootState): number => getThreadNumberFromModel(getModel(state));
 
 export const getColor = (state: RootState, thread: number): Color => getModel(state).colors[thread];
 
