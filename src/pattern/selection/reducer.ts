@@ -1,14 +1,8 @@
 import {Hole} from '~types';
 import {combineContextReducers} from '~utils/redux';
 
-import {
-    ADD_TABLET_AFTER,
-    ADD_THREAD,
-    REMOVE_TABLET,
-    REMOVE_THREAD,
-    SELECT_AND_APPLY_THREAD,
-} from '../actions';
-import {Setup} from '../types';
+import {ADD_TABLET_AFTER, ADD_THREAD, REMOVE_TABLET, REMOVE_THREAD, SELECT_AND_APPLY_THREAD} from '../actions';
+import {Context} from '../types';
 import {
     ActionType,
     NEXT_HOLE,
@@ -23,35 +17,35 @@ import {
 const increment = (max: number) => (value: number): number => value < max ? value + 1 : 0;
 const decrement = (max: number) => (value: number): number => value > 0 ? value - 1 : max;
 
-const thread = (state = 0, action: ActionType, setup: Setup): number => {
+const thread = (state = 0, action: ActionType, {threads}: Context): number => {
     switch (action.type) {
         case NEXT_THREAD:
-            return increment(setup.threads - 1)(state);
+            return increment(threads - 1)(state);
         case PREV_THREAD:
-            return decrement(setup.threads - 1)(state);
+            return decrement(threads - 1)(state);
         case SELECT_THREAD:
-            return action.thread < setup.threads ? action.thread : state;
+            return action.thread < threads ? action.thread : state;
         case ADD_THREAD:
-            return setup.threads;
+            return threads;
         case REMOVE_THREAD:
-            return Math.min(state, setup.threads - 1);
+            return Math.min(state, threads - 1);
         default:
             return state;
     }
 };
 
-const tablet = (state = 0, action: ActionType, setup: Setup): number => {
+const tablet = (state = 0, action: ActionType, {tablets}: Context): number => {
     switch (action.type) {
         case NEXT_TABLET:
-            return increment(setup.tablets - 1)(state);
+            return increment(tablets - 1)(state);
         case PREV_TABLET:
-            return decrement(setup.tablets - 1)(state);
+            return decrement(tablets - 1)(state);
         case SELECT_AND_APPLY_THREAD:
             return action.tablet;
         case ADD_TABLET_AFTER:
             return state + 1;
         case REMOVE_TABLET:
-            return Math.min(state, setup.tablets - 1);
+            return Math.min(state, tablets - 1);
         default:
             return state;
     }

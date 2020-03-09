@@ -6,7 +6,8 @@ export type SelectionState = {
     hole: Hole;
 }
 
-export type Setup = {
+export type Context = {
+    selection: SelectionState;
     threads: number;
     tablets: number;
 }

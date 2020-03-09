@@ -1,38 +1,41 @@
-import {REMOVE} from '~shortcuts';
 import {Color} from '~types';
 import {update} from '~utils/func';
 import palette from '~utils/palette';
+import {combineContextReducers} from '~utils/redux';
 
 import {ADD_THREAD, REMOVE_THREAD} from '../actions';
-import {SelectionState} from '../types';
+import {Context} from '../types';
 import {ActionType, SET_COLOR, TOGGLE_PICKER} from './actions';
 
-export type StateType = {
+export type StateType = { // TODO remove
     colors: Array<Color>; // TODO should be ReadonlyArray, but that has problems with length
     pickerVisible: boolean;
 }
 
-const initial = {
-    colors: [palette[40], palette[0], palette[23]],
-    pickerVisible: false
-};
+const initialColors  = [palette[40], palette[0], palette[23]];
 
-const reducer = (state: StateType = initial, action: ActionType, selection: SelectionState): StateType => {
+const colors = (state = initialColors, action: ActionType, {selection}: Context): Array<Color> => {
     switch (action.type) {
         case SET_COLOR:
-            return {
-                colors: update(state.colors, selection.thread, () => action.color),
-                pickerVisible: false,
-            };
-        case TOGGLE_PICKER:
-            return update(state, 'pickerVisible', () => action.visible);
+            return update(state, selection.thread, () => action.color);
         case ADD_THREAD:
-            return update(state, 'colors', (colors) => colors.concat([palette[0]]));
+            return state.concat([palette[0]]); // TODO unify
         case REMOVE_THREAD:
-            return update(state, 'colors', (colors) => colors.filter((_, index) => index !== selection.thread));
+            return state.filter((_, index) => index !== selection.thread); // TODO unify
         default:
             return state;
     }
 };
 
-export default reducer;
+const pickerVisible = (state = false, action: ActionType): boolean => {
+    switch (action.type) {
+        case SET_COLOR:
+            return false;
+        case TOGGLE_PICKER:
+            return action.visible;
+        default:
+            return state;
+    }
+};
+
+export default combineContextReducers({colors, pickerVisible});
