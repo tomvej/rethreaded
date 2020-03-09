@@ -1,4 +1,5 @@
 import {Hole} from '~types';
+import {decrement, increment} from '~utils/func';
 import {combineContextReducers} from '~utils/redux';
 
 import {ADD_TABLET_AFTER, ADD_THREAD, REMOVE_TABLET, REMOVE_THREAD, SELECT_AND_APPLY_THREAD} from '../actions';
@@ -14,15 +15,12 @@ import {
     SELECT_THREAD,
 } from './actions';
 
-const increment = (max: number) => (value: number): number => value < max ? value + 1 : 0;
-const decrement = (max: number) => (value: number): number => value > 0 ? value - 1 : max;
-
 const thread = (state = 0, action: ActionType, {threads}: Context): number => {
     switch (action.type) {
         case NEXT_THREAD:
-            return increment(threads - 1)(state);
+            return increment(threads)(state);
         case PREV_THREAD:
-            return decrement(threads - 1)(state);
+            return decrement(threads)(state);
         case SELECT_THREAD:
             return action.thread < threads ? action.thread : state;
         case ADD_THREAD:
@@ -37,9 +35,9 @@ const thread = (state = 0, action: ActionType, {threads}: Context): number => {
 const tablet = (state = 0, action: ActionType, {tablets}: Context): number => {
     switch (action.type) {
         case NEXT_TABLET:
-            return increment(tablets - 1)(state);
+            return increment(tablets)(state);
         case PREV_TABLET:
-            return decrement(tablets - 1)(state);
+            return decrement(tablets)(state);
         case SELECT_AND_APPLY_THREAD:
             return action.tablet;
         case ADD_TABLET_AFTER:

@@ -2,6 +2,9 @@ import {Hole, Tablet} from '~types';
 
 export const noop = (): void => {/* do nothing */};
 
+export const increment = (limit: number) => (value: number) => value < limit - 1 ? value + 1 : 0;
+export const decrement = (limit: number) => (value: number) => value > 0 ? value - 1 : limit - 1;
+
 export const seq = (length: number): number[] => Array.from({length}).map((_, index) => index);
 
 export function update<T, K extends keyof T>(object: T, index: K, updater: (value: T[K]) => T[K]): T;

@@ -4,13 +4,10 @@ import {ColorPicker as ColorPickerComponent} from '~components';
 import {APPLY, CANCEL, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, MOVE_UP} from '~shortcuts';
 import {Color} from '~types';
 import {isEqual, toHex} from '~utils/color';
-import {aperture} from '~utils/func';
+import {aperture, decrement, increment} from '~utils/func';
 import palette from '~utils/palette';
 
 import ModalContainer from './ModalContainer';
-
-const increment = (max: number) => (value: number): number => value < max - 1 ? value + 1 : 0;
-const decrement = (max: number) => (value: number): number => value > 0 ? value - 1 : max - 1;
 
 type ColorPickerProps = {
     onColorChange: (color: Color) => void;
