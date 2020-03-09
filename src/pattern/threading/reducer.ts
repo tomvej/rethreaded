@@ -8,11 +8,6 @@ import {ActionType, APPLY_THREAD, SET_S_THREADING, SET_Z_THREADING, TOGGLE_THREA
 
 const TABLET_NUMBER = 8;
 
-export type StateType = { // TODO remove
-    threading: Array<ThreadingType>;
-    threads: Array<Tablet<number>>;
-}
-
 const toggleThreading = (threading: ThreadingType): ThreadingType => {
     switch (threading) {
         case ThreadingType.S:
@@ -81,4 +76,6 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
     }
 };
 
-export default combineContextReducers({threads, threading});
+const reducer = combineContextReducers({threads, threading});
+export type StateType = ReturnType<typeof reducer>;
+export default reducer;

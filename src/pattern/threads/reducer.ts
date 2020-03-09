@@ -7,11 +7,6 @@ import {ADD_THREAD, REMOVE_THREAD} from '../actions';
 import {Context} from '../types';
 import {ActionType, SET_COLOR, TOGGLE_PICKER} from './actions';
 
-export type StateType = { // TODO remove
-    colors: Array<Color>; // TODO should be ReadonlyArray, but that has problems with length
-    pickerVisible: boolean;
-}
-
 const initialColors  = [palette[40], palette[0], palette[23]];
 
 const colors = (state = initialColors, action: ActionType, {selection}: Context): Array<Color> => {
@@ -38,4 +33,6 @@ const pickerVisible = (state = false, action: ActionType): boolean => {
     }
 };
 
-export default combineContextReducers({colors, pickerVisible});
+const reducer = combineContextReducers({colors, pickerVisible});
+export type StateType = ReturnType<typeof reducer>;
+export default reducer;
