@@ -1,5 +1,5 @@
 import {Hole} from '~types';
-import {update} from '~utils/func';
+import {combineContextReducers} from '~utils/redux';
 
 import {
     ADD_TABLET_AFTER,
@@ -8,7 +8,7 @@ import {
     REMOVE_THREAD,
     SELECT_AND_APPLY_THREAD,
 } from '../actions';
-import {SelectionState, Setup} from '../types';
+import {Setup} from '../types';
 import {
     ActionType,
     NEXT_HOLE,
@@ -20,48 +20,54 @@ import {
     SELECT_THREAD,
 } from './actions';
 
-const initial = {
-    thread: 0,
-    tablet: 0,
-    hole: Hole.A,
-};
-
 const increment = (max: number) => (value: number): number => value < max ? value + 1 : 0;
 const decrement = (max: number) => (value: number): number => value > 0 ? value - 1 : max;
 
-const reducer = (state: SelectionState = initial, action: ActionType, setup: Setup): SelectionState => {
+const thread = (state = 0, action: ActionType, setup: Setup): number => {
     switch (action.type) {
-        case NEXT_HOLE:
-            return update(state, 'hole', (hole) => hole !== Hole.D ? hole + 1 : Hole.A);
-        case PREV_HOLE:
-            return update(state, 'hole', (hole) => hole !== Hole.A ? hole - 1 : Hole.D);
-        case NEXT_TABLET:
-            return update(state, 'tablet', increment(setup.tablets - 1));
-        case PREV_TABLET:
-            return update(state, 'tablet', decrement(setup.tablets - 1));
         case NEXT_THREAD:
-            return update(state, 'thread', increment(setup.threads - 1));
+            return increment(setup.threads - 1)(state);
         case PREV_THREAD:
-            return update(state, 'thread', decrement(setup.threads - 1));
+            return decrement(setup.threads - 1)(state);
         case SELECT_THREAD:
-            return update(state, 'thread', (thread) => action.thread < setup.threads ? action.thread : thread);
-        case SELECT_AND_APPLY_THREAD:
-            return ({
-                ...state,
-                tablet: action.tablet,
-                hole: action.hole,
-            });
+            return action.thread < setup.threads ? action.thread : state;
         case ADD_THREAD:
-            return update(state, 'thread', () => setup.threads);
+            return setup.threads;
         case REMOVE_THREAD:
-            return update(state, 'thread', (thread) => thread < setup.threads - 1 ? thread : thread - 1);
-        case ADD_TABLET_AFTER:
-            return update(state, 'tablet', (tablet) => tablet + 1);
-        case REMOVE_TABLET:
-            return update(state, 'tablet', (tablet) => tablet < setup.tablets - 1 ? tablet : tablet - 1);
+            return Math.min(state, setup.threads - 1);
         default:
             return state;
     }
 };
 
-export default reducer;
+const tablet = (state = 0, action: ActionType, setup: Setup): number => {
+    switch (action.type) {
+        case NEXT_TABLET:
+            return increment(setup.tablets - 1)(state);
+        case PREV_TABLET:
+            return decrement(setup.tablets - 1)(state);
+        case SELECT_AND_APPLY_THREAD:
+            return action.tablet;
+        case ADD_TABLET_AFTER:
+            return state + 1;
+        case REMOVE_TABLET:
+            return Math.min(state, setup.tablets - 1);
+        default:
+            return state;
+    }
+};
+
+const hole = (state = Hole.A, action: ActionType): Hole => {
+    switch (action.type) {
+        case NEXT_HOLE:
+            return state !== Hole.D ? state + 1 : Hole.A;
+        case PREV_HOLE:
+            return state !== Hole.A ? state - 1 : Hole.D;
+        case SELECT_AND_APPLY_THREAD:
+            return action.hole;
+        default:
+            return state;
+    }
+};
+
+export default combineContextReducers({thread, tablet, hole});
