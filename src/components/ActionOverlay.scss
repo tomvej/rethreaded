@@ -1,0 +1,62 @@
+.main {
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    display: none;
+}
+
+.main:hover .overlay {
+    display: block;
+    z-index: 1;
+}
+
+.topLeft {
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+}
+
+.topRight {
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+}
+
+.bottomLeft {
+    bottom: 0;
+    left: 0;
+    transform: translate(-50%, 50%);
+}
+
+.bottomRight {
+    bottom: 0;
+    right: 0;
+    transform: translate(50%, 50%);
+}
+
+.top {
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.right {
+    right: 0;
+    top: 50%;
+    transform: translate(50%, -50%);
+}
+
+.left {
+    left: 0;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.bottom {
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 50%);
+}
+
