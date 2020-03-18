@@ -70,7 +70,7 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
         case TURN:
             return update(selection.tablet, turnTablet(action.turns))(state);
         case REMOVE_THREAD:
-            return state.map(mapTablet((thread) => (thread >= selection.thread && thread > 0) ? thread - 1 : thread));
+            return state.map(mapTablet((thread) => (thread >= (action.thread ?? selection.thread) && thread > 0) ? thread - 1 : thread));
         case ADD_TABLET_AFTER: {
             const tablet = action.tablet ?? selection.tablet;
             return insert(state, tablet + 1, state[tablet]);

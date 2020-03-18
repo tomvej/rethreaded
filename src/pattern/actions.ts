@@ -21,6 +21,7 @@ export interface AddThreadActionType {
 
 export interface RemoveThreadActionType {
     type: typeof REMOVE_THREAD;
+    thread: number | undefined;
 }
 
 export interface AddTabletAfterActionType {
@@ -46,7 +47,7 @@ export const selectAndApplyThread = (tablet: number, hole: Hole): SelectAndApply
 
 export const addThread = (): AddThreadActionType => ({type: ADD_THREAD});
 
-export const removeThread = (): RemoveThreadActionType => ({type: REMOVE_THREAD});
+export const removeThread = (thread?: number): RemoveThreadActionType => ({type: REMOVE_THREAD, thread});
 
 export const addTabletAfter = (tablet?: number): AddTabletAfterActionType => ({type: ADD_TABLET_AFTER, tablet});
 

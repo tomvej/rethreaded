@@ -17,7 +17,7 @@ type DispatchProps = {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch, {thread}: OwnProps) => ({
-    remove: () => dispatch(removeThread()),
+    remove: () => dispatch(removeThread(thread)),
 });
 
 const RemoveOverlay: FC<DispatchProps> = ({remove, children}) => (
