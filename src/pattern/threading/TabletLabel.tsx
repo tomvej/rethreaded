@@ -4,6 +4,8 @@ import {Dispatch} from 'redux';
 
 import {ActionIcon, ActionOverlay, CellLabel} from '~components';
 
+import {addTabletAfter, addTabletBefore, removeTablet} from '../actions';
+
 type OwnProps = {
     tablet: number;
 }
@@ -15,9 +17,9 @@ type DispatchProps = {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch, {tablet}: OwnProps): DispatchProps => ({
-    addBefore: () => console.log('add before', tablet),
-    addAfter: () => console.log('add after', tablet),
-    remove: () => console.log('remove', tablet),
+    addBefore: () => dispatch(addTabletBefore(tablet)),
+    addAfter: () => dispatch(addTabletAfter(tablet)),
+    remove: () => dispatch(removeTablet(tablet)),
 });
 
 const TabletLabel: FC<DispatchProps & OwnProps> = ({tablet, addBefore, addAfter, remove}) => (

@@ -2,7 +2,14 @@ import {Hole} from '~types';
 import {decrement, increment} from '~utils/func';
 import {combineContextReducers} from '~utils/redux';
 
-import {ADD_TABLET_AFTER, ADD_THREAD, REMOVE_TABLET, REMOVE_THREAD, SELECT_AND_APPLY_THREAD} from '../actions';
+import {
+    ADD_TABLET_AFTER,
+    ADD_TABLET_BEFORE,
+    ADD_THREAD,
+    REMOVE_TABLET,
+    REMOVE_THREAD,
+    SELECT_AND_APPLY_THREAD,
+} from '../actions';
 import {Context} from '../types';
 import {
     ActionType,
@@ -40,8 +47,10 @@ const tablet = (state = 0, action: ActionType, {tablets}: Context): number => {
             return decrement(tablets)(state);
         case SELECT_AND_APPLY_THREAD:
             return action.tablet;
+        case ADD_TABLET_BEFORE:
+            return action.tablet ?? state;
         case ADD_TABLET_AFTER:
-            return state + 1;
+            return (action.tablet ?? state) + 1;
         case REMOVE_TABLET:
             return Math.min(state, tablets - 1);
         default:

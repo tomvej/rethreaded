@@ -1,5 +1,5 @@
 import {Hole, Tablet, ThreadingType} from '~types';
-import {seq, update, insert, remove} from '~utils/array';
+import {insert, remove, seq, update} from '~utils/array';
 import {combineContextReducers} from '~utils/redux';
 import {map as mapTablet, update as updateTablet} from '~utils/tablet';
 
@@ -27,12 +27,16 @@ const threading = (state = initialThreading, action: ActionType, {selection}: Co
             return update(selection.tablet, () => ThreadingType.Z)(state);
         case TOGGLE_THREADING:
             return update(action.tablet, toggleThreading)(state);
-        case ADD_TABLET_AFTER:
-            return insert(state, selection.tablet + 1, state[selection.tablet]);
-        case ADD_TABLET_BEFORE:
-            return insert(state, selection.tablet, state[selection.tablet]);
+        case ADD_TABLET_AFTER: {
+            const tablet = action.tablet ?? selection.tablet;
+            return insert(state, tablet + 1, state[tablet]);
+        }
+        case ADD_TABLET_BEFORE: {
+            const tablet = action.tablet ?? selection.tablet;
+            return insert(state, tablet, state[tablet]);
+        }
         case REMOVE_TABLET:
-            return remove(state, selection.tablet);
+            return remove(state, action.tablet ?? selection.tablet);
         default:
             return state;
     }
@@ -67,12 +71,16 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
             return update(selection.tablet, turnTablet(action.turns))(state);
         case REMOVE_THREAD:
             return state.map(mapTablet((thread) => (thread >= selection.thread && thread > 0) ? thread - 1 : thread));
-        case ADD_TABLET_AFTER:
-            return insert(state, selection.tablet + 1, state[selection.tablet]);
-        case ADD_TABLET_BEFORE:
-            return insert(state, selection.tablet, state[selection.tablet]);
+        case ADD_TABLET_AFTER: {
+            const tablet = action.tablet ?? selection.tablet;
+            return insert(state, tablet + 1, state[tablet]);
+        }
+        case ADD_TABLET_BEFORE: {
+            const tablet = action.tablet ?? selection.tablet;
+            return insert(state, tablet, state[tablet]);
+        }
         case REMOVE_TABLET:
-            return remove(state, selection.tablet);
+            return remove(state, action.tablet ?? selection.tablet);
         default:
             return state;
     }

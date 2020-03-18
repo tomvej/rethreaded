@@ -25,14 +25,17 @@ export interface RemoveThreadActionType {
 
 export interface AddTabletAfterActionType {
     type: typeof ADD_TABLET_AFTER;
+    tablet: number | undefined;
 }
 
 export interface AddTabletBeforeActionType {
     type: typeof ADD_TABLET_BEFORE;
+    tablet: number | undefined;
 }
 
 export interface RemoveTabletActionType {
     type: typeof REMOVE_TABLET;
+    tablet: number | undefined;
 }
 
 export const selectAndApplyThread = (tablet: number, hole: Hole): SelectAndApplyThreadActionType => ({
@@ -45,11 +48,11 @@ export const addThread = (): AddThreadActionType => ({type: ADD_THREAD});
 
 export const removeThread = (): RemoveThreadActionType => ({type: REMOVE_THREAD});
 
-export const addTabletAfter = (): AddTabletAfterActionType => ({type: ADD_TABLET_AFTER});
+export const addTabletAfter = (tablet?: number): AddTabletAfterActionType => ({type: ADD_TABLET_AFTER, tablet});
 
-export const addTabletBefore = (): AddTabletBeforeActionType => ({type: ADD_TABLET_BEFORE});
+export const addTabletBefore = (tablet?: number): AddTabletBeforeActionType => ({type: ADD_TABLET_BEFORE, tablet});
 
-export const removeTablet = (): RemoveTabletActionType => ({type: REMOVE_TABLET});
+export const removeTablet = (tablet?: number): RemoveTabletActionType => ({type: REMOVE_TABLET, tablet});
 
 export type ActionType =
     SelectAndApplyThreadActionType
