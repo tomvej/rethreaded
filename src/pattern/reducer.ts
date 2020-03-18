@@ -4,19 +4,19 @@ import {Hole} from '~types';
 import {combineContextReducers} from '~utils/redux';
 
 import {REMOVE_TABLET, REMOVE_THREAD} from './actions';
+import {MIN_TABLETS, MIN_THREADS} from './constants';
 import * as selection from './selection';
-import {getTabletNumberFromModel} from './threading';
 import * as threading from './threading';
-import {getThreadNumberFromModel} from './threads';
+import {getTabletNumberFromModel} from './threading';
 import * as threads from './threads';
-
-const MIN_THREADS = 2;
-const MIN_TABLETS = 4;
+import {getThreadNumberFromModel} from './threads';
+import * as weaving from './weaving';
 
 const baseReducer = combineContextReducers({
     [threads.NAME]: threads.reducer,
     [threading.NAME]: threading.reducer,
     [selection.NAME]: selection.reducer,
+    [weaving.NAME]: weaving.reducer,
 });
 export type StateType = ReturnType<typeof baseReducer>;
 

@@ -4,10 +4,9 @@ import {combineContextReducers} from '~utils/redux';
 import {map as mapTablet, update as updateTablet} from '~utils/tablet';
 
 import {ADD_TABLET_AFTER, ADD_TABLET_BEFORE, REMOVE_TABLET, REMOVE_THREAD, SELECT_AND_APPLY_THREAD} from '../actions';
+import {INIT_TABLET_NUMBER} from '../constants';
 import {Context} from '../types';
 import {ActionType, APPLY_THREAD, SET_S_THREADING, SET_Z_THREADING, TOGGLE_THREADING, TURN} from './actions';
-
-const TABLET_NUMBER = 8;
 
 const toggleThreading = (threading: ThreadingType): ThreadingType => {
     switch (threading) {
@@ -18,7 +17,7 @@ const toggleThreading = (threading: ThreadingType): ThreadingType => {
     }
 };
 
-const initialThreading = Array(TABLET_NUMBER).fill(ThreadingType.S);
+const initialThreading = Array(INIT_TABLET_NUMBER).fill(ThreadingType.S);
 const threading = (state = initialThreading, action: ActionType, {selection}: Context): Array<ThreadingType> => {
     switch (action.type) {
         case SET_S_THREADING:
@@ -54,7 +53,7 @@ const turnTablet = (turns: number) => <T>(tablet: Tablet<T>): Tablet<T> => [
 ];
 
 type ThreadsState = Array<Tablet<number>>;
-const initialThreads: ThreadsState = seq(TABLET_NUMBER).map(() => [0, 1, 2, 1]);
+const initialThreads: ThreadsState = seq(INIT_TABLET_NUMBER).map(() => [0, 1, 2, 1]);
 const threads = (state = initialThreads, action: ActionType, {selection, threads}: Context): ThreadsState => {
     switch (action.type) {
         case APPLY_THREAD: {
