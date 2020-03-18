@@ -30,6 +30,9 @@
     "webpack-dev-server": "3.10.3"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "1.2.27",
+    "@fortawesome/free-solid-svg-icons": "5.12.1",
+    "@fortawesome/react-fontawesome": "0.1.9",
     "@types/classnames": "2.2.10",
     "@types/mousetrap": "1.6.3",
     "@types/popper.js": "1.11.0",

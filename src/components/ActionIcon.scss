@@ -1,0 +1,18 @@
+@import "../variables";
+
+.main {
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+.main:hover {
+    transform: scale(1.1);
+}
+
+.add {
+    color: $color-add;
+}
+
+.remove {
+    color: $color-remove;
+}
