@@ -3,11 +3,10 @@ import {Dispatch} from 'redux';
 
 import {ThreadingCell} from '~components';
 import {RootState} from '~reducer';
-import {fromHex} from '~utils/color';
 
 import {selectAndToggleDirection} from '../actions';
 import {getThreading} from '../threading';
-import {getDirection} from './selectors';
+import {getDirection, getPatternColor} from './selectors';
 
 type OwnProps = {
     tablet: number;
@@ -17,11 +16,11 @@ type OwnProps = {
 const mapStateToProps = (state: RootState, {tablet, row}: OwnProps) => ({
     threading: getThreading(state, tablet),
     direction: getDirection(state, row, tablet),
+    color: getPatternColor(state, tablet, row),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch, {tablet, row}: OwnProps) => ({
     focus: false,
-    color: fromHex('#000000'),
     onClick: () => dispatch(selectAndToggleDirection(tablet, row)),
 });
 
