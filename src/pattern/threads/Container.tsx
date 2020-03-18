@@ -3,6 +3,7 @@ import {Manager} from 'react-popper';
 
 import {FocusContainer} from '~containers';
 
+import AddOverlay from './AddOverlay';
 import ColorPicker from './ColorPicker';
 import {NAME} from './constants';
 import shortcuts from './shortcuts';
@@ -14,7 +15,9 @@ const Container: FC = () => (
         <section>
             <h1>Threads</h1>
             <Manager>
-                <Threads/>
+                <AddOverlay>
+                    <Threads/>
+                </AddOverlay>
                 <ColorPicker/>
             </Manager>
         </section>
