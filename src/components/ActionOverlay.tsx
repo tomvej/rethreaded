@@ -13,6 +13,7 @@ type ActionOverlayPropTypes = {
     left?: ReactNode;
     bottom?: ReactNode;
     right?: ReactNode;
+    fill?: boolean;
 };
 
 
@@ -25,9 +26,12 @@ const ActionOverlay: FC<ActionOverlayPropTypes> = ({
     left,
     bottom,
     right,
+    fill,
     children,
 }) => (
-    <div className={style.main}>
+    <div className={classnames(style.main, {
+        [style.fill]: fill,
+    })}>
         {children}
         {topLeft && <div className={classnames(style.overlay, style.topLeft)}>{topLeft}</div>}
         {topRight && <div className={classnames(style.overlay, style.topRight)}>{topRight}</div>}

@@ -9,6 +9,7 @@ import {seq} from '~utils/array';
 import {HoleLabel} from '../components';
 import Cell from './Cell';
 import {getTabletNumber} from './selectors';
+import TabletLabel from './TabletLabel';
 import ThreadingSwitch from './ThreadingSwitch';
 
 const mapStateToProps = (state: RootState) => ({
@@ -23,7 +24,7 @@ const Cells: FC<StateProps> = ({tablets}) => (
         rows={[Hole.A, Hole.B, Hole.C, Hole.D]}
         tablets={seq(tablets)}
         leftMarginComponent={HoleLabel}
-        topMarginComponent={({tablet}) => <div>{String(tablet + 1)}</div>}
+        topMarginComponent={TabletLabel}
         bottomMarginComponent={ThreadingSwitch}
     />
 );

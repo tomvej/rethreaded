@@ -7,3 +7,6 @@ export {default as TabletLine} from './TabletLine';
 export {default as ColorPicker} from './ColorPicker';
 export {default as OutsideClickDetector} from './OutsideClickDetector';
 export {default as Popup} from './Popup';
+export {default as ActionIcon} from './ActionIcon';
+export {default as ActionOverlay} from './ActionOverlay';
+export {default as CellLabel} from './CellLabel';
