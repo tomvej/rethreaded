@@ -11,6 +11,7 @@
         "baseUrl": ".",
         "paths": {
             "~components": ["src/components"],
+            "~components/*": ["src/components/*"],
             "~containers": ["src/containers"],
             "~types": ["src/types"],
             "~reducer": ["src/reducer"],
