@@ -3,8 +3,8 @@ import {Action} from 'redux';
 import {Hole} from '~types';
 import {combineContextReducers} from '~utils/redux';
 
-import {REMOVE_TABLET, REMOVE_THREAD} from './actions';
-import {MIN_TABLETS, MIN_THREADS} from './constants';
+import {REMOVE_ROW, REMOVE_TABLET, REMOVE_THREAD} from './actions';
+import {MIN_ROWS, MIN_TABLETS, MIN_THREADS} from './constants';
 import * as selection from './selection';
 import * as threading from './threading';
 import {getTabletNumberFromModel} from './threading';
@@ -34,10 +34,13 @@ const emptyContext = {
 };
 const initial = baseReducer(undefined, {} as Action, emptyContext);
 const reducer = (state: StateType = initial, action: Action): StateType => {
-    if (action.type === REMOVE_THREAD && state.threads.colors.length <= MIN_THREADS) {
+    if (action.type === REMOVE_THREAD && getThreadNumberFromModel(state.threads) <= MIN_THREADS) {
         return state;
     }
-    if (action.type === REMOVE_TABLET && state.threading.threading.length <= MIN_TABLETS) {
+    if (action.type === REMOVE_TABLET && getTabletNumberFromModel(state.threading) <= MIN_TABLETS) {
+        return state;
+    }
+    if (action.type === REMOVE_ROW && getRowNumberFromModel(state.weaving) <= MIN_ROWS) {
         return state;
     }
 

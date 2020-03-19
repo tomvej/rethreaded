@@ -1,6 +1,18 @@
-import {APPLY, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, MOVE_UP, TURN_BACKWARD, TURN_FORWARD} from '~shortcuts';
+import {
+    ADD,
+    ADD_ALT,
+    APPLY,
+    MOVE_DOWN,
+    MOVE_LEFT,
+    MOVE_RIGHT,
+    MOVE_UP,
+    REMOVE,
+    TURN_BACKWARD,
+    TURN_FORWARD,
+} from '~shortcuts';
 import {Direction} from '~types';
 
+import {addRowAfter, addRowBefore, removeRow} from '../actions';
 import {selectNextRow, selectNextTablet, selectPrevRow, selectPrevTablet} from '../selection';
 import {setDirection, toggleDirection} from './actions';
 
@@ -12,4 +24,7 @@ export default {
     [APPLY]: toggleDirection,
     [TURN_FORWARD]: () => setDirection(Direction.Forward),
     [TURN_BACKWARD]: () => setDirection(Direction.Backward),
+    [ADD]: addRowAfter,
+    [ADD_ALT]: addRowBefore,
+    [REMOVE]: removeRow,
 }

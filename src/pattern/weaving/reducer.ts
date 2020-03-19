@@ -1,7 +1,13 @@
 import {Direction} from '~types';
 import {insert, remove, seq, update} from '~utils/array';
 
-import {ADD_TABLET_AFTER, ADD_TABLET_BEFORE, REMOVE_TABLET, SELECT_AND_TOGGLE_DIRECTION} from '../actions';
+import {
+    ADD_ROW_AFTER, ADD_ROW_BEFORE,
+    ADD_TABLET_AFTER,
+    ADD_TABLET_BEFORE, REMOVE_ROW,
+    REMOVE_TABLET,
+    SELECT_AND_TOGGLE_DIRECTION,
+} from '../actions';
 import {INIT_TABLET_NUMBER} from '../constants';
 import {Context} from '../types';
 import {ActionType, SET_DIRECTION, TOGGLE_DIRECTION} from './actions';
@@ -37,6 +43,12 @@ export default (state: StateType = initState, action: ActionType, {selection}: C
         }
         case REMOVE_TABLET:
             return state.map(remove(action.tablet ?? selection.tablet));
+        case ADD_ROW_AFTER:
+            return insert(state, selection.row + 1, state[selection.row]);
+        case ADD_ROW_BEFORE:
+            return insert(state, selection.row, state[selection.row]);
+        case REMOVE_ROW:
+            return remove(selection.row)(state);
         default:
             return state;
     }

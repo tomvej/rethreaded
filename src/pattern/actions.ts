@@ -9,6 +9,9 @@ export const ADD_TABLET_AFTER = `${NAME}/add-tablet-after` as 'add-tablet-after'
 export const ADD_TABLET_BEFORE = `${NAME}/add-tablet-before` as 'add-tablet-before';
 export const REMOVE_TABLET = `${NAME}/remove-tablet` as 'remove-tablet';
 export const SELECT_AND_TOGGLE_DIRECTION = `${NAME}/select-toggle-direction` as 'select-toggle-direction';
+export const ADD_ROW_AFTER = `${NAME}/add-row-after` as 'add-row-after';
+export const ADD_ROW_BEFORE = `${NAME}/add-row-before` as 'add-row-before';
+export const REMOVE_ROW = `${NAME}/remove-row` as 'remove-row';
 
 export interface SelectAndApplyThreadActionType {
     type: typeof SELECT_AND_APPLY_THREAD;
@@ -46,6 +49,18 @@ export interface SelectAndToggleDirectionActionType {
     row: number;
 }
 
+export interface AddRowAfterActionType {
+    type: typeof ADD_ROW_AFTER;
+}
+
+export interface AddRowBeforeActionType {
+    type: typeof ADD_ROW_BEFORE;
+}
+
+export interface RemoveRowActionType {
+    type: typeof REMOVE_ROW;
+}
+
 export const selectAndApplyThread = (tablet: number, hole: Hole): SelectAndApplyThreadActionType => ({
     type: SELECT_AND_APPLY_THREAD,
     tablet,
@@ -68,6 +83,10 @@ export const selectAndToggleDirection = (tablet: number, row: number): SelectAnd
     row,
 });
 
+export const addRowAfter = (): AddRowAfterActionType => ({type: ADD_ROW_AFTER});
+export const addRowBefore = (): AddRowBeforeActionType => ({type: ADD_ROW_BEFORE});
+export const removeRow = (): RemoveRowActionType => ({type: REMOVE_ROW});
+
 export type ActionType =
     SelectAndApplyThreadActionType
     | AddThreadActionType
@@ -76,3 +95,6 @@ export type ActionType =
     | AddTabletBeforeActionType
     | RemoveTabletActionType
     | SelectAndToggleDirectionActionType
+    | AddRowAfterActionType
+    | AddRowBeforeActionType
+    | RemoveRowActionType

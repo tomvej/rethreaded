@@ -3,9 +3,10 @@ import {decrement, increment} from '~utils/func';
 import {combineContextReducers} from '~utils/redux';
 
 import {
+    ADD_ROW_AFTER,
     ADD_TABLET_AFTER,
     ADD_TABLET_BEFORE,
-    ADD_THREAD,
+    ADD_THREAD, REMOVE_ROW,
     REMOVE_TABLET,
     REMOVE_THREAD,
     SELECT_AND_APPLY_THREAD, SELECT_AND_TOGGLE_DIRECTION,
@@ -33,7 +34,7 @@ const thread = (state = 0, action: ActionType, {threads}: Context): number => {
         case ADD_THREAD:
             return threads;
         case REMOVE_THREAD:
-            return Math.min(state, threads - 1);
+            return Math.min(state, threads - 2);
         default:
             return state;
     }
@@ -52,7 +53,7 @@ const tablet = (state = 0, action: ActionType, {tablets}: Context): number => {
         case ADD_TABLET_AFTER:
             return (action.tablet ?? state) + 1;
         case REMOVE_TABLET:
-            return Math.min(state, tablets - 1);
+            return Math.min(state, tablets - 2);
         case SELECT_AND_TOGGLE_DIRECTION:
             return action.tablet;
         default:
@@ -81,6 +82,10 @@ const row = (state = 0, action: ActionType, {rows}: Context): number => {
             return decrement(rows)(state);
         case NEXT_ROW:
             return increment(rows)(state);
+        case ADD_ROW_AFTER:
+            return state + 1;
+        case REMOVE_ROW:
+            return Math.min(state, rows - 2);
         default:
             return state;
     }
