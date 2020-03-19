@@ -31,7 +31,7 @@ export default (state: StateType = initState, action: ActionType, {selection}: C
             return state.map((row) => insert(row, tablet, row[tablet]));
         }
         case REMOVE_TABLET:
-            return state.map((row) => remove(row, action.tablet ?? selection.tablet));
+            return state.map(remove(action.tablet ?? selection.tablet));
         default:
             return state;
     }

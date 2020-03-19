@@ -16,7 +16,7 @@ const colors = (state = initialColors, action: ActionType, {selection}: Context)
         case ADD_THREAD:
             return append(state, palette[0]);
         case REMOVE_THREAD:
-            return remove(state, action.thread ?? selection.thread);
+            return remove(action.thread ?? selection.thread)(state);
         default:
             return state;
     }

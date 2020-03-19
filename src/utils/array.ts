@@ -7,6 +7,6 @@ export const update = <T>(index: number, updater: (item: T) => T) => (array: Arr
 
 export const insert = <T>(array: Array<T>, index: number, item: T): Array<T> => array.slice(0, index).concat([item], array.slice(index));
 
-export const remove = <T>(array: Array<T>, index: number) => array.filter((_, i) => i !== index);
+export const remove = (index: number) => <T>(array: Array<T>): Array<T> => array.filter((_, i) => i !== index);
 
 export const append = <T>(array: Array<T>, item: T): Array<T> => array.concat([item]);

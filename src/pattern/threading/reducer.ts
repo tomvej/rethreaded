@@ -35,7 +35,7 @@ const threading = (state = initialThreading, action: ActionType, {selection}: Co
             return insert(state, tablet, state[tablet]);
         }
         case REMOVE_TABLET:
-            return remove(state, action.tablet ?? selection.tablet);
+            return remove(action.tablet ?? selection.tablet)(state);
         default:
             return state;
     }
@@ -79,7 +79,7 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
             return insert(state, tablet, state[tablet]);
         }
         case REMOVE_TABLET:
-            return remove(state, action.tablet ?? selection.tablet);
+            return remove(action.tablet ?? selection.tablet)(state);
         default:
             return state;
     }
