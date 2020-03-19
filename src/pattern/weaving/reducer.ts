@@ -1,9 +1,10 @@
 import {Direction} from '~types';
 import {insert, remove, seq, update} from '~utils/array';
 
-import {ActionType, ADD_TABLET_AFTER, ADD_TABLET_BEFORE, REMOVE_TABLET, SELECT_AND_TOGGLE_DIRECTION} from '../actions';
+import {ADD_TABLET_AFTER, ADD_TABLET_BEFORE, REMOVE_TABLET, SELECT_AND_TOGGLE_DIRECTION} from '../actions';
 import {INIT_TABLET_NUMBER} from '../constants';
 import {Context} from '../types';
+import {ActionType, SET_DIRECTION, TOGGLE_DIRECTION} from './actions';
 
 const INIT_ROWS = 4;
 
@@ -22,6 +23,10 @@ export default (state: StateType = initState, action: ActionType, {selection}: C
     switch (action.type) {
         case SELECT_AND_TOGGLE_DIRECTION:
             return update(action.row, update(action.tablet, getOtherDirection))(state);
+        case TOGGLE_DIRECTION:
+            return update(selection.row, update(selection.tablet, getOtherDirection))(state);
+        case SET_DIRECTION:
+            return update(selection.row, update(selection.tablet, () => action.direction))(state);
         case ADD_TABLET_AFTER: {
             const tablet = action.tablet ?? selection.tablet;
             return state.map((row) => insert(row, tablet + 1, row[tablet]));
