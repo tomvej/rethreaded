@@ -4,6 +4,7 @@ import {Color, Direction, ThreadingType} from '~types';
 import {toHex} from '~utils/color';
 
 import {THREAD_WIDTH, WEAVE_LENGTH} from './constants';
+import style from './Weave.scss';
 
 const HALF_WIDTH = THREAD_WIDTH / 2;
 const getPoints = (points: number[][]): string => points.map((point) => point.map(String).join(',')).join(' ');
@@ -49,8 +50,7 @@ const Weave: FC<WeavePropTypes> = ({color, direction, prevDirection, threading})
         transform={`scale(${getScale(direction, threading)}, 1)`}
         points={direction === prevDirection ? continuePoints : switchPoints}
         fill={toHex(color)}
-        stroke="black"
-        strokeWidth={1}
+        className={style.main}
     />
 );
 
