@@ -1,4 +1,6 @@
-import React, {FC, Fragment} from 'react';
+import React, {FC} from 'react';
+
+import {RowLayout} from '~components';
 
 import {Container as Preview} from './preview';
 import {Container as Threading} from './threading';
@@ -6,12 +8,14 @@ import {Container as Threads} from './threads';
 import {Container as Weaving} from './weaving';
 
 const Container: FC = () => (
-    <Fragment>
+    <RowLayout>
+        <div>
+            <Weaving/>
+            <Threading/>
+            <Threads/>
+        </div>
         <Preview />
-        <Weaving />
-        <Threading/>
-        <Threads/>
-    </Fragment>
+    </RowLayout>
 );
 
 export default Container;
