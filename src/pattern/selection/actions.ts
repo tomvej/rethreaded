@@ -8,6 +8,8 @@ export const PREV_TABLET = `${FULL_NAME}/prev-tablet` as 'prev-tablet';
 export const NEXT_HOLE = `${FULL_NAME}/next-hole` as 'next-hole';
 export const PREV_HOLE = `${FULL_NAME}/prev-hole` as 'prev-hole';
 export const SELECT_THREAD = `${FULL_NAME}/thread` as 'select-thread';
+export const NEXT_ROW = `${FULL_NAME}/next-row` as 'next-row';
+export const PREV_ROW = `${FULL_NAME}/prev-row` as 'prev-row';
 
 export type NextThreadActionType = {type: typeof NEXT_THREAD};
 export type PrevThreadActionType = {type: typeof PREV_THREAD};
@@ -19,6 +21,8 @@ export type SelectThreadActionType = {
     type: typeof SELECT_THREAD;
     thread: number;
 };
+export type NextRowActionType = {type: typeof NEXT_ROW};
+export type PrevRowActionType = {type: typeof PREV_ROW};
 
 export const selectNextThread = (): NextThreadActionType => ({type: NEXT_THREAD});
 export const selectPrevThread = (): PrevThreadActionType => ({type: PREV_THREAD});
@@ -30,6 +34,8 @@ export const selectThread = (thread: number): SelectThreadActionType => ({
     type: SELECT_THREAD,
     thread,
 });
+export const selectNextRow = (): NextRowActionType => ({type: NEXT_ROW});
+export const selectPrevRow = (): PrevRowActionType => ({type: PREV_ROW});
 
 export type ActionType = NextThreadActionType
     | PrevThreadActionType
@@ -39,3 +45,5 @@ export type ActionType = NextThreadActionType
     | PrevHoleActionType
     | SelectThreadActionType
     | ParentActionType
+    | NextRowActionType
+    | PrevRowActionType

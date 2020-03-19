@@ -10,6 +10,7 @@ import * as threading from './threading';
 import {getTabletNumberFromModel} from './threading';
 import * as threads from './threads';
 import {getThreadNumberFromModel} from './threads';
+import {getRowNumberFromModel} from './weaving';
 import * as weaving from './weaving';
 
 const baseReducer = combineContextReducers({
@@ -25,9 +26,11 @@ const emptyContext = {
         thread: 0,
         tablet: 0,
         hole: Hole.A,
+        row: 0,
     },
     threads: 0,
     tablets: 0,
+    rows: 0,
 };
 const initial = baseReducer(undefined, {} as Action, emptyContext);
 const reducer = (state: StateType = initial, action: Action): StateType => {
@@ -42,6 +45,7 @@ const reducer = (state: StateType = initial, action: Action): StateType => {
         selection: state.selection,
         threads: getThreadNumberFromModel(state.threads),
         tablets: getTabletNumberFromModel(state.threading),
+        rows: getRowNumberFromModel(state.weaving),
     });
 };
 

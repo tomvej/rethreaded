@@ -12,3 +12,5 @@ export const getSelectedThread = (state: RootState) => getModel(state).thread;
 export const isThreadSelected = (state: RootState, thread: number) => getSelectedThread(state) === thread;
 
 export const isThreadingSelected = (state: RootState, tablet: number, hole: Hole) => getModel(state).hole === hole && getModel(state).tablet === tablet;
+
+export const isWeavingSelected = (state: RootState, tablet: number, row: number) => getModel(state).row === row && getModel(state).tablet === tablet;

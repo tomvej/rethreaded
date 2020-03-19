@@ -20,8 +20,8 @@ import {
     TURN_BACKWARD,
     TURN_FORWARD,
 } from '~shortcuts';
-import {addTabletAfter, addTabletBefore, removeTablet} from '../actions';
 
+import {addTabletAfter, addTabletBefore, removeTablet} from '../actions';
 import {selectNextHole, selectNextTablet, selectPrevHole, selectPrevTablet} from '../selection';
 import {applyThread, setSThreading, setZThreading, turnTablet} from './actions';
 

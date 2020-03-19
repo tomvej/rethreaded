@@ -8,15 +8,15 @@ import {
     ADD_THREAD,
     REMOVE_TABLET,
     REMOVE_THREAD,
-    SELECT_AND_APPLY_THREAD,
+    SELECT_AND_APPLY_THREAD, SELECT_AND_TOGGLE_DIRECTION,
 } from '../actions';
 import {Context} from '../types';
 import {
     ActionType,
-    NEXT_HOLE,
+    NEXT_HOLE, NEXT_ROW,
     NEXT_TABLET,
     NEXT_THREAD,
-    PREV_HOLE,
+    PREV_HOLE, PREV_ROW,
     PREV_TABLET,
     PREV_THREAD,
     SELECT_THREAD,
@@ -53,6 +53,8 @@ const tablet = (state = 0, action: ActionType, {tablets}: Context): number => {
             return (action.tablet ?? state) + 1;
         case REMOVE_TABLET:
             return Math.min(state, tablets - 1);
+        case SELECT_AND_TOGGLE_DIRECTION:
+            return action.tablet;
         default:
             return state;
     }
@@ -71,4 +73,17 @@ const hole = (state = Hole.A, action: ActionType): Hole => {
     }
 };
 
-export default combineContextReducers({thread, tablet, hole});
+const row = (state = 0, action: ActionType, {rows}: Context): number => {
+    switch (action.type) {
+        case SELECT_AND_TOGGLE_DIRECTION:
+            return action.row;
+        case PREV_ROW:
+            return decrement(rows)(state);
+        case NEXT_ROW:
+            return increment(rows)(state);
+        default:
+            return state;
+    }
+};
+
+export default combineContextReducers({thread, tablet, hole, row});

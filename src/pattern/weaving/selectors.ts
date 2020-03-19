@@ -1,4 +1,6 @@
 import {createSelector} from 'reselect';
+
+import * as focus from '~core/focus';
 import {RootState} from '~reducer';
 import {Color, Direction, Hole, Tablet} from '~types';
 import {seq} from '~utils/array';
@@ -11,9 +13,11 @@ import {StateType} from './reducer';
 
 const getModel = (state: RootState): StateType => getParentModel(state)[NAME];
 
+export const isFocused = (state: RootState): boolean => focus.isFocused(state, NAME);
 export const getDirection = (state: RootState, row: number, tablet: number): Direction => getModel(state)[row][tablet];
 export const getTabletNumber = (state: RootState): number => getModel(state)[0].length;
-export const getRowNumber = (state: RootState): number => getModel(state).length;
+export const getRowNumberFromModel = (model: StateType): number => model.length;
+export const getRowNumber = (state: RootState): number => getRowNumberFromModel(getModel(state));
 
 const createGetColor = (tablet: number, hole: Hole) => (state: RootState): Color => getColor(state, tablet, hole);
 type GetTabletColorsType = (state: RootState) => Tablet<Color>;
