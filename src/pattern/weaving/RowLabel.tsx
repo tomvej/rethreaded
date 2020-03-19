@@ -30,7 +30,9 @@ const RowLabel: FC<OwnProps & DispatchProps> = ({row, addBefore, addAfter, remov
         left={<ActionIcon type="remove" onClick={remove}/>}
         fill
     >
-        <CellLabel>{row + 1}</CellLabel>
+        <CellLabel position="left">
+            {row + 1}
+        </CellLabel>
     </ActionOverlay>
 );
 

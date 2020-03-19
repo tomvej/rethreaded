@@ -29,7 +29,7 @@ const TabletLabel: FC<DispatchProps & OwnProps> = ({tablet, addBefore, addAfter,
         left={<ActionIcon type="add" onClick={addBefore} />}
         right={<ActionIcon type="add" onClick={addAfter} />}
     >
-        <CellLabel>
+        <CellLabel position="top">
         {tablet + 1}
         </CellLabel>
     </ActionOverlay>
