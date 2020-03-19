@@ -3,7 +3,7 @@ import {decrement, increment} from '~utils/func';
 import {combineContextReducers} from '~utils/redux';
 
 import {
-    ADD_ROW_AFTER,
+    ADD_ROW_AFTER, ADD_ROW_BEFORE,
     ADD_TABLET_AFTER,
     ADD_TABLET_BEFORE,
     ADD_THREAD, REMOVE_ROW,
@@ -83,7 +83,9 @@ const row = (state = 0, action: ActionType, {rows}: Context): number => {
         case NEXT_ROW:
             return increment(rows)(state);
         case ADD_ROW_AFTER:
-            return state + 1;
+            return (action.row ?? state) + 1;
+        case ADD_ROW_BEFORE:
+            return action.row ?? state;
         case REMOVE_ROW:
             return Math.min(state, rows - 2);
         default:

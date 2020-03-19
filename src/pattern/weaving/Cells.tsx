@@ -6,6 +6,7 @@ import {RootState} from '~reducer';
 import {seq} from '~utils/array';
 
 import Cell from './Cell';
+import RowLabel from './RowLabel';
 import {getRowNumber, getTabletNumber} from './selectors';
 
 const mapStateToProps = (state: RootState) => ({
@@ -20,7 +21,7 @@ const Cells: FC<StateProps> = ({rows, tablets}) => (
         cellComponent={Cell}
         rows={seq(rows)}
         tablets={seq(tablets)}
-        leftMarginComponent={({row}) => <div>{row + 1}</div>}
+        leftMarginComponent={RowLabel}
         bottomMarginComponent={({tablet}) => <div>{tablet + 1}</div>}
     />
 );

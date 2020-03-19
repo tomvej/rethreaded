@@ -43,12 +43,16 @@ export default (state: StateType = initState, action: ActionType, {selection}: C
         }
         case REMOVE_TABLET:
             return state.map(remove(action.tablet ?? selection.tablet));
-        case ADD_ROW_AFTER:
-            return insert(state, selection.row + 1, state[selection.row]);
-        case ADD_ROW_BEFORE:
-            return insert(state, selection.row, state[selection.row]);
+        case ADD_ROW_AFTER: {
+            const row = action.row ?? selection.row;
+            return insert(state, row + 1, state[row]);
+        }
+        case ADD_ROW_BEFORE: {
+            const row = action.row ?? selection.row;
+            return insert(state, row, state[row]);
+        }
         case REMOVE_ROW:
-            return remove(selection.row)(state);
+            return remove(action.row ?? selection.row)(state);
         default:
             return state;
     }
