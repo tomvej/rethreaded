@@ -5,19 +5,19 @@ import {RootState} from '~reducer';
 import {Color, Direction, Hole, Tablet} from '~types';
 import {seq} from '~utils/array';
 
-import {getModel as getParentModel} from '../selectors';
+import {getState as getParentState} from '../selectors';
 import {getColor} from '../threading';
 import computePattern from './computePattern';
 import {NAME} from './constants';
 import {StateType} from './reducer';
 
-const getModel = (state: RootState): StateType => getParentModel(state)[NAME];
+const getState = (state: RootState): StateType => getParentState(state)[NAME];
 
 export const isFocused = (state: RootState): boolean => focus.isFocused(state, NAME);
-export const getDirection = (state: RootState, row: number, tablet: number): Direction => getModel(state)[row][tablet];
-export const getTabletNumber = (state: RootState): number => getModel(state)[0].length;
+export const getDirection = (state: RootState, row: number, tablet: number): Direction => getState(state)[row][tablet];
+export const getTabletNumber = (state: RootState): number => getState(state)[0].length;
 export const getRowNumberFromModel = (model: StateType): number => model.length;
-export const getRowNumber = (state: RootState): number => getRowNumberFromModel(getModel(state));
+export const getRowNumber = (state: RootState): number => getRowNumberFromModel(getState(state));
 
 const createGetColor = (tablet: number, hole: Hole) => (state: RootState): Color => getColor(state, tablet, hole);
 type GetTabletColorsType = (state: RootState) => Tablet<Color>;
