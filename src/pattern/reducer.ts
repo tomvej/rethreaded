@@ -13,12 +13,17 @@ import {getThreadNumberFromModel} from './threads';
 import {getRowNumberFromModel} from './weaving';
 import * as weaving from './weaving';
 
-const baseReducer = combineContextReducers({
+const modelReducer = combineContextReducers({
     [threads.NAME]: threads.reducer,
     [threading.NAME]: threading.reducer,
-    [selection.NAME]: selection.reducer,
     [weaving.NAME]: weaving.reducer,
 });
+const baseReducer = combineContextReducers({
+    model: modelReducer,
+    [selection.NAME]: selection.reducer,
+
+});
+export type ModelType = ReturnType<typeof modelReducer>;
 export type StateType = ReturnType<typeof baseReducer>;
 
 const emptyContext = {
@@ -34,21 +39,21 @@ const emptyContext = {
 };
 const initial = baseReducer(undefined, {} as Action, emptyContext);
 const reducer = (state: StateType = initial, action: Action): StateType => {
-    if (action.type === REMOVE_THREAD && getThreadNumberFromModel(state.threads) <= MIN_THREADS) {
+    if (action.type === REMOVE_THREAD && getThreadNumberFromModel(state.model.threads) <= MIN_THREADS) {
         return state;
     }
-    if (action.type === REMOVE_TABLET && getTabletNumberFromModel(state.threading) <= MIN_TABLETS) {
+    if (action.type === REMOVE_TABLET && getTabletNumberFromModel(state.model.threading) <= MIN_TABLETS) {
         return state;
     }
-    if (action.type === REMOVE_ROW && getRowNumberFromModel(state.weaving) <= MIN_ROWS) {
+    if (action.type === REMOVE_ROW && getRowNumberFromModel(state.model.weaving) <= MIN_ROWS) {
         return state;
     }
 
     return baseReducer(state, action, {
         selection: state.selection,
-        threads: getThreadNumberFromModel(state.threads),
-        tablets: getTabletNumberFromModel(state.threading),
-        rows: getRowNumberFromModel(state.weaving),
+        threads: getThreadNumberFromModel(state.model.threads),
+        tablets: getTabletNumberFromModel(state.model.threading),
+        rows: getRowNumberFromModel(state.model.weaving),
     });
 };
 

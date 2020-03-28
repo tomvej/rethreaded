@@ -3,7 +3,7 @@ import {RootState} from '~reducer';
 import {Color} from '~types';
 
 import {getSelectedThread} from '../selection';
-import {getState as getParentState} from '../selectors';
+import {getModel as getParentState} from '../selectors';
 import {NAME} from './constants';
 import {StateType} from './reducer';
 

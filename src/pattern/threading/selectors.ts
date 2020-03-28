@@ -2,7 +2,7 @@ import * as focus from '~core/focus';
 import {RootState} from '~reducer';
 import {Color, Hole, ThreadingType} from '~types';
 
-import {getState as getParentState} from '../selectors';
+import {getModel as getParentState} from '../selectors';
 import {getColor as getThreadColor} from '../threads';
 import {NAME} from './constants';
 import {StateType} from './reducer';

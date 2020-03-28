@@ -5,7 +5,7 @@ import {RootState} from '~reducer';
 import {Color, Direction, Hole, Tablet} from '~types';
 import {seq} from '~utils/array';
 
-import {getState as getParentState} from '../selectors';
+import {getModel as getParentState} from '../selectors';
 import {getColor} from '../threading';
 import computePattern from './computePattern';
 import {NAME} from './constants';
