@@ -2,13 +2,14 @@ import {ReactNode} from 'react';
 import {connect} from 'react-redux';
 
 import {KeyHandler} from '~core/keyboard';
+import {redo, undo} from '~core/undo';
 import {REDO, UNDO} from '~shortcuts';
 
 /******************************/
 
 const mapDispatchToProps = {
-    [UNDO]: () => ({type: 'undo'}),
-    [REDO]: () => ({type: 'redo'}),
+    [UNDO]: undo,
+    [REDO]: redo,
 };
 
 /******************************/

@@ -1,6 +1,7 @@
 import {Action, AnyAction, CombinedState} from 'redux';
 
 import {ActionFromCRMO, ContextFromCRMO, ContextReducer, ContextReducersMapObject, StateFromCRMO} from './types';
+export * from './types';
 
 export function combineContextReducers<C, S>(
     reducers: ContextReducersMapObject<C, S, any>
