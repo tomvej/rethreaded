@@ -23,7 +23,7 @@ import {
     SELECT_THREAD,
 } from './actions';
 
-const clamp = (max: number, number: number): number => Math.max(Math.min(max - 1, number), 0);
+const clamp = (number: number, max: number): number => Math.max(Math.min(max - 1, number), 0);
 
 const thread = (state = 0, action: ActionType, {threads}: Context): number => {
     switch (action.type) {
