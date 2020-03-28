@@ -23,6 +23,8 @@ import {
     SELECT_THREAD,
 } from './actions';
 
+const clamp = (max: number, number: number): number => Math.max(Math.min(max - 1, number), 0);
+
 const thread = (state = 0, action: ActionType, {threads}: Context): number => {
     switch (action.type) {
         case NEXT_THREAD:
@@ -36,7 +38,7 @@ const thread = (state = 0, action: ActionType, {threads}: Context): number => {
         case REMOVE_THREAD:
             return Math.min(state, threads - 2);
         default:
-            return state;
+            return clamp(state, threads);
     }
 };
 
@@ -57,7 +59,7 @@ const tablet = (state = 0, action: ActionType, {tablets}: Context): number => {
         case SELECT_AND_TOGGLE_DIRECTION:
             return action.tablet;
         default:
-            return state;
+            return clamp(state, tablets);
     }
 };
 
@@ -89,7 +91,7 @@ const row = (state = 0, action: ActionType, {rows}: Context): number => {
         case REMOVE_ROW:
             return Math.min(state, rows - 2);
         default:
-            return state;
+            return clamp(state, rows);
     }
 };
 
