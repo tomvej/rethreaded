@@ -13,7 +13,7 @@ const KeyHandler: FC<KeyHandlerProps> = ({focus, handlers, children}) => {
     const registerAtParent = useKeyboardContext();
     const listeners = useRef<Array<ListenerType>>([]);
 
-    const handleKeyPress = useCallback<ListenerType>((commands: string[], callback) => {
+    const handleKeyPress = useCallback<ListenerType>((event, commands, callback) => {
         const currentCallback = (): void => {
             const applicableHandlers = Object
                 .entries(handlers)
@@ -30,8 +30,9 @@ const KeyHandler: FC<KeyHandlerProps> = ({focus, handlers, children}) => {
 
         if (listeners.current.length === 0) {
             currentCallback();
+            event.preventDefault();
         } else if (listeners.current.length === 1) {
-            listeners.current[0](commands, currentCallback);
+            listeners.current[0](event, commands, currentCallback);
         } else {
             throw new Error('Two siblings have focus at the same time.');
         }

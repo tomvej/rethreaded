@@ -40,12 +40,12 @@ const KeyBinder: FC<KeyBinderProps> = ({children}) => {
             })
         });
         Object.entries(keyMap).forEach(([key, commands]) => {
-            Mousetrap.bind(key, () => {
+            Mousetrap.bind(key, (event) => {
                 if (modalListener.current) {
-                    modalListener.current(commands);
+                    modalListener.current(event, commands);
                 } else {
                     assert(rootListener.current, 'No keyboard handler registered at root level!');
-                    rootListener.current(commands, noop);
+                    rootListener.current(event, commands, noop);
                 }
             })
         });

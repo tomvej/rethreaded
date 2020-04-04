@@ -3,6 +3,7 @@ import React, {FC, Fragment, ReactNode, useCallback, useEffect} from 'react';
 import {assert} from '~utils/assert';
 
 import {useModalKeyboardContext} from './modalContext';
+import {SimpleListenerType} from './types';
 
 type ModalKeyHandlerProps = {
     children: ReactNode;
@@ -12,13 +13,14 @@ type ModalKeyHandlerProps = {
 const ModalKeyHandler: FC<ModalKeyHandlerProps> = ({children, handlers}) => {
     const registerListener = useModalKeyboardContext();
 
-    const handleKeyPress = useCallback((commands) => {
+    const handleKeyPress = useCallback<SimpleListenerType>((event, commands) => {
         const applicableHandlers = Object.entries(handlers)
             .filter(([command]) => commands.includes(command))
             .map(([, handler]) => handler);
         assert(applicableHandlers.length <= 1, `There are too many active handlers for commands ${commands}`);
         if (applicableHandlers.length === 1) {
             applicableHandlers[0]();
+            event.preventDefault();
         }
     }, [handlers]);
     useEffect(() => registerListener(handleKeyPress), [handleKeyPress]);
