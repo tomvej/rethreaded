@@ -1,3 +1,30 @@
-.main {
+@import "../variables";
 
+.main {
+    font-size: 1.1em;
+    width: 1em;
+    height: 1em;
+    box-sizing: content-box;
+
+    border: .1rem solid transparent;
+
+    color: $color-black;
+    padding: .3rem;
+    border-radius: .3rem;
+    margin: .2rem;
+
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.main:not(:disabled) {
+    &:hover, &:focus {
+        outline: none;
+        border-color: $color-black;
+    }
+}
+
+.main:disabled {
+    cursor: not-allowed;
+    color: $color-grey;
 }
