@@ -1,21 +1,25 @@
-import React, {FC, ReactNode} from 'react';
+import {IconProp} from '@fortawesome/fontawesome-svg-core';
+import {FontAwesomeIcon as FAIcon} from '@fortawesome/react-fontawesome';
+import React, {FC} from 'react';
 
 import style from './ToolbarButton.scss';
 
 type ToolbarButtonProps = {
-    children: ReactNode;
     onClick: () => void;
     disabled?: boolean;
+    icon: IconProp;
+    title: string;
 };
 
-const ToolbarButton: FC<ToolbarButtonProps> = ({onClick, children, disabled = false}) => (
+const ToolbarButton: FC<ToolbarButtonProps> = ({onClick, icon, title, disabled = false}) => (
     <button
         type="button"
         onClick={onClick}
         disabled={disabled}
         className={style.main}
+        title={title}
     >
-        {children}
+        <FAIcon icon={icon} />
     </button>
 );
 

@@ -1,3 +1,4 @@
+import {faRedoAlt} from '@fortawesome/free-solid-svg-icons';
 import {connect} from 'react-redux';
 
 import {ToolbarButton} from '~components';
@@ -19,7 +20,8 @@ type DispatchProps = typeof mapDispatchToProps;
 const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps) => ({
     ...stateProps,
     ...dispatchProps,
-    children: 'redo',
+    title: 'Redo',
+    icon: faRedoAlt,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ToolbarButton);
