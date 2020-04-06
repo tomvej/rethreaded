@@ -10,3 +10,5 @@ export {default as Popup} from './Popup';
 export {default as ActionIcon} from './ActionIcon';
 export {default as ActionOverlay} from './ActionOverlay';
 export {default as CellLabel} from './CellLabel';
+export {default as Toolbar} from './Toolbar';
+export {default as ToolbarButton} from './ToolbarButton';
