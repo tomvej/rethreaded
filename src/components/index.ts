@@ -12,3 +12,4 @@ export {default as ActionOverlay} from './ActionOverlay';
 export {default as CellLabel} from './CellLabel';
 export {default as Toolbar} from './Toolbar';
 export {default as ToolbarButton} from './ToolbarButton';
+export {default as ModalDialog} from './ModalDialog';
