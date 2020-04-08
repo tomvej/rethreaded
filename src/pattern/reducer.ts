@@ -13,6 +13,7 @@ import * as threads from './threads';
 import {getThreadNumberFromModel} from './threads';
 import {getRowNumberFromModel} from './weaving';
 import * as weaving from './weaving';
+import * as importExport from './importexport';
 
 const emptyContext = {
     selection: {
@@ -34,6 +35,7 @@ const modelReducer = combineContextReducers({
 const baseReducer = combineContextReducers({
     model: createReducer(modelReducer, modelReducer(undefined, {} as Action, emptyContext)),
     [selection.NAME]: selection.reducer,
+    [importExport.NAME]: importExport.reducer,
 
 });
 export type ModelType = ReturnType<typeof modelReducer>;
