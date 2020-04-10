@@ -1,3 +1,4 @@
+import {ActionType as ParentActiontype} from '../actions';
 import {FULL_NAME} from './constants';
 
 export const SWITCH_IMPORT_DIALOG = `${FULL_NAME}/import-dialog` as 'import-dialog';
@@ -21,4 +22,6 @@ export const hideImportDialog = (): SwitchImportDialogActionType => ({
     visible: false,
 });
 
-export type ActionType = SwitchImportDialogActionType | SwitchExportDialogActionType;
+export type ActionType = ParentActiontype
+    | SwitchImportDialogActionType
+    | SwitchExportDialogActionType;

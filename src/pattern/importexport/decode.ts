@@ -28,7 +28,7 @@ const decodeDirection = (direction: TwtDirectionType): Direction => {
     }
 }
 
-export default function decode(twtFile: TwtFileType): IOShape | null {
+export default function decode(twtFile: TwtFileType): IOShape {
     const threads = pipe(
         twtFile['Threading chart'],
         flatten,
