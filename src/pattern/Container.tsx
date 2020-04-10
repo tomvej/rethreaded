@@ -3,7 +3,7 @@ import React, {FC} from 'react';
 import {RowLayout} from '~components';
 import {ScreenKeyHandler} from '~containers';
 
-import {ImportDialog} from './importexport';
+import {ExportDialog, ImportDialog} from './importexport';
 import {Container as Preview} from './preview';
 import shortcuts from './shortcuts';
 import {Container as Threading} from './threading';
@@ -15,6 +15,7 @@ const Container: FC = () => (
     <ScreenKeyHandler handlers={shortcuts}>
         <RowLayout>
             <ImportDialog/>
+            <ExportDialog />
             <Toolbar/>
             <div>
                 <Weaving/>

@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 
 import {IMPORT_DESIGN} from '../actions';
-import {ActionType, SWITCH_IMPORT_DIALOG} from './actions';
+import {ActionType, SWITCH_EXPORT_DIALOG, SWITCH_IMPORT_DIALOG} from './actions';
 
 const importDialogVisible = (state = false, action: ActionType): boolean => {
     switch (action.type) {
@@ -14,8 +14,18 @@ const importDialogVisible = (state = false, action: ActionType): boolean => {
     }
 };
 
+const exportDialogVisible = (state = false, action: ActionType): boolean => {
+    switch (action.type) {
+        case SWITCH_EXPORT_DIALOG:
+            return action.visible;
+        default:
+            return state;
+    }
+}
+
 const reducer = combineReducers({
     importDialogVisible,
+    exportDialogVisible,
 });
 
 export type StateType = ReturnType<typeof reducer>;

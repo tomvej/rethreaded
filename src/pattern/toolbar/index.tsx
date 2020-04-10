@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 
 import {Toolbar as ToolbarComponent} from '~components';
 
+import ExportButton from './ExportButton';
 import ImportButton from './ImportButton';
 import RedoButton from './RedoButton';
 import UndoButton from './UndoButton';
@@ -11,6 +12,7 @@ const Toolbar: FC = () => (
         <UndoButton />
         <RedoButton />
         <ImportButton />
+        <ExportButton />
     </ToolbarComponent>
 );
 

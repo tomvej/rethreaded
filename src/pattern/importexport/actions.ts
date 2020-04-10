@@ -22,6 +22,15 @@ export const hideImportDialog = (): SwitchImportDialogActionType => ({
     visible: false,
 });
 
+export const showExportDialog = (): SwitchExportDialogActionType => ({
+    type: SWITCH_EXPORT_DIALOG,
+    visible: true,
+});
+export const hideExportDialog = (): SwitchExportDialogActionType => ({
+    type: SWITCH_EXPORT_DIALOG,
+    visible: false,
+});
+
 export type ActionType = ParentActiontype
     | SwitchImportDialogActionType
     | SwitchExportDialogActionType;
