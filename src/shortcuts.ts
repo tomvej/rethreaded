@@ -23,6 +23,8 @@ export const TURN_BACKWARD = 'turn-backward';
 export const ADD = 'add';
 export const ADD_ALT = 'add-alt';
 export const REMOVE = 'remove';
+export const IMPORT = 'import';
+export const EXPORT = 'export';
 
 const shortcuts: {[command: string]: string | string[]} = {
     [UNDO]: 'ctrl+z',
@@ -50,6 +52,8 @@ const shortcuts: {[command: string]: string | string[]} = {
     [ADD]: 'ins',
     [ADD_ALT]: 'shift+ins',
     [REMOVE]: 'del',
+    [IMPORT]: 'ctrl+i',
+    [EXPORT]: 'ctrl+e',
 };
 
 export default shortcuts;

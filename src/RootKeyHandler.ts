@@ -14,7 +14,7 @@ const mapDispatchToProps = {
 
 /******************************/
 
-type DispatchProps = ({[command: string]: () => void});
+type DispatchProps = typeof mapDispatchToProps;
 type OwnProps = {children: ReactNode};
 
 const mergeProps = (unusedStateProps: any, dispatchProps: DispatchProps, {children}: OwnProps) => ({
