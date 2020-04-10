@@ -1,10 +1,10 @@
-import {flatten, map, reduce, replicate, snoc, sort, uniq, zipWith} from 'fp-ts/es6/Array';
+import {cons, flatten, map, reduce, replicate, sort, uniq, zipWith} from 'fp-ts/es6/Array';
 import {eqNumber} from 'fp-ts/es6/Eq';
 import {flow} from 'fp-ts/es6/function';
 import {ordNumber} from 'fp-ts/es6/Ord';
 import {pipe} from 'fp-ts/es6/pipeable';
 
-import {Direction, ThreadingType} from '~types';
+import {Direction, Tablet, ThreadingType} from '~types';
 import {fromHex} from '~utils/color';
 
 import {IOShape} from '../types';
@@ -48,7 +48,7 @@ export default function decode(twtFile: TwtFileType): IOShape {
         twtFile['Threading chart'],
         reduce(
             replicate(twtFile['Number of tablets'], [] as number[]),
-            (array, item) => zipWith(array, item, snoc),
+            (array, item) => zipWith(item, array, cons),
         ),
     );
 
@@ -59,7 +59,7 @@ export default function decode(twtFile: TwtFileType): IOShape {
         threads,
         threading: {
             threading: map(decodeThreading)(twtFile['Tablet orientations']),
-            colors,
+            colors: colors as Array<Tablet<number>>,
         },
         weaving,
     };
