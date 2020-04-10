@@ -4,17 +4,24 @@ const TwtThreading = t.keyof({
     '/': null,
     '\\': null,
 });
-
 export type TwtThreadingType = t.TypeOf<typeof TwtThreading>;
 
 const TwtDirection = t.keyof({
     F: null,
     B: null,
 });
-
 export type TwtDirectionType = t.TypeOf<typeof TwtDirection>;
 
-export const TwtFile = t.type({
+interface HexColorBrand {
+    readonly HexColor: unique symbol;
+}
+const HexColor = t.brand(
+    t.string,
+    (c): c is t.Branded<string, HexColorBrand> => /#[0-9a-fA-F]{6}/.test(c),
+    'HexColor',
+)
+
+const BasicTwtFile = t.type({
     source: t.string,
     version: t.literal('2.0'),
     Name: t.string,
@@ -22,7 +29,7 @@ export const TwtFile = t.type({
     Tags: t.array(t.string),
     'Pattern type': t.literal('individual'),
     'Number of holes': t.literal(4),
-    'Colour palette': t.array(t.string),
+    'Colour palette': t.array(HexColor),
     'Weft colour': t.number,
     'Number of tablets': t.number,
     'Number of weaving rows': t.number,
@@ -35,7 +42,29 @@ export const TwtFile = t.type({
         }))),
     }),
 });
+type BasicTwtFileType = t.TypeOf<typeof BasicTwtFile>;
+const isValidTwtFile = (twtFile: BasicTwtFileType): boolean => {
+    const isThread = (number: number): boolean => number >= 0 && number < twtFile['Colour palette'].length;
+    const isThreadSized = (array: Array<any>): boolean => array.length === twtFile['Number of tablets'];
 
-// FIXME integrity validations
+    const {weavingInstructions} = twtFile['Pattern design'];
 
+    return (
+        isThread(twtFile['Weft colour'])
+        && twtFile['Threading chart'].length === twtFile['Number of holes']
+        && twtFile['Threading chart'].every(isThreadSized)
+        && twtFile['Tablet orientations'].length === twtFile['Number of tablets']
+        && weavingInstructions.length === twtFile['Number of weaving rows']
+        && weavingInstructions.every(isThreadSized)
+    );
+}
+
+interface TwtFileBrand {
+    readonly TwtFile: unique symbol;
+}
+export const TwtFile = t.brand(
+    BasicTwtFile,
+    (file): file is t.Branded<BasicTwtFileType, TwtFileBrand> => isValidTwtFile(file),
+    'TwtFile',
+)
 export type TwtFileType = t.TypeOf<typeof TwtFile>;
