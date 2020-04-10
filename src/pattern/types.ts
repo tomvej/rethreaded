@@ -1,4 +1,4 @@
-import {Hole} from '~types';
+import {Color, Direction, Hole, ThreadingType} from '~types';
 
 export type SelectionState = {
     row: number;
@@ -12,4 +12,16 @@ export type Context = {
     threads: number;
     tablets: number;
     rows: number;
+}
+
+export type IOShape = {
+    name: string;
+    description: string;
+    tags: Array<string>;
+    threads: Array<Color>;
+    threading: {
+        colors: Array<Array<number>>;
+        threading: Array<ThreadingType>;
+    };
+    weaving: Array<Array<Direction>>;
 }
