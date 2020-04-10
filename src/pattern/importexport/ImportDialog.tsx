@@ -1,3 +1,5 @@
+import {isRight} from 'fp-ts/es6/Either';
+import {PathReporter} from 'io-ts/es6/PathReporter';
 import React, {FC, useRef} from 'react';
 import {connect} from 'react-redux';
 
@@ -8,6 +10,7 @@ import {readFileAsString} from '~utils/file';
 
 import {hideImportDialog} from './actions';
 import {isImportDialogVisible} from './selectors';
+import {TwtFile} from './types';
 
 
 const mapStateToProps = (state: RootState) => ({
@@ -26,7 +29,12 @@ const ImportDialog: FC<ImportDialogProps> = ({visible, hide}) => {
         const file = inputRef.current?.files?.[0];
         if (file) {
             readFileAsString(file).then((text) => {
-                console.log(text);
+                const result = TwtFile.decode(JSON.parse(text));
+                if (isRight(result)) {
+
+                } else {
+                    alert(PathReporter.report(result));
+                }
             });
         }
     };
