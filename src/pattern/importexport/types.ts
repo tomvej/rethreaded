@@ -59,7 +59,8 @@ const isValidTwtFile = (twtFile: BasicTwtFileType): boolean => {
     const {weavingInstructions} = twtFile['Pattern design'];
 
     return (
-        isThread(twtFile['Weft colour'])
+        twtFile['Colour palette'].length === 16
+        && isThread(twtFile['Weft colour'])
         && twtFile['Threading chart'].length === twtFile['Number of holes']
         && twtFile['Threading chart'].every(isThreadSized)
         && twtFile['Tablet orientations'].length === twtFile['Number of tablets']

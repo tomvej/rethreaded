@@ -1,7 +1,9 @@
-import {map, reduce, replicate, snoc, zipWith} from 'fp-ts/es6/Array';
+import {map, reduce, replicate, cons, zipWith, makeBy, lookup} from 'fp-ts/es6/Array';
+import {getOrElse} from 'fp-ts/es6/Option';
 import {pipe} from 'fp-ts/es6/pipeable';
 
 import {Direction, ThreadingType} from '~types';
+import {fromHex} from '~utils/color';
 
 import {IOShape} from '../types';
 import {BasicTwtFileType, TwtDirectionType, TwtThreadingType} from './types';
@@ -24,12 +26,17 @@ const encodeDirection = (direction: Direction): TwtDirectionType => {
     }
 }
 
+const pad = <A>(length: number, paddingElement: A, array: A[]): A[] => makeBy(length, (i) => pipe(
+    lookup(i, array),
+    getOrElse(() => paddingElement),
+));
+
 export default function encode(data: IOShape): BasicTwtFileType {
     const threadingChart = pipe(
         data.threading.threads,
         reduce(
             replicate(4, [] as number[]),
-            (result, tablet) => zipWith(result, tablet, snoc),
+            (result, tablet) => zipWith(tablet, result, cons),
         ),
     )
 
@@ -41,7 +48,7 @@ export default function encode(data: IOShape): BasicTwtFileType {
         Tags: data.tags.split(','),
         'Pattern type': 'individual',
         'Number of holes': 4,
-        'Colour palette': data.threads,
+        'Colour palette': pad(16, fromHex('#cccccc'), data.threads),
         'Weft colour': 0,
         'Number of tablets': data.threading.threading.length,
         'Number of weaving rows': data.weaving.length,
