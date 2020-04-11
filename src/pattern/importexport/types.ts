@@ -30,8 +30,8 @@ const HexColor = new t.Type<Color, string, unknown>(
 );
 
 
-const BasicTwtFile = t.type({
-    source: t.string,
+export const BasicTwtFile = t.type({
+    source: t.literal('Twisted Threads'),
     version: t.literal('2.0'),
     Name: t.string,
     Description: t.string,

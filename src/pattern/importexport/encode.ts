@@ -34,8 +34,8 @@ export default function encode(data: IOShape): BasicTwtFileType {
     )
 
     return {
-        source: "ReThreaded",
-        version: "2.0",
+        source: 'Twisted Threads',
+        version: '2.0',
         Name: data.name,
         Description: data.description,
         Tags: data.tags.split(','),
