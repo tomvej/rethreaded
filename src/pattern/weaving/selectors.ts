@@ -60,3 +60,6 @@ const getTabletPatternTable: GetTabletPatternTableType = createSelector(
 );
 
 export const getPatternColor = (state: RootState, tablet: number, row: number): Color => getTabletPatternTable(state)(state)[tablet][row];
+
+type ExportWeaving = (state: RootState) => Array<Array<Direction>>;
+export const exportWeaving: ExportWeaving = getState;

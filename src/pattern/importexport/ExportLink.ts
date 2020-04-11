@@ -3,22 +3,30 @@ import {connect} from 'react-redux';
 import {DownloadLink} from '~containers';
 import {RootState} from '~reducer';
 
+import {exportThreading} from '../threading';
+import {exportThreads} from '../threads';
+import {exportWeaving} from '../weaving';
+import encode from './encode';
 import {getInfo} from './selectors';
 
-const mapStateToProps = (state: RootState) => ({
-    info: getInfo(state),
-});
+// deliberately ineffective, not expected to be called multiple times
+const mapStateToProps = (state: RootState) => {
+    const info = getInfo(state);
+    const threads = exportThreads(state);
+    const threading = exportThreading(state);
+    const weaving = exportWeaving(state);
 
-type StateProps = ReturnType<typeof mapStateToProps>;
+    const data = encode({
+        ...info,
+        threads,
+        threading,
+        weaving,
+    });
 
-type OwnProps = {
-    onDownload: () => void;
-}
+    return ({
+        name: `${info.name}.twt`,
+        data,
+    });
+};
 
-const mergeProps = ({info}: StateProps, dispatchProps: unknown, {onDownload}: OwnProps) => ({
-    name: `${info.name}.twt`,
-    data: info,
-    onDownload,
-});
-
-export default connect(mapStateToProps, undefined, mergeProps)(DownloadLink);
+export default connect(mapStateToProps)(DownloadLink);

@@ -90,7 +90,7 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
         case REMOVE_TABLET:
             return remove(action.tablet ?? selection.tablet)(state);
         case IMPORT_DESIGN:
-            return action.data.threading.colors;
+            return action.data.threading.threads;
         default:
             return state;
     }

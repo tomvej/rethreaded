@@ -35,6 +35,8 @@ const pickerVisible = (state = false, action: ActionType): boolean => {
     }
 };
 
+// FIXME break state and model reducer
+
 const reducer = combineContextReducers({colors, pickerVisible});
 export type StateType = ReturnType<typeof reducer>;
 export default reducer;

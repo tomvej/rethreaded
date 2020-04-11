@@ -20,7 +20,7 @@ export type IOShape = {
     tags: string;
     threads: Array<Color>;
     threading: {
-        colors: Array<Tablet<number>>;
+        threads: Array<Tablet<number>>;
         threading: Array<ThreadingType>;
     };
     weaving: Array<Array<Direction>>;

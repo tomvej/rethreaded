@@ -57,7 +57,7 @@ export default function decode(twtFile: TwtFileType): IOShape {
         threads,
         threading: {
             threading: map(decodeThreading)(twtFile['Tablet orientations']),
-            colors: colors as Array<Tablet<number>>,
+            threads: colors as Array<Tablet<number>>,
         },
         weaving,
     };

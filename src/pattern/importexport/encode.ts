@@ -26,7 +26,7 @@ const encodeDirection = (direction: Direction): TwtDirectionType => {
 
 export default function encode(data: IOShape): BasicTwtFileType {
     const threadingChart = pipe(
-        data.threading.colors,
+        data.threading.threads,
         reduce(
             replicate(4, [] as number[]),
             (result, tablet) => zipWith(result, tablet, snoc),

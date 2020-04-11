@@ -11,7 +11,7 @@ const getState = (state: RootState): StateType => getParentState(state)[NAME];
 
 export const isFocused = (state: RootState): boolean => focus.isFocused(state, NAME);
 
-export const getThreadNumberFromModel = (state: StateType) => state.colors.length;
+export const getThreadNumberFromModel = (state: StateType): number => state.colors.length;
 export const getThreadNumber = (state: RootState): number => getThreadNumberFromModel(getState(state));
 
 export const getColor = (state: RootState, thread: number): Color => getState(state).colors[thread];
@@ -19,3 +19,6 @@ export const getColor = (state: RootState, thread: number): Color => getState(st
 export const isPickerVisible = (state: RootState): boolean => getState(state).pickerVisible;
 
 export const getCurrentColor = (state: RootState): Color => getColor(state, getSelectedThread(state));
+
+type ExportThreads = (state: RootState) => Array<Color>;
+export const exportThreads: ExportThreads = (state: RootState) => getState(state).colors;
