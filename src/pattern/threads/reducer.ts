@@ -1,15 +1,13 @@
 import {Color} from '~types';
 import {append, remove, update} from '~utils/array';
 import palette from '~utils/palette';
-import {combineContextReducers} from '~utils/redux';
 
 import {ADD_THREAD, IMPORT_DESIGN, REMOVE_THREAD} from '../actions';
 import {Context} from '../types';
 import {ActionType, SET_COLOR, TOGGLE_PICKER} from './actions';
 
 const initialColors  = [palette[40], palette[0], palette[23]];
-
-const colors = (state = initialColors, action: ActionType, {selection}: Context): Array<Color> => {
+export const modelReducer = (state = initialColors, action: ActionType, {selection}: Context): Array<Color> => {
     switch (action.type) {
         case SET_COLOR:
             return update(selection.thread, () => action.color)(state);
@@ -24,7 +22,7 @@ const colors = (state = initialColors, action: ActionType, {selection}: Context)
     }
 };
 
-const pickerVisible = (state = false, action: ActionType): boolean => {
+export const stateReducer = (state = false, action: ActionType): boolean => {
     switch (action.type) {
         case SET_COLOR:
             return false;
@@ -34,9 +32,3 @@ const pickerVisible = (state = false, action: ActionType): boolean => {
             return state;
     }
 };
-
-// FIXME break state and model reducer
-
-const reducer = combineContextReducers({colors, pickerVisible});
-export type StateType = ReturnType<typeof reducer>;
-export default reducer;
