@@ -8,6 +8,7 @@ import {
     ADD_TABLET_AFTER,
     ADD_TABLET_BEFORE,
     ADD_THREAD,
+    CLEAR,
     IMPORT_DESIGN,
     REMOVE_ROW,
     REMOVE_TABLET,
@@ -44,6 +45,7 @@ const thread = (state = 0, action: ActionType, {threads}: Context): number => {
         case REMOVE_THREAD:
             return Math.min(state, threads - 2);
         case IMPORT_DESIGN:
+        case CLEAR:
             return 0;
         default:
             return clamp(state, threads);
@@ -67,6 +69,7 @@ const tablet = (state = 0, action: ActionType, {tablets}: Context): number => {
         case SELECT_AND_TOGGLE_DIRECTION:
             return action.tablet;
         case IMPORT_DESIGN:
+        case CLEAR:
             return 0;
         default:
             return clamp(state, tablets);
@@ -82,6 +85,7 @@ const hole = (state = Hole.A, action: ActionType): Hole => {
         case SELECT_AND_APPLY_THREAD:
             return action.hole;
         case IMPORT_DESIGN:
+        case CLEAR:
             return Hole.A;
         default:
             return state;
@@ -103,6 +107,7 @@ const row = (state = 0, action: ActionType, {rows}: Context): number => {
         case REMOVE_ROW:
             return Math.min(state, rows - 2);
         case IMPORT_DESIGN:
+        case CLEAR:
             return 0;
         default:
             return clamp(state, rows);

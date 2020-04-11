@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 
-import {IMPORT_DESIGN} from '../actions';
+import {CLEAR, IMPORT_DESIGN} from '../actions';
 import {ActionType, SET_INFO, SWITCH_EXPORT_DIALOG, SWITCH_IMPORT_DIALOG} from './actions';
 import {InfoProperty} from './types';
 
@@ -37,6 +37,8 @@ const createInfoReducer = (property: InfoProperty) => (state = '', action: Actio
             return action.values[property];
         case IMPORT_DESIGN:
             return action.data[property];
+        case CLEAR:
+            return '';
         default:
             return state;
     }

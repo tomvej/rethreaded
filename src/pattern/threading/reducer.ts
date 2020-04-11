@@ -6,12 +6,13 @@ import {map as mapTablet, update as updateTablet} from '~utils/tablet';
 import {
     ADD_TABLET_AFTER,
     ADD_TABLET_BEFORE,
+    CLEAR,
     IMPORT_DESIGN,
     REMOVE_TABLET,
     REMOVE_THREAD,
     SELECT_AND_APPLY_THREAD,
 } from '../actions';
-import {INIT_TABLET_NUMBER} from '../constants';
+import {MIN_TABLETS} from '../constants';
 import {Context} from '../types';
 import {ActionType, APPLY_THREAD, SET_S_THREADING, SET_Z_THREADING, TOGGLE_THREADING, TURN} from './actions';
 
@@ -24,7 +25,7 @@ const toggleThreading = (threading: ThreadingType): ThreadingType => {
     }
 };
 
-const initialThreading = Array(INIT_TABLET_NUMBER).fill(ThreadingType.S);
+const initialThreading = Array(MIN_TABLETS).fill(ThreadingType.S);
 const threading = (state = initialThreading, action: ActionType, {selection}: Context): Array<ThreadingType> => {
     switch (action.type) {
         case SET_S_THREADING:
@@ -45,6 +46,8 @@ const threading = (state = initialThreading, action: ActionType, {selection}: Co
             return remove(action.tablet ?? selection.tablet)(state);
         case IMPORT_DESIGN:
             return action.data.threading.threading;
+        case CLEAR:
+            return initialThreading;
         default:
             return state;
     }
@@ -62,7 +65,7 @@ const turnTablet = (turns: number) => <T>(tablet: Tablet<T>): Tablet<T> => [
 ];
 
 type ThreadsState = Array<Tablet<number>>;
-const initialThreads: ThreadsState = seq(INIT_TABLET_NUMBER).map(() => [0, 1, 2, 1]);
+const initialThreads: ThreadsState = seq(MIN_TABLETS).map(() => [0, 1, 0, 1]);
 const threads = (state = initialThreads, action: ActionType, {selection, threads}: Context): ThreadsState => {
     switch (action.type) {
         case APPLY_THREAD: {
@@ -91,6 +94,8 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
             return remove(action.tablet ?? selection.tablet)(state);
         case IMPORT_DESIGN:
             return action.data.threading.threads;
+        case CLEAR:
+            return initialThreads;
         default:
             return state;
     }

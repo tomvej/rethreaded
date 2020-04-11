@@ -2,11 +2,11 @@ import {Color} from '~types';
 import {append, remove, update} from '~utils/array';
 import palette from '~utils/palette';
 
-import {ADD_THREAD, IMPORT_DESIGN, REMOVE_THREAD} from '../actions';
+import {ADD_THREAD, CLEAR, IMPORT_DESIGN, REMOVE_THREAD} from '../actions';
 import {Context} from '../types';
 import {ActionType, SET_COLOR, TOGGLE_PICKER} from './actions';
 
-const initialColors  = [palette[40], palette[0], palette[23]];
+const initialColors  = [palette[40], palette[0]];
 export const modelReducer = (state = initialColors, action: ActionType, {selection}: Context): Array<Color> => {
     switch (action.type) {
         case SET_COLOR:
@@ -17,6 +17,8 @@ export const modelReducer = (state = initialColors, action: ActionType, {selecti
             return remove(action.thread ?? selection.thread)(state);
         case IMPORT_DESIGN:
             return action.data.threads;
+        case CLEAR:
+            return initialColors;
         default:
             return state;
     }
