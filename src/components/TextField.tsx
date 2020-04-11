@@ -6,8 +6,8 @@ type FieldProps = {
     title: string;
 }
 
-const Field: FC<FieldProps> = ({title, value, onChange}) => (
+const TextField: FC<FieldProps> = ({title, value, onChange}) => (
     <label>{title}: <input type="text" className="mousetrap" value={value} onChange={(event) => onChange(event.target.value)} /></label>
 );
 
-export default Field;
+export default TextField;

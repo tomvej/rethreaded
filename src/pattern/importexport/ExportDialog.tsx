@@ -1,6 +1,9 @@
 import React, {FC} from 'react';
+import {Field, Form} from 'react-final-form';
 import {connect} from 'react-redux';
 
+import {Form as FormComponent} from '~components';
+import TextField from '~components/TextField';
 import {ModalDialog} from '~containers';
 import {RootState} from '~reducer';
 import {CANCEL} from '~shortcuts';
@@ -26,9 +29,16 @@ const ExportDialog: FC<ExportDialogProps> = ({visible, hide}) => {
             }}
             onOutsideClick={hide}
         >
-            <form>
-                <button type="submit">Exportovat</button>
-            </form>
+            <Form onSubmit={(values) => console.log(values)}>
+                {({handleSubmit}) => (
+                    <FormComponent onSubmit={handleSubmit}>
+                        <Field name="name">{({input}) => <TextField {...input} title="Name" />}</Field>
+                        <Field name="description">{({input}) => <TextField {...input} title="Description" />}</Field>
+                        <Field name="tags">{({input}) => <TextField {...input} title="Tags" />}</Field>
+                        <button type="submit">Exportovat</button>
+                    </FormComponent>
+                )}
+            </Form>
         </ModalDialog>
     ) : null;
 }

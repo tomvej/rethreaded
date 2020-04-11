@@ -14,4 +14,4 @@ export {default as Toolbar} from './Toolbar';
 export {default as ToolbarButton} from './ToolbarButton';
 export {default as ModalDialog} from './ModalDialog';
 export {default as Form} from './Form';
-export {default as Field} from './Field';
+export {default as Field} from './TextField';
