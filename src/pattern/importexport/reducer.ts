@@ -1,7 +1,10 @@
-import {combineReducers} from 'redux';
+import {eqString} from 'fp-ts/es6/Eq';
+import {getEq as getRecordEq} from 'fp-ts/es6/Record';
+import {combineReducers, Reducer} from 'redux';
 
 import {IMPORT_DESIGN} from '../actions';
-import {ActionType, SWITCH_EXPORT_DIALOG, SWITCH_IMPORT_DIALOG} from './actions';
+import {ActionType, SET_INFO, SWITCH_EXPORT_DIALOG, SWITCH_IMPORT_DIALOG} from './actions';
+import {Info, InfoProperty} from './types';
 
 const importDialogVisible = (state = false, action: ActionType): boolean => {
     switch (action.type) {
@@ -23,11 +26,24 @@ const exportDialogVisible = (state = false, action: ActionType): boolean => {
     }
 }
 
-const reducer = combineReducers({
+export const stateReducer = combineReducers({
     importDialogVisible,
     exportDialogVisible,
 });
 
-export type StateType = ReturnType<typeof reducer>;
+export type StateType = ReturnType<typeof stateReducer>;
 
-export default reducer;
+const createInfoReducer = (property: InfoProperty) => (state = '', action: ActionType): string => {
+    switch (action.type) {
+        case SET_INFO:
+            return action.values[property];
+        default:
+            return state;
+    }
+}
+
+export const modelReducer = combineReducers({
+    name: createInfoReducer('name'),
+    description: createInfoReducer('description'),
+    tags: createInfoReducer('tags'),
+})

@@ -31,11 +31,12 @@ const modelReducer = combineContextReducers({
     [threads.NAME]: threads.reducer,
     [threading.NAME]: threading.reducer,
     [weaving.NAME]: weaving.reducer,
+    [importExport.NAME]: importExport.modelReducer,
 });
 const baseReducer = combineContextReducers({
     model: createReducer(modelReducer, modelReducer(undefined, {} as Action, emptyContext)),
     [selection.NAME]: selection.reducer,
-    [importExport.NAME]: importExport.reducer,
+    [importExport.NAME]: importExport.stateReducer,
 
 });
 export type ModelType = ReturnType<typeof modelReducer>;

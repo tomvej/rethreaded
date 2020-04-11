@@ -68,3 +68,7 @@ export const TwtFile = t.brand(
     'TwtFile',
 )
 export type TwtFileType = t.TypeOf<typeof TwtFile>;
+
+export type InfoProperty = 'name' | 'description' | 'tags';
+
+export type Info = Record<InfoProperty, string>;
