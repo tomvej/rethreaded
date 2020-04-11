@@ -14,6 +14,7 @@ export const ADD_ROW_AFTER = `${NAME}/add-row-after` as 'add-row-after';
 export const ADD_ROW_BEFORE = `${NAME}/add-row-before` as 'add-row-before';
 export const REMOVE_ROW = `${NAME}/remove-row` as 'remove-row';
 export const IMPORT_DESIGN = `${NAME}/import-design` as 'import-design';
+export const CLEAR = `${NAME}/clear` as 'clear';
 
 export interface SelectAndApplyThreadActionType {
     type: typeof SELECT_AND_APPLY_THREAD;
@@ -70,6 +71,9 @@ export interface ImportDesignActionType {
     type: typeof IMPORT_DESIGN;
     data: IOShape;
 }
+export interface ClearActionType {
+    type: typeof CLEAR;
+}
 
 export const selectAndApplyThread = (tablet: number, hole: Hole): SelectAndApplyThreadActionType => ({
     type: SELECT_AND_APPLY_THREAD,
@@ -96,6 +100,8 @@ export const removeRow = (row?: number): RemoveRowActionType => ({type: REMOVE_R
 
 export const importDesign = (data: IOShape): ImportDesignActionType => ({type: IMPORT_DESIGN, data});
 
+export const clear = (): ClearActionType => ({type: CLEAR});
+
 export type ActionType =
     SelectAndApplyThreadActionType
     | AddThreadActionType
@@ -108,3 +114,4 @@ export type ActionType =
     | AddRowBeforeActionType
     | RemoveRowActionType
     | ImportDesignActionType
+    | ClearActionType

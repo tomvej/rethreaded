@@ -6,6 +6,7 @@ import {map as mapTablet, update as updateTablet} from '~utils/tablet';
 import {
     ADD_TABLET_AFTER,
     ADD_TABLET_BEFORE,
+    CLEAR,
     IMPORT_DESIGN,
     REMOVE_TABLET,
     REMOVE_THREAD,
@@ -45,6 +46,8 @@ const threading = (state = initialThreading, action: ActionType, {selection}: Co
             return remove(action.tablet ?? selection.tablet)(state);
         case IMPORT_DESIGN:
             return action.data.threading.threading;
+        case CLEAR:
+            return initialThreading;
         default:
             return state;
     }
@@ -91,6 +94,8 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
             return remove(action.tablet ?? selection.tablet)(state);
         case IMPORT_DESIGN:
             return action.data.threading.threads;
+        case CLEAR:
+            return initialThreads;
         default:
             return state;
     }

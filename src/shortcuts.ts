@@ -25,6 +25,7 @@ export const ADD_ALT = 'add-alt';
 export const REMOVE = 'remove';
 export const IMPORT = 'import';
 export const EXPORT = 'export';
+export const RESET = 'reset';
 
 const shortcuts: {[command: string]: string | string[]} = {
     [UNDO]: 'ctrl+z',
@@ -54,6 +55,7 @@ const shortcuts: {[command: string]: string | string[]} = {
     [REMOVE]: 'del',
     [IMPORT]: 'ctrl+i',
     [EXPORT]: 'ctrl+e',
+    [RESET]: 'ctrl+r',
 };
 
 export default shortcuts;

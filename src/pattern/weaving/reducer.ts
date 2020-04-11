@@ -5,7 +5,7 @@ import {
     ADD_ROW_AFTER,
     ADD_ROW_BEFORE,
     ADD_TABLET_AFTER,
-    ADD_TABLET_BEFORE,
+    ADD_TABLET_BEFORE, CLEAR,
     IMPORT_DESIGN,
     REMOVE_ROW,
     REMOVE_TABLET,
@@ -56,6 +56,8 @@ export default (state: StateType = initState, action: ActionType, {selection}: C
             return remove(action.row ?? selection.row)(state);
         case IMPORT_DESIGN:
             return action.data.weaving;
+        case CLEAR:
+            return initState;
         default:
             return state;
     }
