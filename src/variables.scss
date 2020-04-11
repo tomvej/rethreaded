@@ -7,4 +7,4 @@ $color-remove: red;
 $color-add: green;
 
 $color-active: #498ebf;
-$color-focus: fade-out($color-active, .35);
+$color-focus: $color-active;
