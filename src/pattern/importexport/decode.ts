@@ -55,7 +55,7 @@ export default function decode(twtFile: TwtFileType): IOShape {
     return {
         name: twtFile.Name,
         description: twtFile.Description,
-        tags: twtFile.Tags,
+        tags: twtFile.Tags.join(','),
         threads,
         threading: {
             threading: map(decodeThreading)(twtFile['Tablet orientations']),

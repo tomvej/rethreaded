@@ -17,7 +17,7 @@ export type Context = {
 export type IOShape = {
     name: string;
     description: string;
-    tags: Array<string>;
+    tags: string;
     threads: Array<Color>;
     threading: {
         colors: Array<Tablet<number>>;

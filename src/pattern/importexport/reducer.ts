@@ -37,6 +37,8 @@ const createInfoReducer = (property: InfoProperty) => (state = '', action: Actio
     switch (action.type) {
         case SET_INFO:
             return action.values[property];
+        case IMPORT_DESIGN:
+            return action.data[property];
         default:
             return state;
     }
