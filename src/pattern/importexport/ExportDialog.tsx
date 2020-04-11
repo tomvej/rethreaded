@@ -1,10 +1,10 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import {Field, Form} from 'react-final-form';
 import {connect} from 'react-redux';
 
 import {Form as FormComponent} from '~components';
 import TextField from '~components/TextField';
-import {ModalDialog} from '~containers';
+import {DownloadLink, ModalDialog} from '~containers';
 import {RootState} from '~reducer';
 import {CANCEL} from '~shortcuts';
 
@@ -22,6 +22,7 @@ const mapDispatchToProps = {
 type ExportDialogProps = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
 
 const ExportDialog: FC<ExportDialogProps> = ({visible, hide}) => {
+    const [data, setData] = useState(null);
     return visible ? (
         <ModalDialog
             keyHandlers={{
@@ -29,7 +30,7 @@ const ExportDialog: FC<ExportDialogProps> = ({visible, hide}) => {
             }}
             onOutsideClick={hide}
         >
-            <Form onSubmit={(values) => console.log(values)}>
+            <Form onSubmit={setData}>
                 {({handleSubmit}) => (
                     <FormComponent onSubmit={handleSubmit}>
                         <Field name="name">{({input}) => <TextField {...input} title="Name" />}</Field>
@@ -39,6 +40,7 @@ const ExportDialog: FC<ExportDialogProps> = ({visible, hide}) => {
                     </FormComponent>
                 )}
             </Form>
+            {data && <DownloadLink data={data} name="data" onDownload={() => setData(null)} />}
         </ModalDialog>
     ) : null;
 }
