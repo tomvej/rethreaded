@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 
-import {RowLayout} from '~components';
+import {MainLayout} from '~components';
 import {ScreenKeyHandler} from '~containers';
 
 import {ExportDialog, ImportDialog} from './importexport';
@@ -13,17 +13,16 @@ import {Container as Weaving} from './weaving';
 
 const Container: FC = () => (
     <ScreenKeyHandler handlers={shortcuts}>
-        <RowLayout>
+        <MainLayout
+            toolbar={<Toolbar/>}
+            info={<Preview/>}
+        >
             <ImportDialog/>
-            <ExportDialog />
-            <Toolbar/>
-            <div>
-                <Weaving/>
-                <Threading/>
-                <Threads/>
-            </div>
-            <Preview/>
-        </RowLayout>
+            <ExportDialog/>
+            <Weaving/>
+            <Threading/>
+            <Threads/>
+        </MainLayout>
     </ScreenKeyHandler>
 );
 

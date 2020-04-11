@@ -15,3 +15,4 @@ export {default as ToolbarButton} from './ToolbarButton';
 export {default as ModalDialog} from './ModalDialog';
 export {default as Form} from './Form';
 export {default as Field} from './TextField';
+export {default as MainLayout} from './MainLayout';
