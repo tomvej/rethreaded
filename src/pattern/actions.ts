@@ -1,6 +1,7 @@
 import {Hole} from '~types';
 
 import {NAME} from './constants';
+import {IOShape} from './types';
 
 export const SELECT_AND_APPLY_THREAD = `${NAME}/select-apply-thread` as 'select-apply-thread';
 export const ADD_THREAD = `${NAME}/add-thread` as 'add-thread';
@@ -12,6 +13,7 @@ export const SELECT_AND_TOGGLE_DIRECTION = `${NAME}/select-toggle-direction` as 
 export const ADD_ROW_AFTER = `${NAME}/add-row-after` as 'add-row-after';
 export const ADD_ROW_BEFORE = `${NAME}/add-row-before` as 'add-row-before';
 export const REMOVE_ROW = `${NAME}/remove-row` as 'remove-row';
+export const IMPORT_DESIGN = `${NAME}/import-design` as 'import-design';
 
 export interface SelectAndApplyThreadActionType {
     type: typeof SELECT_AND_APPLY_THREAD;
@@ -64,6 +66,11 @@ export interface RemoveRowActionType {
     row?: number;
 }
 
+export interface ImportDesignActionType {
+    type: typeof IMPORT_DESIGN;
+    data: IOShape;
+}
+
 export const selectAndApplyThread = (tablet: number, hole: Hole): SelectAndApplyThreadActionType => ({
     type: SELECT_AND_APPLY_THREAD,
     tablet,
@@ -87,6 +94,8 @@ export const addRowAfter = (row?: number): AddRowAfterActionType => ({type: ADD_
 export const addRowBefore = (row?: number): AddRowBeforeActionType => ({type: ADD_ROW_BEFORE, row});
 export const removeRow = (row?: number): RemoveRowActionType => ({type: REMOVE_ROW, row});
 
+export const importDesign = (data: IOShape): ImportDesignActionType => ({type: IMPORT_DESIGN, data});
+
 export type ActionType =
     SelectAndApplyThreadActionType
     | AddThreadActionType
@@ -98,3 +107,4 @@ export type ActionType =
     | AddRowAfterActionType
     | AddRowBeforeActionType
     | RemoveRowActionType
+    | ImportDesignActionType

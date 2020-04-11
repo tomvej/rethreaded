@@ -1,4 +1,4 @@
 export {NAME} from './constants';
-export {default as reducer} from './reducer';
+export {stateReducer, modelReducer} from './reducer';
 export {default as Container} from './Container';
-export {getColor, getThreadNumberFromModel} from './selectors';
+export {getColor, getThreadNumberFromModel, exportThreads} from './selectors';

@@ -27,5 +27,6 @@ module.exports = {
     rules: {
         'react/prop-types': 'off', // typescript is enough
         'simple-import-sort/sort': 'error',
+        '@typescript-eslint/unbound-method': 'off', // does not work with fp-ts
     },
 };

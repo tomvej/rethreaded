@@ -2,9 +2,12 @@ import {Direction} from '~types';
 import {insert, remove, seq, update} from '~utils/array';
 
 import {
-    ADD_ROW_AFTER, ADD_ROW_BEFORE,
+    ADD_ROW_AFTER,
+    ADD_ROW_BEFORE,
     ADD_TABLET_AFTER,
-    ADD_TABLET_BEFORE, REMOVE_ROW,
+    ADD_TABLET_BEFORE,
+    IMPORT_DESIGN,
+    REMOVE_ROW,
     REMOVE_TABLET,
     SELECT_AND_TOGGLE_DIRECTION,
 } from '../actions';
@@ -53,6 +56,8 @@ export default (state: StateType = initState, action: ActionType, {selection}: C
         }
         case REMOVE_ROW:
             return remove(action.row ?? selection.row)(state);
+        case IMPORT_DESIGN:
+            return action.data.weaving;
         default:
             return state;
     }

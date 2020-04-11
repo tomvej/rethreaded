@@ -1,6 +1,6 @@
 import * as focus from '~core/focus';
 import {RootState} from '~reducer';
-import {Color, Hole, ThreadingType} from '~types';
+import {Color, Hole, Tablet, ThreadingType} from '~types';
 
 import {getModel as getParentState} from '../selectors';
 import {getColor as getThreadColor} from '../threads';
@@ -19,3 +19,9 @@ const getThread = (state: RootState, tablet: number, hole: Hole): number => getS
 export const getColor = (state: RootState, tablet: number, hole: Hole): Color => getThreadColor(state, getThread(state, tablet, hole));
 
 export const isFocused = (state: RootState): boolean => focus.isFocused(state, NAME);
+
+type ExportThreading = (state: RootState) => {
+    threading: Array<ThreadingType>;
+    threads: Array<Tablet<number>>;
+}
+export const exportThreading: ExportThreading = getState;

@@ -3,21 +3,27 @@ import {decrement, increment} from '~utils/func';
 import {combineContextReducers} from '~utils/redux';
 
 import {
-    ADD_ROW_AFTER, ADD_ROW_BEFORE,
+    ADD_ROW_AFTER,
+    ADD_ROW_BEFORE,
     ADD_TABLET_AFTER,
     ADD_TABLET_BEFORE,
-    ADD_THREAD, REMOVE_ROW,
+    ADD_THREAD,
+    IMPORT_DESIGN,
+    REMOVE_ROW,
     REMOVE_TABLET,
     REMOVE_THREAD,
-    SELECT_AND_APPLY_THREAD, SELECT_AND_TOGGLE_DIRECTION,
+    SELECT_AND_APPLY_THREAD,
+    SELECT_AND_TOGGLE_DIRECTION,
 } from '../actions';
 import {Context} from '../types';
 import {
     ActionType,
-    NEXT_HOLE, NEXT_ROW,
+    NEXT_HOLE,
+    NEXT_ROW,
     NEXT_TABLET,
     NEXT_THREAD,
-    PREV_HOLE, PREV_ROW,
+    PREV_HOLE,
+    PREV_ROW,
     PREV_TABLET,
     PREV_THREAD,
     SELECT_THREAD,
@@ -37,6 +43,8 @@ const thread = (state = 0, action: ActionType, {threads}: Context): number => {
             return threads;
         case REMOVE_THREAD:
             return Math.min(state, threads - 2);
+        case IMPORT_DESIGN:
+            return 0;
         default:
             return clamp(state, threads);
     }
@@ -58,6 +66,8 @@ const tablet = (state = 0, action: ActionType, {tablets}: Context): number => {
             return Math.min(state, tablets - 2);
         case SELECT_AND_TOGGLE_DIRECTION:
             return action.tablet;
+        case IMPORT_DESIGN:
+            return 0;
         default:
             return clamp(state, tablets);
     }
@@ -71,6 +81,8 @@ const hole = (state = Hole.A, action: ActionType): Hole => {
             return state !== Hole.A ? state - 1 : Hole.D;
         case SELECT_AND_APPLY_THREAD:
             return action.hole;
+        case IMPORT_DESIGN:
+            return Hole.A;
         default:
             return state;
     }
@@ -90,6 +102,8 @@ const row = (state = 0, action: ActionType, {rows}: Context): number => {
             return action.row ?? state;
         case REMOVE_ROW:
             return Math.min(state, rows - 2);
+        case IMPORT_DESIGN:
+            return 0;
         default:
             return clamp(state, rows);
     }

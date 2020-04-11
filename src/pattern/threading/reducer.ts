@@ -3,7 +3,14 @@ import {insert, remove, seq, update} from '~utils/array';
 import {combineContextReducers} from '~utils/redux';
 import {map as mapTablet, update as updateTablet} from '~utils/tablet';
 
-import {ADD_TABLET_AFTER, ADD_TABLET_BEFORE, REMOVE_TABLET, REMOVE_THREAD, SELECT_AND_APPLY_THREAD} from '../actions';
+import {
+    ADD_TABLET_AFTER,
+    ADD_TABLET_BEFORE,
+    IMPORT_DESIGN,
+    REMOVE_TABLET,
+    REMOVE_THREAD,
+    SELECT_AND_APPLY_THREAD,
+} from '../actions';
 import {INIT_TABLET_NUMBER} from '../constants';
 import {Context} from '../types';
 import {ActionType, APPLY_THREAD, SET_S_THREADING, SET_Z_THREADING, TOGGLE_THREADING, TURN} from './actions';
@@ -36,6 +43,8 @@ const threading = (state = initialThreading, action: ActionType, {selection}: Co
         }
         case REMOVE_TABLET:
             return remove(action.tablet ?? selection.tablet)(state);
+        case IMPORT_DESIGN:
+            return action.data.threading.threading;
         default:
             return state;
     }
@@ -80,6 +89,8 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
         }
         case REMOVE_TABLET:
             return remove(action.tablet ?? selection.tablet)(state);
+        case IMPORT_DESIGN:
+            return action.data.threading.threads;
         default:
             return state;
     }
