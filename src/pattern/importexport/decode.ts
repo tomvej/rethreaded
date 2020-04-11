@@ -5,7 +5,6 @@ import {ordNumber} from 'fp-ts/es6/Ord';
 import {pipe} from 'fp-ts/es6/pipeable';
 
 import {Direction, Tablet, ThreadingType} from '~types';
-import {fromHex} from '~utils/color';
 
 import {IOShape} from '../types';
 import {TwtDirectionType, TwtFileType, TwtThreadingType} from './types';
@@ -35,7 +34,6 @@ export default function decode(twtFile: TwtFileType): IOShape {
         sort(ordNumber),
         uniq(eqNumber),
         map((i) => twtFile['Colour palette'][i]),
-        map(fromHex),
     );
     const weaving = pipe(
         twtFile['Pattern design'].weavingInstructions,

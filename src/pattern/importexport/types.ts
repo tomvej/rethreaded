@@ -1,4 +1,8 @@
 import * as t from 'io-ts';
+import {either} from 'fp-ts/es6/Either';
+import {Color} from '~types';
+import {fromHex, toHex} from '~utils/color';
+import validate = WebAssembly.validate;
 
 const TwtThreading = t.keyof({
     '/': null,
@@ -12,14 +16,19 @@ const TwtDirection = t.keyof({
 });
 export type TwtDirectionType = t.TypeOf<typeof TwtDirection>;
 
-interface HexColorBrand {
-    readonly HexColor: unique symbol;
-}
-const HexColor = t.brand(
-    t.string,
-    (c): c is t.Branded<string, HexColorBrand> => /#[0-9a-fA-F]{6}/.test(c),
+const HexColor = new t.Type<Color, string, unknown>(
     'HexColor',
-)
+    (unknown): unknown is Color => Array.isArray(unknown) && unknown.length === 3 && unknown.every((i) => typeof i === 'number'),
+    (unknown, context) => either.chain(t.string.validate(unknown, context), unknownString => {
+        if (/^#[0-9a-fA-F]{6}$/.test(unknownString)) {
+            return t.success(fromHex(unknownString));
+        } else {
+            return t.failure(unknown, context);
+        }
+    }),
+    (color) => toHex(color),
+);
+
 
 const BasicTwtFile = t.type({
     source: t.string,
@@ -42,7 +51,7 @@ const BasicTwtFile = t.type({
         }))),
     }),
 });
-type BasicTwtFileType = t.TypeOf<typeof BasicTwtFile>;
+export type BasicTwtFileType = t.TypeOf<typeof BasicTwtFile>;
 const isValidTwtFile = (twtFile: BasicTwtFileType): boolean => {
     const isThread = (number: number): boolean => number >= 0 && number < twtFile['Colour palette'].length;
     const isThreadSized = (array: Array<any>): boolean => array.length === twtFile['Number of tablets'];
