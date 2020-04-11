@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import {Form as FormComponent} from '~components';
 import TextField from '~components/TextField';
-import {DownloadLink, ModalDialog} from '~containers';
+import {ModalDialog} from '~containers';
 import {RootState} from '~reducer';
 import {CANCEL} from '~shortcuts';
 

@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
 
 type DownloadLinkProps = {
-    data: any;
+    data: unknown;
     name: string;
     onDownload: () => void;
 }

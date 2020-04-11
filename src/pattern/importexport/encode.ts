@@ -1,4 +1,4 @@
-import {map, reduce, replicate, cons, zipWith, makeBy, lookup} from 'fp-ts/es6/Array';
+import {cons, lookup,makeBy, map, reduce, replicate, zipWith} from 'fp-ts/es6/Array';
 import {getOrElse} from 'fp-ts/es6/Option';
 import {pipe} from 'fp-ts/es6/pipeable';
 

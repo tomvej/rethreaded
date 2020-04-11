@@ -1,11 +1,12 @@
 import {Action} from 'redux';
-import {createReducer, getCurrent} from '~core/undo';
 
+import {createReducer, getCurrent} from '~core/undo';
 import {Hole} from '~types';
 import {combineContextReducers} from '~utils/redux';
 
 import {REMOVE_ROW, REMOVE_TABLET, REMOVE_THREAD} from './actions';
 import {MIN_ROWS, MIN_TABLETS, MIN_THREADS} from './constants';
+import * as importExport from './importexport';
 import * as selection from './selection';
 import * as threading from './threading';
 import {getTabletNumberFromModel} from './threading';
@@ -13,7 +14,6 @@ import * as threads from './threads';
 import {getThreadNumberFromModel} from './threads';
 import {getRowNumberFromModel} from './weaving';
 import * as weaving from './weaving';
-import * as importExport from './importexport';
 
 const emptyContext = {
     selection: {

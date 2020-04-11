@@ -1,8 +1,8 @@
-import * as t from 'io-ts';
 import {either} from 'fp-ts/es6/Either';
+import * as t from 'io-ts';
+
 import {Color} from '~types';
 import {fromHex, toHex} from '~utils/color';
-import validate = WebAssembly.validate;
 
 const TwtThreading = t.keyof({
     '/': null,
@@ -54,7 +54,7 @@ export const BasicTwtFile = t.type({
 export type BasicTwtFileType = t.TypeOf<typeof BasicTwtFile>;
 const isValidTwtFile = (twtFile: BasicTwtFileType): boolean => {
     const isThread = (number: number): boolean => number >= 0 && number < twtFile['Colour palette'].length;
-    const isThreadSized = (array: Array<any>): boolean => array.length === twtFile['Number of tablets'];
+    const isThreadSized = (array: Array<unknown>): boolean => array.length === twtFile['Number of tablets'];
 
     const {weavingInstructions} = twtFile['Pattern design'];
 

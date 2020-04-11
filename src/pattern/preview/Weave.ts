@@ -2,6 +2,7 @@ import {connect} from 'react-redux';
 
 import {Weave} from '~components/weave';
 import {RootState} from '~reducer';
+
 import {getThreading} from '../threading';
 import {getDirection, getPatternColor} from '../weaving';
 

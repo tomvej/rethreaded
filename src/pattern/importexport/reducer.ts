@@ -1,10 +1,8 @@
-import {eqString} from 'fp-ts/es6/Eq';
-import {getEq as getRecordEq} from 'fp-ts/es6/Record';
-import {combineReducers, Reducer} from 'redux';
+import {combineReducers} from 'redux';
 
 import {IMPORT_DESIGN} from '../actions';
 import {ActionType, SET_INFO, SWITCH_EXPORT_DIALOG, SWITCH_IMPORT_DIALOG} from './actions';
-import {Info, InfoProperty} from './types';
+import {InfoProperty} from './types';
 
 const importDialogVisible = (state = false, action: ActionType): boolean => {
     switch (action.type) {

@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
 import {ActionIcon, ActionOverlay, CellLabel} from '~components';
-import {noop} from '~utils/func';
 
 import {addRowAfter, addRowBefore, removeRow} from '../actions';
 

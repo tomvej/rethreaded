@@ -17,7 +17,7 @@ const mapDispatchToProps = {
 type DispatchProps = typeof mapDispatchToProps;
 type OwnProps = {children: ReactNode};
 
-const mergeProps = (unusedStateProps: any, dispatchProps: DispatchProps, {children}: OwnProps) => ({
+const mergeProps = (unusedStateProps: unknown, dispatchProps: DispatchProps, {children}: OwnProps) => ({
     focus: true,
     handlers: dispatchProps,
     children,
