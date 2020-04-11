@@ -11,11 +11,9 @@ import {
     REMOVE_TABLET,
     SELECT_AND_TOGGLE_DIRECTION,
 } from '../actions';
-import {INIT_TABLET_NUMBER} from '../constants';
+import {MIN_ROWS, MIN_TABLETS} from '../constants';
 import {Context} from '../types';
 import {ActionType, SET_DIRECTION, TOGGLE_DIRECTION} from './actions';
-
-const INIT_ROWS = 4;
 
 const getOtherDirection = (direction: Direction): Direction => {
     switch (direction) {
@@ -27,7 +25,7 @@ const getOtherDirection = (direction: Direction): Direction => {
 };
 
 export type StateType = Array<Array<Direction>>;
-const initState = seq(INIT_ROWS).map(() => Array(INIT_TABLET_NUMBER).fill(Direction.Forward));
+const initState = seq(MIN_ROWS).map(() => Array(MIN_TABLETS).fill(Direction.Forward));
 export default (state: StateType = initState, action: ActionType, {selection}: Context): StateType => {
     switch (action.type) {
         case SELECT_AND_TOGGLE_DIRECTION:
