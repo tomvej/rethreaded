@@ -9,6 +9,7 @@ import {RootState} from '~reducer';
 import {CANCEL} from '~shortcuts';
 
 import {hideExportDialog, setInfo} from './actions';
+import ExportLink from './ExportLink';
 import {getInfo, isExportDialogVisible} from './selectors';
 import {Info} from './types';
 
@@ -40,23 +41,17 @@ const ExportDialog: FC<ExportDialogProps> = ({visible, hide, values, setValues})
             <Form onSubmit={onSubmit} initialValues={values}>
                 {({handleSubmit}) => (
                     <FormComponent onSubmit={handleSubmit}>
-                        <Field name="name">{({input}) => <TextField {...input} title="Name" />}</Field>
-                        <Field name="description">{({input}) => <TextField {...input} title="Description" />}</Field>
-                        <Field name="tags">{({input}) => <TextField {...input} title="Tags" />}</Field>
+                        <Field name="name">{({input}) => <TextField {...input} title="Name"/>}</Field>
+                        <Field name="description">{({input}) => <TextField {...input} title="Description"/>}</Field>
+                        <Field name="tags">{({input}) => <TextField {...input} title="Tags"/>}</Field>
                         <button type="submit">Exportovat</button>
                     </FormComponent>
                 )}
             </Form>
-            {submitted && (
-                <DownloadLink
-                    data={values}
-                    name="data"
-                    onDownload={() => {
-                        setSubmitted(false);
-                        hide();
-                    }}
-                />)
-            }
+            {submitted && <ExportLink onDownload={() => {
+                setSubmitted(false);
+                hide();
+            }} />}
         </ModalDialog>
     ) : null;
 }
