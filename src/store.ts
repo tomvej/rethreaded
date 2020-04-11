@@ -10,7 +10,16 @@ if (__DEVELOPMENT__) {
     middlewareList.push(reduxFreeze);
 }
 
-export default createStore(
+const initial = JSON.parse(localStorage.getItem('rethreaded') ?? '');
+
+const store = createStore(
     reducer,
+    location.search.includes('clear') ? undefined : initial,
     composeWithDevTools(applyMiddleware(...middlewareList)),
 );
+
+window.addEventListener('unload', () => {
+    localStorage.setItem('rethreaded', JSON.stringify(store.getState()));
+});
+
+export default store;
