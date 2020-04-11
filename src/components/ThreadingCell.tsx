@@ -3,6 +3,7 @@ import React, {FunctionComponent} from 'react';
 
 import {Color, Direction, ThreadingType} from '~types';
 import {toHex} from '~utils/color';
+import {useScrollOnFocus} from '~utils/react';
 
 import style from './ThreadingCell.scss';
 
@@ -29,28 +30,32 @@ type ThreadingProps = {
     onClick: () => void;
 }
 
-const ThreadingCell: FunctionComponent<ThreadingProps> = ({direction, threading, color, focus, onClick}) => (
-    <svg
-        className={classnames(
-            style.main,
-            getDirectionStyle(direction),
-            {[style.focus]: focus},
-        )}
-        viewBox="-128 -128 256 256"
-        onClick={onClick}
-    >
-        <g transform={`scale(${getDirectionScale(direction)},${getThreadingScale(threading)})`}>
-            <ellipse
-                transform="rotate(-45)"
-                cx={0}
-                cy={0}
-                rx={140}
-                ry={60}
-                strokeWidth={10}
-                fill={toHex(color)}
-            />
-        </g>
-    </svg>
-);
+const ThreadingCell: FunctionComponent<ThreadingProps> = ({direction, threading, color, focus, onClick}) => {
+    const element = useScrollOnFocus<SVGSVGElement>(focus);
+    return (
+        <svg
+            ref={element}
+            className={classnames(
+                style.main,
+                getDirectionStyle(direction),
+                {[style.focus]: focus},
+            )}
+            viewBox="-128 -128 256 256"
+            onClick={onClick}
+        >
+            <g transform={`scale(${getDirectionScale(direction)},${getThreadingScale(threading)})`}>
+                <ellipse
+                    transform="rotate(-45)"
+                    cx={0}
+                    cy={0}
+                    rx={140}
+                    ry={60}
+                    strokeWidth={10}
+                    fill={toHex(color)}
+                />
+            </g>
+        </svg>
+    );
+};
 
 export default ThreadingCell;
