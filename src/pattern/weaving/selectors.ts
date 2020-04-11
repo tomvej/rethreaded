@@ -1,3 +1,5 @@
+import {pipe} from 'fp-ts/es6/pipeable';
+import {map, reduce} from 'fp-ts/es6/Array';
 import {createSelector} from 'reselect';
 
 import * as focus from '~core/focus';
@@ -20,8 +22,8 @@ export const getRowNumberFromModel = (model: StateType): number => model.length;
 export const getRowNumber = (state: RootState): number => getRowNumberFromModel(getState(state));
 
 const createGetColor = (tablet: number, hole: Hole) => (state: RootState): Color => getColor(state, tablet, hole);
-type GetTabletColorsType = (state: RootState) => Tablet<Color>;
-const createGetTabletColors = (tablet: number): GetTabletColorsType => createSelector(
+type GetTabletColors = (state: RootState) => Tablet<Color>;
+const createGetTabletColors = (tablet: number): GetTabletColors => createSelector(
     createGetColor(tablet, Hole.A),
     createGetColor(tablet, Hole.B),
     createGetColor(tablet, Hole.C),
@@ -30,18 +32,21 @@ const createGetTabletColors = (tablet: number): GetTabletColorsType => createSel
 );
 
 type GetTabletDirectionsType = (state: RootState) => (state: RootState) => Array<Direction>;
-const createGetTabletDirections = (tablet: number): GetTabletDirectionsType => createSelector(
+const createGetTabletDirectionsSelector = (tablet: number): GetTabletDirectionsType => createSelector(
     getRowNumber,
     (rows) => createSelector(
         seq(rows).map((row) => (state: RootState): Direction => getDirection(state, row, tablet)),
         (...directions) => directions,
     ),
 );
+const createGetTabletDirections = (tablet: number): (state: RootState) => Array<Direction> => {
+    const getTabletDirectionsSelector = createGetTabletDirectionsSelector(tablet);
+    return (state: RootState): Array<Direction> => getTabletDirectionsSelector(state)(state);
+}
 
-type GetTabletPatternType = (state: RootState) => Array<Color>;
-const createGetTabletPattern = (tablet: number): GetTabletPatternType => {
-    const getTabletDirectionsSelector = createGetTabletDirections(tablet);
-    const getTabletDirections = (state: RootState): Array<Direction> => getTabletDirectionsSelector(state)(state);
+type GetTabletPattern = (state: RootState) => Array<Color>;
+const createGetTabletPattern = (tablet: number): GetTabletPattern => {
+    const getTabletDirections = createGetTabletDirections(tablet);
     const getTabletColors = createGetTabletColors(tablet);
     return createSelector(
         getTabletDirections,
@@ -50,8 +55,8 @@ const createGetTabletPattern = (tablet: number): GetTabletPatternType => {
     );
 };
 
-type GetTabletPatternTableType = (state: RootState) => (state: RootState) => Array<Array<Color>>;
-const getTabletPatternTable: GetTabletPatternTableType = createSelector(
+type GetTabletPatternTable = (state: RootState) => (state: RootState) => Array<Array<Color>>;
+const getTabletPatternTable: GetTabletPatternTable = createSelector(
     getTabletNumber,
     (tablets) => createSelector(
         seq(tablets).map(createGetTabletPattern),
@@ -60,6 +65,32 @@ const getTabletPatternTable: GetTabletPatternTableType = createSelector(
 );
 
 export const getPatternColor = (state: RootState, tablet: number, row: number): Color => getTabletPatternTable(state)(state)[tablet][row];
+
+const getDirectionTwist = (direction: Direction): number => {
+    switch (direction) {
+        case Direction.Forward:
+            return 1;
+        case Direction.Backward:
+            return -1;
+    }
+}
+type GetTabletTwistSelector = (state: RootState, tablet: number) => (state: RootState) => number;
+const createGetTabletTwistSelector = (): GetTabletTwistSelector => createSelector(
+    (state: unknown, tablet: number) => tablet,
+    (tablet) => createSelector(
+        createGetTabletDirections(tablet),
+        (directions): number => pipe(
+            directions,
+            map(getDirectionTwist),
+            reduce(0, (a, b) => a + b),
+        )
+    ),
+);
+type GetTabletTwist = (state: RootState, tablet: number) => number;
+export const createGetTabletTwist = (): GetTabletTwist => {
+    const getTabletTwistSelector = createGetTabletTwistSelector();
+    return (state: RootState, tablet: number): number => getTabletTwistSelector(state, tablet)(state);
+}
 
 type ExportWeaving = (state: RootState) => Array<Array<Direction>>;
 export const exportWeaving: ExportWeaving = getState;

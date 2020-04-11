@@ -8,6 +8,7 @@ import {seq} from '~utils/array';
 import Cell from './Cell';
 import RowLabel from './RowLabel';
 import {getRowNumber, getTabletNumber} from './selectors';
+import TabletInfo from './TabletInfo';
 
 const mapStateToProps = (state: RootState) => ({
     rows: getRowNumber(state),
@@ -23,6 +24,7 @@ const Cells: FC<StateProps> = ({rows, tablets}) => (
         tablets={seq(tablets)}
         leftMarginComponent={RowLabel}
         bottomMarginComponent={({tablet}) => <div>{tablet + 1}</div>}
+        topMarginComponent={TabletInfo}
     />
 );
 
