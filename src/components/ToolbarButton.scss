@@ -15,6 +15,10 @@
 
     background-color: transparent;
     cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .main:not(:disabled) {
@@ -22,6 +26,10 @@
         outline: none;
         border-color: $color-black;
     }
+}
+
+.active {
+    border-color: $color-grey;
 }
 
 .main:disabled {

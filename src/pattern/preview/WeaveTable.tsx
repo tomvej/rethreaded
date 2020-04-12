@@ -5,13 +5,14 @@ import {RootState} from '~reducer';
 
 import {getTabletNumber} from '../threading';
 import {getRowNumber} from '../weaving';
+import {getNumberOfRepeats} from './selectors';
 import Weave from './Weave';
 
 const mapStateToProps = (state: RootState) => ({
     rows: getRowNumber(state),
     tablets: getTabletNumber(state),
     weaveComponent: Weave, // reference always equal
-    repeat: getRowNumber(state) > 20 ? 2 : 4,
+    repeat: getNumberOfRepeats(state),
 });
 
 export default connect(mapStateToProps)(WeaveTable);

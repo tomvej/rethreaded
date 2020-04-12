@@ -6,6 +6,7 @@ import ClearButton from './ClearButton';
 import ExportButton from './ExportButton';
 import ImportButton from './ImportButton';
 import RedoButton from './RedoButton';
+import RepeatButton from './RepeatButton';
 import UndoButton from './UndoButton';
 
 const Toolbar: FC = () => (
@@ -15,6 +16,7 @@ const Toolbar: FC = () => (
         <ImportButton />
         <ExportButton />
         <ClearButton />
+        <RepeatButton />
     </ToolbarComponent>
 );
 

@@ -7,6 +7,7 @@ import {combineContextReducers} from '~utils/redux';
 import {REMOVE_ROW, REMOVE_TABLET, REMOVE_THREAD} from './actions';
 import {MIN_ROWS, MIN_TABLETS, MIN_THREADS} from './constants';
 import * as importExport from './importexport';
+import * as preview from './preview';
 import * as selection from './selection';
 import * as threading from './threading';
 import {getTabletNumberFromModel} from './threading';
@@ -38,6 +39,7 @@ const baseReducer = combineContextReducers({
     [selection.NAME]: selection.reducer,
     [importExport.NAME]: importExport.stateReducer,
     [threads.NAME]: threads.stateReducer,
+    [preview.NAME]: preview.reducer,
 
 });
 export type ModelType = ReturnType<typeof modelReducer>;
