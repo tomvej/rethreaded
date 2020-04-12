@@ -18,7 +18,7 @@ type ColorPickerProps = {
 
 const COLUMNS = 7;
 const paletteMatrix = aperture(palette, COLUMNS);
-const findColorIndex = (color: Color): number => palette.findIndex((other) => isEqual(color, other));
+const findColorIndex = (color: Color): number => palette.findIndex(([other]) => isEqual(color, other));
 const getColumn = (color: Color): number => findColorIndex(color) % COLUMNS;
 const getRow = (color: Color): number => Math.floor(findColorIndex(color) / COLUMNS);
 
@@ -37,7 +37,7 @@ const ColorPicker: FC<ColorPickerProps> = ({color, onColorChange, onClose}) => {
         setSelectedRow(newRow);
     };
     const updateSelectedColumn = (operation: (column: number) => number): void => setSelectedColumn(operation);
-    const setColor = (): void => onColorChange(paletteMatrix[selectedRow][selectedColumn]);
+    const setColor = (): void => onColorChange(paletteMatrix[selectedRow][selectedColumn][0]);
 
     return (
         <ModalContainer

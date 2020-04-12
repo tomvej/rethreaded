@@ -8,7 +8,7 @@ import style from './ColorPicker.scss';
 
 
 type ColorPickerProps = {
-    palette: Array<Array<Color>>;
+    palette: Array<Array<[Color, string]>>;
     selectedRow: number;
     selectedColumn: number;
     handleSelectionChange: (row: number, column: number) => void;
@@ -26,15 +26,16 @@ const ColorPicker: FC<ColorPickerProps> = ({
             <div key={rowIndex} className={style.row}>
                 {row.map((color, columnIndex) => (
                     <div
-                        key={toHex(color)}
+                        key={toHex(color[0])}
                         className={classnames(style.cell, {[style.focus]: selectedColumn === columnIndex && selectedRow === rowIndex})}
-                        style={{backgroundColor: toHex(color)}}
+                        style={{backgroundColor: toHex(color[0])}}
                         onMouseOver={() => handleSelectionChange(rowIndex, columnIndex)}
                         onClick={handleClick}
                     />
                 ))}
             </div>
         ))}
+        <div>{palette[selectedRow][selectedColumn][1]}</div>
     </div>
 );
 
