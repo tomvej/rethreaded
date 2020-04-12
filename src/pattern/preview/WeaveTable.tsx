@@ -11,6 +11,7 @@ const mapStateToProps = (state: RootState) => ({
     rows: getRowNumber(state),
     tablets: getTabletNumber(state),
     weaveComponent: Weave, // reference always equal
+    repeat: getRowNumber(state) > 20 ? 2 : 4,
 });
 
 export default connect(mapStateToProps)(WeaveTable);
