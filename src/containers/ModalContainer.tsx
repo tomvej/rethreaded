@@ -18,7 +18,7 @@ const ModalContainer: FC<ModalContainerProps> = ({keyHandlers= {}, onOutsideClic
     <Popup placement={placement}>
         <OutsideClickDetector onOutsideClick={onOutsideClick}>
             <ModalKeyHandler handlers={keyHandlers}>
-                <FocusLock returnFocus>
+                <FocusLock returnFocus autoFocus={false}>
                     {children}
                 </FocusLock>
             </ModalKeyHandler>
