@@ -10,11 +10,9 @@ if (__DEVELOPMENT__) {
     middlewareList.push(reduxFreeze);
 }
 
-const initial = JSON.parse(localStorage.getItem('rethreaded') ?? '');
-
 const store = createStore(
     reducer,
-    location.search.includes('clear') ? undefined : initial,
+    location.search.includes('clear') ? undefined : JSON.parse(localStorage.getItem('rethreaded') ?? '{}'),
     composeWithDevTools(applyMiddleware(...middlewareList)),
 );
 
