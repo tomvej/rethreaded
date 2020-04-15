@@ -1,3 +1,5 @@
+import {createPersistentReducer} from '~utils/redux';
+
 import {CLEAR} from '../actions';
 import {ActionType, SET_PATTERN_REPEAT} from './actions';
 
@@ -13,4 +15,4 @@ const reducer = (state = 1, action: ActionType): number => {
 }
 
 export type StateType = ReturnType<typeof reducer>;
-export default reducer;
+export default createPersistentReducer('repeat', reducer);

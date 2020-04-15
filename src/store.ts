@@ -12,12 +12,12 @@ if (__DEVELOPMENT__) {
 
 const store = createStore(
     reducer,
-    location.search.includes('clear') ? undefined : JSON.parse(localStorage.getItem('rethreaded') ?? '{}'),
+    location.search.includes('clear') ? undefined : JSON.parse(sessionStorage.getItem('state') ?? '{}'),
     composeWithDevTools(applyMiddleware(...middlewareList)),
 );
 
 window.addEventListener('unload', () => {
-    localStorage.setItem('rethreaded', JSON.stringify(store.getState()));
+    sessionStorage.setItem('state', JSON.stringify(store.getState()));
 });
 
 export default store;
