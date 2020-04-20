@@ -16,6 +16,8 @@ export const isFocused = (state: RootState): boolean => focus.isFocused(state, N
 export const getThreadsFromModel = (state: ModelType): Array<ThreadId> => state.threads;
 export const getThreads = (state: RootState): Array<ThreadId> => getThreadsFromModel(getModel(state));
 
+export const isThreadSelected = (state: RootState, thread: ThreadId): boolean => getThreads(state)[getSelectedThread(state)] === thread;
+
 export const getColor = (state: RootState, thread: ThreadId): Color => getModel(state).colors[thread];
 
 export const isPickerVisible = (state: RootState): boolean => getState(state);

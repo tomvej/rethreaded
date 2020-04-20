@@ -9,8 +9,6 @@ const getState = (state: RootState): SelectionState => getParentState(state)[NAM
 
 export const getSelectedThread = (state: RootState) => getState(state).thread;
 
-export const isThreadSelected = (state: RootState, thread: number) => getSelectedThread(state) === thread; // FIXME use ThreadId
-
 export const isThreadingSelected = (state: RootState, tablet: TabletId, hole: Hole) => getState(state).hole === hole && getState(state).tablet === tablet;
 
 export const isWeavingSelected = (state: RootState, tablet: TabletId, row: RowId) => getState(state).row === row && getState(state).tablet === tablet;
