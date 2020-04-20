@@ -1,4 +1,5 @@
 import {ActionType as ParentActionType} from '../actions';
+import {TabletId, ThreadId} from '../types';
 import {FULL_NAME} from './constants';
 
 export const SET_S_THREADING = `${FULL_NAME}/set-s-threading` as 'set-s-threading';
@@ -15,11 +16,11 @@ export interface SetZThreadingActionType {
 }
 export interface ApplyThreadActionType {
     type: typeof APPLY_THREAD;
-    thread: number | undefined;
+    thread: ThreadId | undefined;
 }
 export interface ToggleThreadingActionType {
     type: typeof TOGGLE_THREADING;
-    tablet: number;
+    tablet: TabletId;
 }
 export interface TurnActionType {
     type: typeof TURN;
@@ -28,11 +29,11 @@ export interface TurnActionType {
 
 export const setSThreading = (): SetSThreadingActionType => ({type: SET_S_THREADING});
 export const setZThreading = (): SetZThreadingActionType => ({type: SET_Z_THREADING});
-export const applyThread = (thread?: number): ApplyThreadActionType => ({
+export const applyThread = (thread?: ThreadId): ApplyThreadActionType => ({
     type: APPLY_THREAD,
     thread,
 });
-export const toggleThreading = (tablet: number): ToggleThreadingActionType => ({
+export const toggleThreading = (tablet: TabletId): ToggleThreadingActionType => ({
     type: TOGGLE_THREADING,
     tablet,
 });

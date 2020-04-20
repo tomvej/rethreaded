@@ -5,9 +5,10 @@ import {Dispatch} from 'redux';
 import {ActionIcon, ActionOverlay, CellLabel} from '~components';
 
 import {addTabletAfter, addTabletBefore, removeTablet} from '../actions';
+import {TabletId} from '../types';
 
 type OwnProps = {
-    tablet: number;
+    tablet: TabletId;
 }
 
 type DispatchProps = {

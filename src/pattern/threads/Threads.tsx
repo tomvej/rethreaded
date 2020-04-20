@@ -16,7 +16,11 @@ const mapStateToProps = (state: RootState) => ({
 type StateProps = ReturnType<typeof mapStateToProps>;
 
 const mergeProps = ({number}: StateProps) => ({
-    children: seq(number).map((thread) => <RemoveOverlay key={thread} thread={thread}><Thread number={thread} /></RemoveOverlay>),
+    children: seq(number).map((thread, index) => (
+        <RemoveOverlay key={thread} thread={thread}>
+            <Thread thread={thread} number={index} />
+        </RemoveOverlay>
+    )),
 });
 
 export default connect(mapStateToProps, undefined, mergeProps)(RowLayout);

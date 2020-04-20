@@ -3,12 +3,13 @@ import {Dispatch} from 'redux';
 
 import {TabletLine} from '~components';
 import {RootState} from '~reducer';
+import {TabletId} from '../types';
 
 import {toggleThreading} from './actions';
 import {getThreading} from './selectors';
 
 type OwnProps = {
-    tablet: number;
+    tablet: TabletId;
 }
 
 const mapStateToProps = (state: RootState, {tablet}: OwnProps) => ({

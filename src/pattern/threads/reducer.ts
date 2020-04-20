@@ -6,18 +6,18 @@ import palette from '~utils/palette';
 import {combineContextReducers} from '~utils/redux';
 
 import {ADD_THREAD, CLEAR, IMPORT_DESIGN, REMOVE_THREAD} from '../actions';
-import {Context} from '../types';
+import {Context, ThreadId} from '../types';
 import {ActionType, SET_COLOR, TOGGLE_PICKER} from './actions';
 
 const initialThreadIds = [0, 1];
-const threads = (state = initialThreadIds, action: ActionType, {selection}: Context): Array<number> => {
+const threads = (state: Array<ThreadId> = initialThreadIds, action: ActionType, {selection}: Context): Array<ThreadId> => {
     switch (action.type) {
         case ADD_THREAD:
             return snoc(state, state.length);
         case IMPORT_DESIGN:
             return seq(action.threadIds.length);
         case REMOVE_THREAD:
-            return remove(action.thread ?? selection.thread)(state); // FIXME
+            return remove(action.thread ?? selection.thread)(state);
         case CLEAR:
             return initialThreadIds;
         default:

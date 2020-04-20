@@ -7,17 +7,19 @@ import {Thread as ThreadComponent} from '~components';
 import {RootState} from '~reducer';
 
 import {isThreadSelected, selectThread} from '../selection';
+import {ThreadId} from '../types';
 import {showPicker} from './actions';
 import {getColor, isFocused} from './selectors';
 
 type OwnProps = {
     number: number;
+    thread: ThreadId;
 };
 
-const mapStateToProps = (state: RootState, {number}: OwnProps) => ({
-    color: getColor(state, number),
-    active: isThreadSelected(state, number),
-    focus: isThreadSelected(state, number) && isFocused(state),
+const mapStateToProps = (state: RootState, {thread}: OwnProps) => ({
+    color: getColor(state, thread),
+    active: isThreadSelected(state, thread),
+    focus: isThreadSelected(state, thread) && isFocused(state),
 });
 
 type StateProps = ReturnType<typeof mapStateToProps>;

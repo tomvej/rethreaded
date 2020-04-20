@@ -1,9 +1,13 @@
 import {Color, Direction, Hole, Tablet, ThreadingType} from '~types';
 
+export type ThreadId = number;
+export type TabletId = number;
+export type RowId = number;
+
 export type SelectionState = {
-    row: number;
-    thread: number;
-    tablet: number;
+    row: RowId;
+    thread: ThreadId;
+    tablet: TabletId;
     hole: Hole;
 }
 

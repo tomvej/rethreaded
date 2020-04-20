@@ -5,9 +5,10 @@ import {Dispatch} from 'redux';
 import {ActionIcon, ActionOverlay, CellLabel} from '~components';
 
 import {addRowAfter, addRowBefore, removeRow} from '../actions';
+import {RowId} from '../types';
 
 type OwnProps = {
-    row: number;
+    row: RowId;
 }
 
 type DispatchProps = {

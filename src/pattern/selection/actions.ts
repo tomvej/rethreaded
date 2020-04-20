@@ -1,4 +1,5 @@
 import {ActionType as ParentActionType} from '../actions';
+import {ThreadId} from '../types';
 import {FULL_NAME} from './constants';
 
 export const NEXT_THREAD = `${FULL_NAME}/next-thread` as 'next-thread';
@@ -19,7 +20,7 @@ export type NextHoleActionType = {type: typeof NEXT_HOLE};
 export type PrevHoleActionType = {type: typeof PREV_HOLE};
 export type SelectThreadActionType = {
     type: typeof SELECT_THREAD;
-    thread: number;
+    thread: ThreadId;
 };
 export type NextRowActionType = {type: typeof NEXT_ROW};
 export type PrevRowActionType = {type: typeof PREV_ROW};
@@ -30,7 +31,7 @@ export const selectNextTablet = (): NextTabletActionType => ({type: NEXT_TABLET}
 export const selectPrevTablet = (): PrevTabletActionType => ({type: PREV_TABLET});
 export const selectNextHole = (): NextHoleActionType => ({type: NEXT_HOLE});
 export const selectPrevHole = (): PrevHoleActionType => ({type: PREV_HOLE});
-export const selectThread = (thread: number): SelectThreadActionType => ({
+export const selectThread = (thread: ThreadId): SelectThreadActionType => ({
     type: SELECT_THREAD,
     thread,
 });

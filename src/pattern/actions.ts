@@ -4,7 +4,7 @@ import * as uuid from 'uuid';
 import {Hole} from '~types';
 
 import {NAME} from './constants';
-import {IOShape} from './types';
+import {IOShape, RowId, TabletId, ThreadId} from './types';
 
 export const SELECT_AND_APPLY_THREAD = `${NAME}/select-apply-thread` as 'select-apply-thread';
 export const ADD_THREAD = `${NAME}/add-thread` as 'add-thread';
@@ -21,7 +21,7 @@ export const CLEAR = `${NAME}/clear` as 'clear';
 
 export interface SelectAndApplyThreadActionType {
     type: typeof SELECT_AND_APPLY_THREAD;
-    tablet: number;
+    tablet: TabletId;
     hole: Hole;
 }
 
@@ -32,47 +32,47 @@ export interface AddThreadActionType {
 
 export interface RemoveThreadActionType {
     type: typeof REMOVE_THREAD;
-    thread: number | undefined;
+    thread: ThreadId | undefined;
 }
 
 export interface AddTabletAfterActionType {
     type: typeof ADD_TABLET_AFTER;
     newId: string;
-    tablet: number | undefined;
+    tablet: TabletId | undefined;
 }
 
 export interface AddTabletBeforeActionType {
     type: typeof ADD_TABLET_BEFORE;
     newId: string;
-    tablet: number | undefined;
+    tablet: TabletId | undefined;
 }
 
 export interface RemoveTabletActionType {
     type: typeof REMOVE_TABLET;
-    tablet: number | undefined;
+    tablet: TabletId | undefined;
 }
 
 export interface SelectAndToggleDirectionActionType {
     type: typeof SELECT_AND_TOGGLE_DIRECTION;
-    tablet: number;
-    row: number;
+    tablet: TabletId;
+    row: RowId;
 }
 
 export interface AddRowAfterActionType {
     type: typeof ADD_ROW_AFTER;
     newId: string;
-    row?: number;
+    row?: RowId;
 }
 
 export interface AddRowBeforeActionType {
     type: typeof ADD_ROW_BEFORE;
     newId: string;
-    row?: number;
+    row?: RowId;
 }
 
 export interface RemoveRowActionType {
     type: typeof REMOVE_ROW;
-    row?: number;
+    row?: RowId;
 }
 
 export interface ImportDesignActionType {
@@ -86,7 +86,7 @@ export interface ClearActionType {
     type: typeof CLEAR;
 }
 
-export const selectAndApplyThread = (tablet: number, hole: Hole): SelectAndApplyThreadActionType => ({
+export const selectAndApplyThread = (tablet: TabletId, hole: Hole): SelectAndApplyThreadActionType => ({
     type: SELECT_AND_APPLY_THREAD,
     tablet,
     hole,
@@ -96,37 +96,37 @@ export const addThread = (): AddThreadActionType => ({
     type: ADD_THREAD,
     newId: uuid.v4(),
 });
-export const removeThread = (thread?: number): RemoveThreadActionType => ({type: REMOVE_THREAD, thread});
+export const removeThread = (thread?: ThreadId): RemoveThreadActionType => ({type: REMOVE_THREAD, thread});
 
-export const addTabletAfter = (tablet?: number): AddTabletAfterActionType => ({
+export const addTabletAfter = (tablet?: TabletId): AddTabletAfterActionType => ({
     type: ADD_TABLET_AFTER,
     tablet,
     newId: uuid.v4(),
 });
-export const addTabletBefore = (tablet?: number): AddTabletBeforeActionType => ({
+export const addTabletBefore = (tablet?: TabletId): AddTabletBeforeActionType => ({
     type: ADD_TABLET_BEFORE,
     tablet,
     newId: uuid.v4(),
 });
-export const removeTablet = (tablet?: number): RemoveTabletActionType => ({type: REMOVE_TABLET, tablet});
+export const removeTablet = (tablet?: TabletId): RemoveTabletActionType => ({type: REMOVE_TABLET, tablet});
 
-export const selectAndToggleDirection = (tablet: number, row: number): SelectAndToggleDirectionActionType => ({
+export const selectAndToggleDirection = (tablet: TabletId, row: RowId): SelectAndToggleDirectionActionType => ({
     type: SELECT_AND_TOGGLE_DIRECTION,
     tablet,
     row,
 });
 
-export const addRowAfter = (row?: number): AddRowAfterActionType => ({
+export const addRowAfter = (row?: RowId): AddRowAfterActionType => ({
     type: ADD_ROW_AFTER,
     row,
     newId: uuid.v4(),
 });
-export const addRowBefore = (row?: number): AddRowBeforeActionType => ({
+export const addRowBefore = (row?: RowId): AddRowBeforeActionType => ({
     type: ADD_ROW_BEFORE,
     row,
     newId: uuid.v4(),
 });
-export const removeRow = (row?: number): RemoveRowActionType => ({type: REMOVE_ROW, row});
+export const removeRow = (row?: RowId): RemoveRowActionType => ({type: REMOVE_ROW, row});
 
 const createIds = (length: number): Array<string> => makeBy(length, () => uuid.v4());
 export const importDesign = (data: IOShape): ImportDesignActionType => ({

@@ -7,10 +7,11 @@ import {Direction, Hole} from '~types';
 
 import {selectAndApplyThread} from '../actions';
 import {isThreadingSelected} from '../selection';
+import {TabletId} from '../types';
 import {getColor, getThreading, isFocused} from './selectors';
 
 type OwnProps = {
-    tablet: number;
+    tablet: TabletId;
     row: Hole;
 }
 

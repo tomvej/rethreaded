@@ -4,6 +4,7 @@ import {Color} from '~types';
 
 import {getSelectedThread} from '../selection';
 import {getModel as getParentModel, getState as getParentState} from '../selectors';
+import {ThreadId} from '../types';
 import {NAME} from './constants';
 import {ModelType} from './reducer';
 
@@ -15,8 +16,8 @@ export const isFocused = (state: RootState): boolean => focus.isFocused(state, N
 export const getThreadNumberFromModel = (state: ModelType): number => state.threads.length;
 export const getThreadNumber = (state: RootState): number => getThreadNumberFromModel(getModel(state));
 
-export const getThreads = (state: RootState): Array<number> => getModel(state).threads;
-export const getColor = (state: RootState, thread: number): Color => getModel(state).colors[thread];
+export const getThreads = (state: RootState): Array<ThreadId> => getModel(state).threads;
+export const getColor = (state: RootState, thread: ThreadId): Color => getModel(state).colors[thread];
 
 export const isPickerVisible = (state: RootState): boolean => getState(state);
 

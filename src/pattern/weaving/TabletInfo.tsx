@@ -3,11 +3,12 @@ import {connect} from 'react-redux';
 
 import {CellLabel} from '~components';
 import {RootState} from '~reducer';
+import {TabletId} from '../types';
 
 import {createGetTabletTwist} from './selectors';
 
 type OwnProps = {
-    tablet: number;
+    tablet: TabletId;
 }
 
 const createMapStateToProps = () => {

@@ -5,11 +5,12 @@ import {RootState} from '~reducer';
 import {decrement} from '~utils/func';
 
 import {getThreading} from '../threading';
+import {RowId, TabletId} from '../types';
 import {getDirection, getPatternColor, getRowNumber} from '../weaving';
 
 type OwnProps = {
-    row: number;
-    tablet: number;
+    row: RowId;
+    tablet: TabletId;
 };
 
 const mapStateToProps = (state: RootState, {tablet, row}: OwnProps) => ({

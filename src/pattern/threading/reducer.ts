@@ -13,7 +13,7 @@ import {
     SELECT_AND_APPLY_THREAD,
 } from '../actions';
 import {MIN_TABLETS} from '../constants';
-import {Context} from '../types';
+import {Context, ThreadId} from '../types';
 import {ActionType, APPLY_THREAD, SET_S_THREADING, SET_Z_THREADING, TOGGLE_THREADING, TURN} from './actions';
 
 const toggleThreading = (threading: ThreadingType): ThreadingType => {
@@ -64,7 +64,7 @@ const turnTablet = (turns: number) => <T>(tablet: Tablet<T>): Tablet<T> => [
     tablet[getTurnedIndex(Hole.D + turns)],
 ];
 
-type ThreadsState = Array<Tablet<number>>;
+type ThreadsState = Array<Tablet<ThreadId>>;
 const initialThreads: ThreadsState = seq(MIN_TABLETS).map(() => [0, 1, 0, 1]);
 const threads = (state = initialThreads, action: ActionType, {selection, threads}: Context): ThreadsState => {
     switch (action.type) {
