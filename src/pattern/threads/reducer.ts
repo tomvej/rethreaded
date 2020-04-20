@@ -1,8 +1,9 @@
 import {snoc} from 'fp-ts/es6/Array';
 
 import {Color} from '~types';
-import {remove, seq, update} from '~utils/array';
+import * as array  from '~utils/array';
 import palette from '~utils/palette';
+import * as record from '~utils/record';
 import {combineContextReducers} from '~utils/redux';
 
 import {ADD_THREAD, CLEAR, IMPORT_DESIGN, REMOVE_THREAD} from '../actions';
@@ -15,9 +16,9 @@ const threads = (state: Array<ThreadId> = initialThreadIds, action: ActionType, 
         case ADD_THREAD:
             return snoc(state, state.length);
         case IMPORT_DESIGN:
-            return seq(action.threadIds.length);
+            return array.seq(action.threadIds.length);
         case REMOVE_THREAD:
-            return remove(action.thread ?? selection.thread)(state);
+            return array.remove(action.thread ?? selection.thread)(state);
         case CLEAR:
             return initialThreadIds;
         default:
@@ -25,23 +26,27 @@ const threads = (state: Array<ThreadId> = initialThreadIds, action: ActionType, 
     }
 }
 
-const initialColors  = [palette[40][0], palette[0][0]];
-export const colors = (state = initialColors, action: ActionType, {selection}: Context): Array<Color> => {
-    switch (action.type) {
+type ColorState = Record<ThreadId, Color>;
+const initialColors: ColorState = {
+    [initialThreadIds[0]]: palette[40][0],
+    [initialThreadIds[1]]: palette[0][0],
+};
+const colors = (state = initialColors, action: ActionType, {selection, threads}: Context): ColorState => {
+    switch(action.type) {
         case SET_COLOR:
-            return update(selection.thread, () => action.color)(state);
+            return record.update(selection.thread, () => action.color)(state);
         case ADD_THREAD:
-            return snoc(state, palette[0][0]);
+            return record.update(threads.length, () => palette[0][0])(state);
         case REMOVE_THREAD:
-            return remove(action.thread ?? selection.thread)(state);
+            return record.remove(action.thread ?? selection.thread)(state);
         case IMPORT_DESIGN:
-            return action.data.threads;
+            return state; // FIXME
         case CLEAR:
             return initialColors;
         default:
             return state;
     }
-};
+}
 
 export const modelReducer = combineContextReducers({threads, colors});
 export type ModelType = ReturnType<typeof modelReducer>;

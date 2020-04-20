@@ -23,4 +23,4 @@ export const isPickerVisible = (state: RootState): boolean => getState(state);
 export const getCurrentColor = (state: RootState): Color => getColor(state, getSelectedThread(state));
 
 type ExportThreads = (state: RootState) => Array<Color>;
-export const exportThreads: ExportThreads = (state) => getModel(state).colors;
+export const exportThreads: ExportThreads = (state) => Object.values(getModel(state).colors);
