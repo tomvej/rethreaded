@@ -1,7 +1,10 @@
-import {snoc} from 'fp-ts/es6/Array';
+import {array as FoldableArray, mapWithIndex, snoc} from 'fp-ts/es6/Array';
+import {pipe} from 'fp-ts/es6/pipeable';
+import {fromFoldable} from 'fp-ts/es6/Record';
+import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
 
 import {Color} from '~types';
-import * as array  from '~utils/array';
+import * as array from '~utils/array';
 import palette from '~utils/palette';
 import * as record from '~utils/record';
 import {combineContextReducers} from '~utils/redux';
@@ -39,8 +42,13 @@ const colors = (state = initialColors, action: ActionType, {selection, threads}:
             return record.update(action.newId, () => palette[0][0])(state);
         case REMOVE_THREAD:
             return record.remove(action.thread ?? threads[selection.thread])(state);
-        case IMPORT_DESIGN:
-            return state; // FIXME
+        case IMPORT_DESIGN: {
+            const preArray: Array<[ThreadId, Color]> = pipe(
+                action.data.threads,
+                mapWithIndex((index, color) => [action.threadIds[index], color]),
+            );
+            return fromFoldable(getLastSemigroup<Color>(), FoldableArray)(preArray);
+        }
         case CLEAR:
             return initialColors;
         default:

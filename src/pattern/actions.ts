@@ -131,8 +131,8 @@ export const removeRow = (row?: RowId): RemoveRowActionType => ({type: REMOVE_RO
 const createIds = (length: number): Array<string> => makeBy(length, () => uuid.v4());
 export const importDesign = (data: IOShape): ImportDesignActionType => ({
     type: IMPORT_DESIGN,
-    tabletIds: createIds(data.threads.length),
-    threadIds: createIds(data.threading.threads.length) as ThreadId[],
+    threadIds: createIds(data.threads.length) as ThreadId[],
+    tabletIds: createIds(data.threading.threads.length),
     rowIds: createIds(data.weaving.length),
     data,
 });

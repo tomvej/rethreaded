@@ -1,3 +1,5 @@
+import {map} from 'fp-ts/es6/Array';
+import {pipe} from 'fp-ts/es6/pipeable';
 import {Hole, Tablet, ThreadingType} from '~types';
 import {insert, remove, seq, update} from '~utils/array';
 import {combineContextReducers} from '~utils/redux';
@@ -97,7 +99,10 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
         case REMOVE_TABLET:
             return remove(action.tablet ?? selection.tablet)(state);
         case IMPORT_DESIGN:
-            return []; // FIXME
+            return pipe(
+                action.data.threading.threads,
+                map(mapTablet((index) => action.threadIds[index])),
+            );
         case CLEAR:
             return initialThreads;
         default:
