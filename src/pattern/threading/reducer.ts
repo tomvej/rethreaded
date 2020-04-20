@@ -1,5 +1,7 @@
-import {map} from 'fp-ts/es6/Array';
+import {init, map, snoc} from 'fp-ts/es6/Array';
+import {getOrElse} from 'fp-ts/es6/Option';
 import {pipe} from 'fp-ts/es6/pipeable';
+
 import {Hole, Tablet, ThreadingType} from '~types';
 import {insert, remove, seq, update} from '~utils/array';
 import {combineContextReducers} from '~utils/redux';
@@ -14,9 +16,31 @@ import {
     REMOVE_THREAD,
     SELECT_AND_APPLY_THREAD,
 } from '../actions';
-import {MIN_TABLETS, initialThreadIds} from '../constants';
-import {Context, ThreadId} from '../types';
+import {initialThreadIds, MIN_TABLETS} from '../constants';
+import {Context, TabletId, ThreadId} from '../types';
 import {ActionType, APPLY_THREAD, SET_S_THREADING, SET_Z_THREADING, TOGGLE_THREADING, TURN} from './actions';
+
+type TabletState = Array<TabletId>;
+const initialTabletIds = [0, 1, 2, 3];
+const tablets = (state: TabletState = initialTabletIds, action: ActionType): TabletState => {
+    switch (action.type) {
+        case ADD_TABLET_AFTER:
+        case ADD_TABLET_BEFORE:
+            return snoc(state, state.length);
+        case REMOVE_TABLET:
+            return pipe(
+                state,
+                init,
+                getOrElse(() => [] as TabletId[]),
+            );
+        case IMPORT_DESIGN:
+            return seq(action.data.threading.threads.length);
+        case CLEAR:
+            return initialTabletIds;
+        default:
+            return state;
+    }
+}
 
 const toggleThreading = (threading: ThreadingType): ThreadingType => {
     switch (threading) {
@@ -110,6 +134,6 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
     }
 };
 
-const reducer = combineContextReducers({threads, threading});
+const reducer = combineContextReducers({threads, threading, tablets});
 export type StateType = ReturnType<typeof reducer>;
 export default reducer;
