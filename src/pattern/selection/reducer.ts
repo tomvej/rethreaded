@@ -16,7 +16,7 @@ import {
     SELECT_AND_APPLY_THREAD,
     SELECT_AND_TOGGLE_DIRECTION,
 } from '../actions';
-import {Context, RowId, TabletId, ThreadId} from '../types';
+import {Context} from '../types';
 import {
     ActionType,
     NEXT_HOLE,
@@ -52,7 +52,7 @@ const thread = (state = 0, action: ActionType, {threads}: Context): number => {
     }
 };
 
-const tablet = (state: TabletId = 0, action: ActionType, {tablets}: Context): TabletId => {
+const tablet = (state = 0, action: ActionType, {tablets}: Context): number => {
     switch (action.type) {
         case NEXT_TABLET:
             return increment(tablets)(state);
@@ -92,7 +92,7 @@ const hole = (state = Hole.A, action: ActionType): Hole => {
     }
 };
 
-const row = (state: RowId = 0, action: ActionType, {rows}: Context): RowId => {
+const row = (state: number = 0, action: ActionType, {rows}: Context): number => {
     switch (action.type) {
         case SELECT_AND_TOGGLE_DIRECTION:
             return action.row;

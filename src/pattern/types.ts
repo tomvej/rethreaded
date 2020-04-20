@@ -7,9 +7,9 @@ export type TabletId = number;
 export type RowId = number;
 
 export type SelectionState = {
-    row: RowId;
+    row: number;
     thread: number;
-    tablet: TabletId;
+    tablet: number;
     hole: Hole;
 }
 
