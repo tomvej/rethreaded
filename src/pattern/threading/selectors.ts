@@ -15,7 +15,7 @@ export const getTabletNumber = (state: RootState): number => getTabletNumberFrom
 
 export const getThreading = (state: RootState, tablet: TabletId): ThreadingType => getState(state).threading[tablet];
 
-const getThread = (state: RootState, tablet: TabletId, hole: Hole): number => getState(state).threads[tablet][hole];
+const getThread = (state: RootState, tablet: TabletId, hole: Hole): ThreadId => getState(state).threads[tablet][hole];
 
 export const getColor = (state: RootState, tablet: TabletId, hole: Hole): Color => getThreadColor(state, getThread(state, tablet, hole));
 

@@ -22,7 +22,10 @@ const mapStateToProps = (state: RootState) => {
         {
             ...info,
             threads,
-            threading,
+            threading: {
+                threads: [],
+                threading: [],
+            }, // FIXME
             weaving,
         },
         encode,

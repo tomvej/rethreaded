@@ -16,10 +16,10 @@ type OwnProps = {
     thread: ThreadId;
 };
 
-const mapStateToProps = (state: RootState, {thread}: OwnProps) => ({
+const mapStateToProps = (state: RootState, {thread, number}: OwnProps) => ({
     color: getColor(state, thread),
-    active: isThreadSelected(state, thread),
-    focus: isThreadSelected(state, thread) && isFocused(state),
+    active: isThreadSelected(state, number),
+    focus: isThreadSelected(state, number) && isFocused(state),
 });
 
 type StateProps = ReturnType<typeof mapStateToProps>;

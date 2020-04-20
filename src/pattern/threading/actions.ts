@@ -16,7 +16,7 @@ export interface SetZThreadingActionType {
 }
 export interface ApplyThreadActionType {
     type: typeof APPLY_THREAD;
-    thread: ThreadId | undefined;
+    thread: number | undefined;
 }
 export interface ToggleThreadingActionType {
     type: typeof TOGGLE_THREADING;
@@ -29,7 +29,7 @@ export interface TurnActionType {
 
 export const setSThreading = (): SetSThreadingActionType => ({type: SET_S_THREADING});
 export const setZThreading = (): SetZThreadingActionType => ({type: SET_Z_THREADING});
-export const applyThread = (thread?: ThreadId): ApplyThreadActionType => ({
+export const applyThread = (thread?: number): ApplyThreadActionType => ({
     type: APPLY_THREAD,
     thread,
 });

@@ -7,18 +7,18 @@ import * as record from '~utils/record';
 import {combineContextReducers} from '~utils/redux';
 
 import {ADD_THREAD, CLEAR, IMPORT_DESIGN, REMOVE_THREAD} from '../actions';
+import {initialThreadIds} from '../constants';
 import {Context, ThreadId} from '../types';
 import {ActionType, SET_COLOR, TOGGLE_PICKER} from './actions';
 
-const initialThreadIds = [0, 1];
 const threads = (state: Array<ThreadId> = initialThreadIds, action: ActionType, {selection}: Context): Array<ThreadId> => {
     switch (action.type) {
         case ADD_THREAD:
-            return snoc(state, state.length);
+            return snoc(state, action.newId);
         case IMPORT_DESIGN:
-            return array.seq(action.threadIds.length);
+            return action.threadIds;
         case REMOVE_THREAD:
-            return array.remove(action.thread ?? selection.thread)(state);
+            return array.remove(action.thread ? state.indexOf(action.thread) : selection.thread)(state);
         case CLEAR:
             return initialThreadIds;
         default:
@@ -34,11 +34,11 @@ const initialColors: ColorState = {
 const colors = (state = initialColors, action: ActionType, {selection, threads}: Context): ColorState => {
     switch(action.type) {
         case SET_COLOR:
-            return record.update(selection.thread, () => action.color)(state);
+            return record.update(threads[selection.thread], () => action.color)(state);
         case ADD_THREAD:
-            return record.update(threads.length, () => palette[0][0])(state);
+            return record.update(action.newId, () => palette[0][0])(state);
         case REMOVE_THREAD:
-            return record.remove(action.thread ?? selection.thread)(state);
+            return record.remove(action.thread ?? threads[selection.thread])(state);
         case IMPORT_DESIGN:
             return state; // FIXME
         case CLEAR:

@@ -12,7 +12,7 @@ import {
     REMOVE_THREAD,
     SELECT_AND_APPLY_THREAD,
 } from '../actions';
-import {MIN_TABLETS} from '../constants';
+import {MIN_TABLETS, initialThreadIds} from '../constants';
 import {Context, ThreadId} from '../types';
 import {ActionType, APPLY_THREAD, SET_S_THREADING, SET_Z_THREADING, TOGGLE_THREADING, TURN} from './actions';
 
@@ -65,23 +65,27 @@ const turnTablet = (turns: number) => <T>(tablet: Tablet<T>): Tablet<T> => [
 ];
 
 type ThreadsState = Array<Tablet<ThreadId>>;
-const initialThreads: ThreadsState = seq(MIN_TABLETS).map(() => [0, 1, 0, 1]);
+const initialThreads: ThreadsState = seq(MIN_TABLETS).map(() => [initialThreadIds[0], initialThreadIds[1], initialThreadIds[0], initialThreadIds[1]]);
 const threads = (state = initialThreads, action: ActionType, {selection, threads}: Context): ThreadsState => {
     switch (action.type) {
         case APPLY_THREAD: {
             const newThread = action.thread ?? selection.thread;
             if (newThread < threads.length) {
-                return update(selection.tablet, updateTablet(selection.hole, () => newThread))(state);
+                return update(selection.tablet, updateTablet(selection.hole, () => threads[newThread]))(state);
             } else {
                 return state;
             }
         }
         case SELECT_AND_APPLY_THREAD:
-            return update(action.tablet, updateTablet(action.hole, () => selection.thread))(state);
+            return update(action.tablet, updateTablet(action.hole, () => threads[selection.thread]))(state);
         case TURN:
             return update(selection.tablet, turnTablet(action.turns))(state);
-        case REMOVE_THREAD:
-            return state.map(mapTablet((thread) => (thread >= (action.thread ?? selection.thread) && thread > 0) ? thread - 1 : thread));
+        case REMOVE_THREAD: {
+            const removedThread = action.thread ?? threads[selection.thread];
+            const threadIndex = threads.indexOf(removedThread);
+            const newThreadIndex = threadIndex > 0 ? threadIndex - 1 : threadIndex + 1;
+            return state.map(mapTablet((thread) => thread === removedThread ? threads[newThreadIndex] : thread));
+        }
         case ADD_TABLET_AFTER: {
             const tablet = action.tablet ?? selection.tablet;
             return insert(state, tablet + 1, state[tablet]);
@@ -93,7 +97,7 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
         case REMOVE_TABLET:
             return remove(action.tablet ?? selection.tablet)(state);
         case IMPORT_DESIGN:
-            return action.data.threading.threads;
+            return []; // FIXME
         case CLEAR:
             return initialThreads;
         default:
