@@ -1,3 +1,4 @@
+import {map} from 'fp-ts/es6/Array';
 import {pipe} from 'fp-ts/es6/pipeable';
 import {connect} from 'react-redux';
 
@@ -22,10 +23,7 @@ const mapStateToProps = (state: RootState) => {
         {
             ...info,
             threads,
-            threading: {
-                threads: [],
-                threading: [],
-            }, // FIXME
+            threading,
             weaving,
         },
         encode,
