@@ -27,7 +27,7 @@ export interface SelectAndApplyThreadActionType {
 
 export interface AddThreadActionType {
     type: typeof ADD_THREAD;
-    newId: string;
+    newId: ThreadId;
 }
 
 export interface RemoveThreadActionType {
@@ -78,7 +78,7 @@ export interface RemoveRowActionType {
 export interface ImportDesignActionType {
     type: typeof IMPORT_DESIGN;
     data: IOShape;
-    threadIds: Array<string>;
+    threadIds: Array<ThreadId>;
     tabletIds: Array<string>;
     rowIds: Array<string>;
 }
@@ -94,7 +94,7 @@ export const selectAndApplyThread = (tablet: TabletId, hole: Hole): SelectAndApp
 
 export const addThread = (): AddThreadActionType => ({
     type: ADD_THREAD,
-    newId: uuid.v4(),
+    newId: uuid.v4() as ThreadId,
 });
 export const removeThread = (thread?: ThreadId): RemoveThreadActionType => ({type: REMOVE_THREAD, thread});
 
@@ -132,7 +132,7 @@ const createIds = (length: number): Array<string> => makeBy(length, () => uuid.v
 export const importDesign = (data: IOShape): ImportDesignActionType => ({
     type: IMPORT_DESIGN,
     tabletIds: createIds(data.threads.length),
-    threadIds: createIds(data.threading.threads.length),
+    threadIds: createIds(data.threading.threads.length) as ThreadId[],
     rowIds: createIds(data.weaving.length),
     data,
 });

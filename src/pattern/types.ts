@@ -1,6 +1,8 @@
 import {Color, Direction, Hole, Tablet, ThreadingType} from '~types';
 
-export type ThreadId = string;
+enum ThreadIdEnum {_= ''}
+
+export type ThreadId = ThreadIdEnum & string;
 export type TabletId = number;
 export type RowId = number;
 
