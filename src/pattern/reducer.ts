@@ -12,9 +12,9 @@ import * as selection from './selection';
 import * as threading from './threading';
 import {getTabletNumberFromModel} from './threading';
 import * as threads from './threads';
-import {getThreadNumberFromModel} from './threads';
-import {getRowNumberFromModel} from './weaving';
+import {getThreadsFromModel} from './threads';
 import * as weaving from './weaving';
+import {getRowNumberFromModel} from './weaving';
 
 const emptyContext = {
     selection: {
@@ -23,7 +23,7 @@ const emptyContext = {
         hole: Hole.A,
         row: 0,
     },
-    threads: 0,
+    threads: [],
     tablets: 0,
     rows: 0,
 };
@@ -47,11 +47,11 @@ export type StateType = ReturnType<typeof baseReducer>;
 
 const initial = baseReducer(undefined, {} as Action, emptyContext);
 const reducer = (state: StateType = initial, action: Action): StateType => {
-    const threadNumber = getThreadNumberFromModel(undo.getCurrent(state.model).threads);
+    const threads = getThreadsFromModel(undo.getCurrent(state.model).threads);
     const tabletNumber = getTabletNumberFromModel(undo.getCurrent(state.model).threading);
     const rowNumber = getRowNumberFromModel(undo.getCurrent(state.model).weaving);
 
-    if (action.type === REMOVE_THREAD && threadNumber <= MIN_THREADS) {
+    if (action.type === REMOVE_THREAD && threads.length <= MIN_THREADS) {
         return state;
     }
     if (action.type === REMOVE_TABLET && tabletNumber <= MIN_TABLETS) {
@@ -63,7 +63,7 @@ const reducer = (state: StateType = initial, action: Action): StateType => {
 
     return baseReducer(state, action, {
         selection: state.selection,
-        threads: threadNumber,
+        threads,
         tablets: tabletNumber,
         rows: rowNumber,
     });

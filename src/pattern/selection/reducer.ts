@@ -32,23 +32,23 @@ import {
 
 const clamp = (number: number, max: number): number => Math.max(Math.min(max - 1, number), 0);
 
-const thread = (state: ThreadId = 0, action: ActionType, {threads}: Context): ThreadId => {
+const thread = (state = 0, action: ActionType, {threads}: Context): number => {
     switch (action.type) {
         case NEXT_THREAD:
-            return increment(threads)(state);
+            return increment(threads.length)(state);
         case PREV_THREAD:
-            return decrement(threads)(state);
+            return decrement(threads.length)(state);
         case SELECT_THREAD:
-            return action.thread < threads ? action.thread : state;
+            return action.thread < threads.length ? action.thread : state;
         case ADD_THREAD:
-            return threads;
+            return threads.length;
         case REMOVE_THREAD:
-            return Math.min(state, threads - 2);
+            return Math.min(state, threads.length - 2);
         case IMPORT_DESIGN:
         case CLEAR:
             return 0;
         default:
-            return clamp(state, threads);
+            return clamp(state, threads.length);
     }
 };
 

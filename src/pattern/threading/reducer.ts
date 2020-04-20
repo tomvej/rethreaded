@@ -70,7 +70,7 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
     switch (action.type) {
         case APPLY_THREAD: {
             const newThread = action.thread ?? selection.thread;
-            if (newThread < threads) {
+            if (newThread < threads.length) {
                 return update(selection.tablet, updateTablet(selection.hole, () => newThread))(state);
             } else {
                 return state;

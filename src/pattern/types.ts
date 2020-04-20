@@ -6,14 +6,14 @@ export type RowId = number;
 
 export type SelectionState = {
     row: RowId;
-    thread: ThreadId;
+    thread: number;
     tablet: TabletId;
     hole: Hole;
 }
 
 export type Context = {
     selection: SelectionState;
-    threads: number;
+    threads: Array<ThreadId>;
     tablets: number;
     rows: number;
 }
