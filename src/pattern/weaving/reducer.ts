@@ -1,9 +1,12 @@
-import {unsafeDeleteAt} from 'fp-ts/es6/Array';
-import {map} from 'fp-ts/es6/Record';
+import {array, map as mapArray, unsafeDeleteAt} from 'fp-ts/es6/Array';
+import {pipe} from 'fp-ts/es6/pipeable';
+import {fromFoldable, map} from 'fp-ts/es6/Record';
+import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
 import * as uuid from 'uuid';
 
 import {Direction} from '~types';
 import {insert} from '~utils/array';
+import {addIndices} from '~utils/func';
 import * as record from '~utils/record';
 import {fromEntries} from '~utils/record';
 import {combineContextReducers} from '~utils/redux';
@@ -86,12 +89,13 @@ const directions = (state: DirectionsType = initState, action: ActionType, {sele
         case REMOVE_ROW:
             return record.remove(action.row ?? rows[selection.row])(state);
         case IMPORT_DESIGN:
-            return {} as DirectionsType; // FIXME
-            /*return pipe(
+            return pipe(
                 action.data.weaving,
-                map(addIndices((i) => action.tabletIds[i])),
-                map(fromFoldable(getLastSemigroup<Direction>(), array)),
-            );*/
+                mapArray(addIndices((i) => action.tabletIds[i])),
+                mapArray(fromFoldable(getLastSemigroup<Direction>(), array)),
+                addIndices((i) => action.rowIds[i]),
+                fromFoldable(getLastSemigroup(), array),
+            );
         case CLEAR:
             return initState;
         default:
