@@ -10,7 +10,7 @@ import * as importExport from './importexport';
 import * as preview from './preview';
 import * as selection from './selection';
 import * as threading from './threading';
-import {getTabletNumberFromModel} from './threading';
+import {getTabletsFromModel} from './threading';
 import * as threads from './threads';
 import {getThreadsFromModel} from './threads';
 import * as weaving from './weaving';
@@ -24,7 +24,7 @@ const emptyContext = {
         row: 0,
     },
     threads: [],
-    tablets: 0,
+    tablets: [],
     rows: 0,
 };
 
@@ -48,13 +48,13 @@ export type StateType = ReturnType<typeof baseReducer>;
 const initial = baseReducer(undefined, {} as Action, emptyContext);
 const reducer = (state: StateType = initial, action: Action): StateType => {
     const threads = getThreadsFromModel(undo.getCurrent(state.model).threads);
-    const tabletNumber = getTabletNumberFromModel(undo.getCurrent(state.model).threading);
+    const tablets = getTabletsFromModel(undo.getCurrent(state.model).threading);
     const rowNumber = getRowNumberFromModel(undo.getCurrent(state.model).weaving);
 
     if (action.type === REMOVE_THREAD && threads.length <= MIN_THREADS) {
         return state;
     }
-    if (action.type === REMOVE_TABLET && tabletNumber <= MIN_TABLETS) {
+    if (action.type === REMOVE_TABLET && tablets.length <= MIN_TABLETS) {
         return state;
     }
     if (action.type === REMOVE_ROW && rowNumber <= MIN_ROWS) {
@@ -64,7 +64,7 @@ const reducer = (state: StateType = initial, action: Action): StateType => {
     return baseReducer(state, action, {
         selection: state.selection,
         threads,
-        tablets: tabletNumber,
+        tablets,
         rows: rowNumber,
     });
 };

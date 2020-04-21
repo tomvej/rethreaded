@@ -13,7 +13,8 @@ const getState = (state: RootState): StateType => getParentState(state)[NAME];
 
 export const getTabletNumberFromModel = (state: StateType): number => state.tablets.length;
 export const getTabletNumber = (state: RootState): number => getTabletNumberFromModel(getState(state));
-export const getTablets = (state: RootState): Array<TabletId> => getState(state).tablets;
+export const getTabletsFromModel = (state: StateType): Array<TabletId> => state.tablets;
+export const getTablets = (state: RootState): Array<TabletId> => getTabletsFromModel(getState(state));
 
 export const getThreading = (state: RootState, tablet: TabletId): ThreadingType => getState(state).threading[tablet];
 

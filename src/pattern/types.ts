@@ -16,7 +16,7 @@ export type SelectionState = {
 export type Context = {
     selection: SelectionState;
     threads: Array<ThreadId>;
-    tablets: number;
+    tablets: Array<TabletId>;
     rows: number;
 }
 
