@@ -8,7 +8,7 @@ import {Color, Direction, Hole, Tablet} from '~types';
 import {seq} from '~utils/array';
 
 import {getModel as getParentState} from '../selectors';
-import {getColor} from '../threading';
+import {getColor, getTablets} from '../threading';
 import {RowId, TabletId} from '../types';
 import computePattern from './computePattern';
 import {NAME} from './constants';
@@ -18,7 +18,7 @@ const getState = (state: RootState): StateType => getParentState(state)[NAME];
 
 export const isFocused = (state: RootState): boolean => focus.isFocused(state, NAME);
 export const getDirection = (state: RootState, row: RowId, tablet: TabletId): Direction => getState(state)[row][tablet];
-export const getTabletNumber = (state: RootState): number => getState(state)[0].length;
+export const getTabletNumber = (state: RootState): number => getTablets(state).length;
 export const getRowNumberFromModel = (model: StateType): number => model.length;
 export const getRowNumber = (state: RootState): number => getRowNumberFromModel(getState(state));
 
@@ -94,4 +94,4 @@ export const createGetTabletTwist = (): GetTabletTwist => {
 }
 
 type ExportWeaving = (state: RootState) => Array<Array<Direction>>;
-export const exportWeaving: ExportWeaving = getState;
+export const exportWeaving: ExportWeaving = (state: RootState) => getState(state).map((row) => getTablets(state).map((tablet) => row[tablet]));
