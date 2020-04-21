@@ -1,12 +1,13 @@
-import {init, map, snoc} from 'fp-ts/es6/Array';
+import {init, snoc} from 'fp-ts/es6/Array';
 import {getOrElse} from 'fp-ts/es6/Option';
 import {pipe} from 'fp-ts/es6/pipeable';
 
 import {Hole, Tablet, ThreadingType} from '~types';
-import {insert, remove, seq, update} from '~utils/array';
+import {seq} from '~utils/array';
 import * as record from '~utils/record';
+import {fromEntries} from '~utils/record';
 import {combineContextReducers} from '~utils/redux';
-import {map as mapTablet, update as updateTablet} from '~utils/tablet';
+import {update as updateTablet} from '~utils/tablet';
 
 import {
     ADD_TABLET_AFTER,
@@ -17,7 +18,7 @@ import {
     REMOVE_THREAD,
     SELECT_AND_APPLY_THREAD,
 } from '../actions';
-import {initialThreadIds, MIN_TABLETS} from '../constants';
+import {initialThreadIds} from '../constants';
 import {Context, TabletId, ThreadId} from '../types';
 import {ActionType, APPLY_THREAD, SET_S_THREADING, SET_Z_THREADING, TOGGLE_THREADING, TURN} from './actions';
 
@@ -92,43 +93,48 @@ const turnTablet = (turns: number) => <T>(tablet: Tablet<T>): Tablet<T> => [
     tablet[getTurnedIndex(Hole.D + turns)],
 ];
 
-type ThreadsState = Array<Tablet<ThreadId>>;
-const initialThreads: ThreadsState = seq(MIN_TABLETS).map(() => [initialThreadIds[0], initialThreadIds[1], initialThreadIds[0], initialThreadIds[1]]);
+type ThreadsState = Record<TabletId, Tablet<ThreadId>>;
+const initialThreads: ThreadsState = fromEntries(initialTabletIds.map(
+    (id) => [id, [initialThreadIds[0], initialThreadIds[1], initialThreadIds[0], initialThreadIds[1]]]
+));
+
 const threads = (state = initialThreads, action: ActionType, {selection, threads}: Context): ThreadsState => {
     switch (action.type) {
         case APPLY_THREAD: {
             const newThread = action.thread ?? selection.thread;
             if (newThread < threads.length) {
-                return update(selection.tablet, updateTablet(selection.hole, () => threads[newThread]))(state);
+                return record.update(selection.tablet, updateTablet(selection.hole, () => threads[newThread]))(state);
             } else {
                 return state;
             }
         }
         case SELECT_AND_APPLY_THREAD:
-            return update(action.tablet, updateTablet(action.hole, () => threads[selection.thread]))(state);
+            return record.update(action.tablet, updateTablet(action.hole, () => threads[selection.thread]))(state);
         case TURN:
-            return update(selection.tablet, turnTablet(action.turns))(state);
+            return record.update(selection.tablet, turnTablet(action.turns))(state);
         case REMOVE_THREAD: {
             const removedThread = action.thread ?? threads[selection.thread];
             const threadIndex = threads.indexOf(removedThread);
             const newThreadIndex = threadIndex > 0 ? threadIndex - 1 : threadIndex + 1;
-            return state.map(mapTablet((thread) => thread === removedThread ? threads[newThreadIndex] : thread));
+            return {}; // FIXME
+            //return mapRecord(mapTablet((thread) => thread === removedThread ? threads[newThreadIndex] : thread))(state);
         }
         case ADD_TABLET_AFTER: {
             const tablet = action.tablet ?? selection.tablet;
-            return insert(state, tablet + 1, state[tablet]);
+            return record.update(tablet + 1, () => state[tablet])(state);
         }
         case ADD_TABLET_BEFORE: {
             const tablet = action.tablet ?? selection.tablet;
-            return insert(state, tablet, state[tablet]);
+            return record.update(tablet, () => state[tablet])(state);
         }
         case REMOVE_TABLET:
-            return remove(action.tablet ?? selection.tablet)(state);
+            return record.remove(action.tablet ?? selection.tablet)(state);
         case IMPORT_DESIGN:
-            return pipe(
+            return {}; // FIXME
+            /*return pipe(
                 action.data.threading.threads,
                 map(mapTablet((index) => action.threadIds[index])),
-            );
+            );*/
         case CLEAR:
             return initialThreads;
         default:

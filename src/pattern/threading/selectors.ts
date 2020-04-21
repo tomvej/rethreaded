@@ -1,3 +1,4 @@
+import {pipe} from 'fp-ts/es6/pipeable';
 import * as focus from '~core/focus';
 import {RootState} from '~reducer';
 import {Color, Hole, Tablet, ThreadingType} from '~types';
@@ -30,6 +31,9 @@ type ExportThreading = (state: RootState) => {
 }
 export const exportThreading: ExportThreading = (state) => ({
     threading: getTablets(state).map((tablet) => getThreading(state, tablet)),
-    threads: getState(state).threads.map(mapTablet((thread) => getThreads(state).indexOf(thread))),
+    threads: getTablets(state).map((tablet) => pipe(
+        getState(state).threads[tablet],
+        mapTablet((thread) => getThreads(state).indexOf(thread)),
+    )),
 });
 
