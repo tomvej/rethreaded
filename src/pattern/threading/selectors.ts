@@ -1,9 +1,11 @@
 import {pipe} from 'fp-ts/es6/pipeable';
+
 import * as focus from '~core/focus';
 import {RootState} from '~reducer';
 import {Color, Hole, Tablet, ThreadingType} from '~types';
 import {map as mapTablet} from '~utils/tablet';
 
+import {getSelectedHole, getSelectedTablet} from '../selection';
 import {getModel as getParentState} from '../selectors';
 import {getColor as getThreadColor, getThreads} from '../threads';
 import {TabletId, ThreadId} from '../types';
@@ -12,8 +14,7 @@ import {StateType} from './reducer';
 
 const getState = (state: RootState): StateType => getParentState(state)[NAME];
 
-export const getTabletNumberFromModel = (state: StateType): number => state.tablets.length;
-export const getTabletNumber = (state: RootState): number => getTabletNumberFromModel(getState(state));
+export const getTabletNumber = (state: RootState): number => getState(state).tablets.length;
 export const getTabletsFromModel = (state: StateType): Array<TabletId> => state.tablets;
 export const getTablets = (state: RootState): Array<TabletId> => getTabletsFromModel(getState(state));
 
@@ -24,6 +25,8 @@ const getThread = (state: RootState, tablet: TabletId, hole: Hole): ThreadId => 
 export const getColor = (state: RootState, tablet: TabletId, hole: Hole): Color => getThreadColor(state, getThread(state, tablet, hole));
 
 export const isFocused = (state: RootState): boolean => focus.isFocused(state, NAME);
+export const isTabletSelected = (state: RootState, tablet: TabletId): boolean => getTablets(state)[getSelectedTablet(state)] === tablet;
+export const isThreadingSelected = (state: RootState, tablet: TabletId, hole: Hole): boolean => isTabletSelected(state, tablet) && hole === getSelectedHole(state);
 
 type ExportThreading = (state: RootState) => {
     threading: Array<ThreadingType>;

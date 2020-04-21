@@ -1,12 +1,12 @@
-import {init, snoc} from 'fp-ts/es6/Array';
-import {getOrElse} from 'fp-ts/es6/Option';
-import {pipe} from 'fp-ts/es6/pipeable';
+import {unsafeDeleteAt} from 'fp-ts/es6/Array';
+import {map as mapRecord} from 'fp-ts/es6/Record';
 
 import {Hole, Tablet, ThreadingType} from '~types';
-import {seq} from '~utils/array';
+import {insert} from '~utils/array';
 import * as record from '~utils/record';
 import {fromEntries} from '~utils/record';
 import {combineContextReducers} from '~utils/redux';
+import * as tablet from '~utils/tablet';
 import {update as updateTablet} from '~utils/tablet';
 
 import {
@@ -18,25 +18,27 @@ import {
     REMOVE_THREAD,
     SELECT_AND_APPLY_THREAD,
 } from '../actions';
-import {initialThreadIds} from '../constants';
+import {initialTabletIds, initialThreadIds} from '../constants';
 import {Context, TabletId, ThreadId} from '../types';
 import {ActionType, APPLY_THREAD, SET_S_THREADING, SET_Z_THREADING, TOGGLE_THREADING, TURN} from './actions';
 
 type TabletState = Array<TabletId>;
-const initialTabletIds = [0, 1, 2, 3];
-const tablets = (state: TabletState = initialTabletIds, action: ActionType): TabletState => {
+const tablets = (state: TabletState = initialTabletIds, action: ActionType, {selection}: Context): TabletState => {
     switch (action.type) {
-        case ADD_TABLET_AFTER:
-        case ADD_TABLET_BEFORE:
-            return snoc(state, state.length);
-        case REMOVE_TABLET:
-            return pipe(
-                state,
-                init,
-                getOrElse(() => [] as TabletId[]),
-            );
+        case ADD_TABLET_AFTER: {
+            const index = action.tablet ? state.indexOf(action.tablet) : selection.tablet;
+            return insert(state, index, action.newId);
+        }
+        case ADD_TABLET_BEFORE: {
+            const index = action.tablet ? state.indexOf(action.tablet) : selection.tablet;
+            return insert(state, index - 1, action.newId);
+        }
+        case REMOVE_TABLET: {
+            const index = action.tablet ? state.indexOf(action.tablet) : selection.tablet;
+            return unsafeDeleteAt(index, state);
+        }
         case IMPORT_DESIGN:
-            return seq(action.data.threading.threads.length);
+            return action.tabletIds;
         case CLEAR:
             return initialTabletIds;
         default:
@@ -55,7 +57,7 @@ const toggleThreading = (threading: ThreadingType): ThreadingType => {
 
 type ThreadingState = Record<TabletId, ThreadingType>;
 const initialThreading: ThreadingState = record.fromEntries(initialTabletIds.map((id) => [id, ThreadingType.S]));
-const threading = (state = initialThreading, action: ActionType, {selection}: Context): ThreadingState => {
+const threading = (state = initialThreading, action: ActionType, {selection, tablets}: Context): ThreadingState => {
     switch (action.type) {
         case SET_S_THREADING:
             return record.update(selection.tablet, () => ThreadingType.S)(state);
@@ -64,15 +66,15 @@ const threading = (state = initialThreading, action: ActionType, {selection}: Co
         case TOGGLE_THREADING:
             return record.update(action.tablet, toggleThreading)(state);
         case ADD_TABLET_AFTER: {
-            const tablet = action.tablet ?? selection.tablet;
-            return record.update(tablet + 1, () => state[tablet])(state);
+            const tablet = action.tablet ?? tablets[selection.tablet];
+            return record.update(action.newId, () => state[tablet])(state);
         }
         case ADD_TABLET_BEFORE: {
-            const tablet = action.tablet ?? selection.tablet;
+            const tablet = action.tablet ?? tablets[selection.tablet];
             return record.update(tablet, () => state[tablet])(state);
         }
         case REMOVE_TABLET:
-            return record.remove(action.tablet ?? selection.tablet)(state);
+            return record.remove(action.tablet ?? tablets[selection.tablet])(state);
         case IMPORT_DESIGN:
             return {}; // FIXME
         case CLEAR:
@@ -98,7 +100,7 @@ const initialThreads: ThreadsState = fromEntries(initialTabletIds.map(
     (id) => [id, [initialThreadIds[0], initialThreadIds[1], initialThreadIds[0], initialThreadIds[1]]]
 ));
 
-const threads = (state = initialThreads, action: ActionType, {selection, threads}: Context): ThreadsState => {
+const threads = (state = initialThreads, action: ActionType, {selection, threads, tablets}: Context): ThreadsState => {
     switch (action.type) {
         case APPLY_THREAD: {
             const newThread = action.thread ?? selection.thread;
@@ -116,19 +118,20 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
             const removedThread = action.thread ?? threads[selection.thread];
             const threadIndex = threads.indexOf(removedThread);
             const newThreadIndex = threadIndex > 0 ? threadIndex - 1 : threadIndex + 1;
-            return {}; // FIXME
-            //return mapRecord(mapTablet((thread) => thread === removedThread ? threads[newThreadIndex] : thread))(state);
+            return mapRecord(
+                tablet.map((thread: ThreadId) => thread === removedThread ? threads[newThreadIndex] : thread)
+            )(state);
         }
         case ADD_TABLET_AFTER: {
-            const tablet = action.tablet ?? selection.tablet;
-            return record.update(tablet + 1, () => state[tablet])(state);
+            const tablet = action.tablet ?? tablets[selection.tablet];
+            return record.update(action.newId, () => state[tablet])(state);
         }
         case ADD_TABLET_BEFORE: {
-            const tablet = action.tablet ?? selection.tablet;
-            return record.update(tablet, () => state[tablet])(state);
+            const tablet = action.tablet ?? tablets[selection.tablet];
+            return record.update(action.newId, () => state[tablet])(state);
         }
         case REMOVE_TABLET:
-            return record.remove(action.tablet ?? selection.tablet)(state);
+            return record.remove(action.tablet ?? tablets[selection.tablet])(state);
         case IMPORT_DESIGN:
             return {}; // FIXME
             /*return pipe(

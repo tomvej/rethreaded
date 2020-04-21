@@ -31,7 +31,7 @@ const TabletLabel: FC<DispatchProps & OwnProps> = ({tablet, addBefore, addAfter,
         right={<ActionIcon type="add" onClick={addAfter} />}
     >
         <CellLabel position="top">
-        {tablet + 1}
+        {tablet + 1/* FIXME needs order not id*/}
         </CellLabel>
     </ActionOverlay>
 );

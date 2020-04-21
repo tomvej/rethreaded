@@ -5,10 +5,9 @@ import {ThreadingCell} from '~components';
 import {RootState} from '~reducer';
 
 import {selectAndToggleDirection} from '../actions';
-import {isWeavingSelected} from '../selection';
 import {getThreading} from '../threading';
 import {RowId, TabletId} from '../types';
-import {getDirection, getPatternColor, isFocused} from './selectors';
+import {getDirection, getPatternColor, isFocused, isWeavingSelected} from './selectors';
 
 type OwnProps = {
     tablet: TabletId;

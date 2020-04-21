@@ -1,14 +1,16 @@
-import {pipe} from 'fp-ts/es6/pipeable';
 import {map, reduce} from 'fp-ts/es6/Array';
-import {createSelector} from 'reselect';
+import {pipe} from 'fp-ts/es6/pipeable';
+import {createSelector, createStructuredSelector} from 'reselect';
 
 import * as focus from '~core/focus';
 import {RootState} from '~reducer';
 import {Color, Direction, Hole, Tablet} from '~types';
 import {seq} from '~utils/array';
+import {fromEntries} from '~utils/record';
 
+import {getSelectedRow} from '../selection';
 import {getModel as getParentState} from '../selectors';
-import {getColor, getTablets} from '../threading';
+import {getColor, getTablets, isTabletSelected} from '../threading';
 import {RowId, TabletId} from '../types';
 import computePattern from './computePattern';
 import {NAME} from './constants';
@@ -18,9 +20,9 @@ const getState = (state: RootState): StateType => getParentState(state)[NAME];
 
 export const isFocused = (state: RootState): boolean => focus.isFocused(state, NAME);
 export const getDirection = (state: RootState, row: RowId, tablet: TabletId): Direction => getState(state)[row][tablet];
-export const getTabletNumber = (state: RootState): number => getTablets(state).length;
 export const getRowNumberFromModel = (model: StateType): number => model.length;
 export const getRowNumber = (state: RootState): number => getRowNumberFromModel(getState(state));
+export const isWeavingSelected = (state: RootState, tablet: TabletId, row: number): boolean => isTabletSelected(state, tablet) && getSelectedRow(state) === row;
 
 const createGetColor = (tablet: TabletId, hole: Hole) => (state: RootState): Color => getColor(state, tablet, hole);
 type GetTabletColors = (state: RootState) => Tablet<Color>;
@@ -56,12 +58,11 @@ const createGetTabletPattern = (tablet: TabletId): GetTabletPattern => {
     );
 };
 
-type GetTabletPatternTable = (state: RootState) => (state: RootState) => Array<Array<Color>>;
+type GetTabletPatternTable = (state: RootState) => (state: RootState) => Record<TabletId, Array<Color>>;
 const getTabletPatternTable: GetTabletPatternTable = createSelector(
-    getTabletNumber,
-    (tablets) => createSelector(
-        seq(tablets).map(createGetTabletPattern),
-        (...getPatterns) => getPatterns,
+    getTablets,
+    (tablets) => createStructuredSelector(
+        fromEntries(tablets.map((id) => [id, createGetTabletPattern(id)])),
     ),
 );
 

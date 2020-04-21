@@ -1,6 +1,6 @@
 export {NAME} from './constants';
 export {default as reducer} from './reducer';
-export {isThreadingSelected, getSelectedThread, isWeavingSelected} from './selectors';
+export {getSelectedHole, getSelectedTablet, getSelectedThread, getSelectedRow} from './selectors';
 export {
     selectThread,
     selectNextHole,

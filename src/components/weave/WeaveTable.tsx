@@ -5,19 +5,21 @@ import {seq} from '~utils/array';
 import {THREAD_WIDTH, WEAVE_LENGTH} from './constants';
 import style from './WeaveTable.scss';
 
-type WeaveComponentPropTyps = {
-    tablet: number;
+type Key = string; // TODO cannot be `| number` -- why?
+
+type WeaveComponentPropTypes<T extends Key> = {
+    tablet: T;
     row: number;
 }
 
-type WeaveTablePropTypes = {
-    weaveComponent: FC<WeaveComponentPropTyps>;
-    tablets: number;
+type WeaveTablePropTypes<T extends Key> = {
+    weaveComponent: FC<WeaveComponentPropTypes<T>>;
+    tablets: T[];
     rows: number;
     repeat?: number;
 };
 
-const WeaveTable: FC<WeaveTablePropTypes> = ({tablets, rows, weaveComponent: WeaveComponent, repeat = 1}) => {
+const WeaveTable = <T extends Key>({tablets, rows, weaveComponent: WeaveComponent, repeat = 1}: WeaveTablePropTypes<T>) => {
     const [zoom, setZoom] = useState(1);
     const onWheel = useCallback((event) => {
         if (event.ctrlKey) {
@@ -38,7 +40,7 @@ const WeaveTable: FC<WeaveTablePropTypes> = ({tablets, rows, weaveComponent: Wea
         }
     }, [ref.current, onWheel]);
 
-    const width = tablets * THREAD_WIDTH;
+    const width = tablets.length * THREAD_WIDTH;
     const height = (rows + 1) * WEAVE_LENGTH * repeat;
     return (
         <svg
@@ -48,10 +50,10 @@ const WeaveTable: FC<WeaveTablePropTypes> = ({tablets, rows, weaveComponent: Wea
             className={style.main}
             ref={ref}
         >
-            {seq(tablets).map((tablet) => (seq(rows * repeat).map((row) => (
+            {tablets.map((tablet, tabletIndex) => (seq(rows * repeat).map((row) => (
                 <g
                     key={`${tablet}-${row}`}
-                    transform={`translate(${tablet * THREAD_WIDTH}, ${row * WEAVE_LENGTH})`}
+                    transform={`translate(${tabletIndex * THREAD_WIDTH}, ${row * WEAVE_LENGTH})`}
                 >
                     <WeaveComponent tablet={tablet} row={row % rows} />
                 </g>

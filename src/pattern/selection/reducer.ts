@@ -59,15 +59,15 @@ const tablet = (state = 0, action: ActionType, {tablets}: Context): number => {
         case PREV_TABLET:
             return decrement(tablets.length)(state);
         case SELECT_AND_APPLY_THREAD:
-            return action.tablet;
+            return tablets.indexOf(action.tablet);
         case ADD_TABLET_BEFORE:
-            return action.tablet ?? state;
+            return action.tablet ? tablets.indexOf(action.tablet) : state;
         case ADD_TABLET_AFTER:
-            return (action.tablet ?? state) + 1;
+            return (action.tablet ? tablets.indexOf(action.tablet) : state) + 1;
         case REMOVE_TABLET:
             return Math.min(state, tablets.length - 2);
         case SELECT_AND_TOGGLE_DIRECTION:
-            return action.tablet;
+            return tablets.indexOf(action.tablet);
         case IMPORT_DESIGN:
         case CLEAR:
             return 0;

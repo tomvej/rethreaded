@@ -8,7 +8,6 @@ import {NAME} from './constants';
 const getState = (state: RootState): SelectionState => getParentState(state)[NAME];
 
 export const getSelectedThread = (state: RootState): number => getState(state).thread;
-
-export const isThreadingSelected = (state: RootState, tablet: number, hole: Hole): boolean => getState(state).hole === hole && getState(state).tablet === tablet;
-
-export const isWeavingSelected = (state: RootState, tablet: number, row: number): boolean => getState(state).row === row && getState(state).tablet === tablet;
+export const getSelectedTablet = (state: RootState): number => getState(state).tablet;
+export const getSelectedHole = (state: RootState): Hole => getState(state).hole;
+export const getSelectedRow = (state: RootState): number => getState(state).row;
