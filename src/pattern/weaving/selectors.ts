@@ -20,11 +20,10 @@ const getState = (state: RootState): StateType => getParentState(state)[NAME];
 
 export const isFocused = (state: RootState): boolean => focus.isFocused(state, NAME);
 export const getDirection = (state: RootState, row: RowId, tablet: TabletId): Direction => getState(state).directions[row][tablet];
-export const getRowNumberFromModel = (model: StateType): number => model.directions.length;
-export const getRowNumber = (state: RootState): number => getRowNumberFromModel(getState(state));
 export const getRowsFromModel = (model: StateType): Array<RowId> => model.rows;
 export const getRows = (state: RootState): Array<RowId> => getRowsFromModel(getState(state));
-export const isWeavingSelected = (state: RootState, tablet: TabletId, row: number): boolean => isTabletSelected(state, tablet) && getSelectedRow(state) === row;
+export const getRowNumber = (state: RootState): number => getRows(state).length;
+export const isWeavingSelected = (state: RootState, tablet: TabletId, row: RowId): boolean => isTabletSelected(state, tablet) && getSelectedRow(state) === row;
 
 const createGetColor = (tablet: TabletId, hole: Hole) => (state: RootState): Color => getColor(state, tablet, hole);
 type GetTabletColors = (state: RootState) => Tablet<Color>;
@@ -97,4 +96,4 @@ export const createGetTabletTwist = (): GetTabletTwist => {
 }
 
 type ExportWeaving = (state: RootState) => Array<Array<Direction>>;
-export const exportWeaving: ExportWeaving = (state: RootState) => getState(state).directions.map((row) => getTablets(state).map((tablet) => row[tablet]));
+export const exportWeaving: ExportWeaving = (state: RootState) => getRows(state).map((row) => getTablets(state).map((tablet) => getDirection(state, row, tablet)));
