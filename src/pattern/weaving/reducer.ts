@@ -1,10 +1,11 @@
-import {array, map, mapWithIndex} from 'fp-ts/es6/Array';
+import {array, map} from 'fp-ts/es6/Array';
 import {pipe} from 'fp-ts/es6/pipeable';
 import {fromFoldable} from 'fp-ts/es6/Record';
 import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
 
 import {Direction} from '~types';
 import {insert, remove, seq, update} from '~utils/array';
+import {addIndices} from '~utils/func';
 import * as record from '~utils/record';
 import {fromEntries} from '~utils/record';
 
@@ -62,15 +63,12 @@ export default (state: StateType = initState, action: ActionType, {selection, ta
         }
         case REMOVE_ROW:
             return remove(action.row ?? selection.row)(state);
-        case IMPORT_DESIGN: {
-            type AddIndices = (target: Array<Direction>) => Array<[TabletId, Direction]>;
-            const addIndices: AddIndices = mapWithIndex((index, direction) => [action.tabletIds[index], direction]);
+        case IMPORT_DESIGN:
             return pipe(
                 action.data.weaving,
-                map(addIndices),
+                map(addIndices((i) => action.tabletIds[i])),
                 map(fromFoldable(getLastSemigroup<Direction>(), array)),
             );
-        }
         case CLEAR:
             return initState;
         default:
