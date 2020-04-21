@@ -17,3 +17,6 @@ export const remove = <K extends KeyType>(index: K) => <T>(target: Record<K, T>)
     .entries(target)
     .filter(([key]) => key !== index)
     .reduce((result, [key, value]) => Object.assign(result, {[key]: value}), {} as Record<K, T>);
+
+export const fromEntries = <K extends KeyType, T>(entries: Array<[K, T]>): Record<K, T> =>
+    entries.reduce((result, [key, value]) => Object.assign(result, {[key]: value}), {} as Record<K, T>);

@@ -4,6 +4,7 @@ import {pipe} from 'fp-ts/es6/pipeable';
 
 import {Hole, Tablet, ThreadingType} from '~types';
 import {insert, remove, seq, update} from '~utils/array';
+import * as record from '~utils/record';
 import {combineContextReducers} from '~utils/redux';
 import {map as mapTablet, update as updateTablet} from '~utils/tablet';
 
@@ -51,27 +52,28 @@ const toggleThreading = (threading: ThreadingType): ThreadingType => {
     }
 };
 
-const initialThreading = Array(MIN_TABLETS).fill(ThreadingType.S);
-const threading = (state = initialThreading, action: ActionType, {selection}: Context): Array<ThreadingType> => {
+type ThreadingState = Record<TabletId, ThreadingType>;
+const initialThreading: ThreadingState = record.fromEntries(initialTabletIds.map((id) => [id, ThreadingType.S]));
+const threading = (state = initialThreading, action: ActionType, {selection}: Context): ThreadingState => {
     switch (action.type) {
         case SET_S_THREADING:
-            return update(selection.tablet, () => ThreadingType.S)(state);
+            return record.update(selection.tablet, () => ThreadingType.S)(state);
         case SET_Z_THREADING:
-            return update(selection.tablet, () => ThreadingType.Z)(state);
+            return record.update(selection.tablet, () => ThreadingType.Z)(state);
         case TOGGLE_THREADING:
-            return update(action.tablet, toggleThreading)(state);
+            return record.update(action.tablet, toggleThreading)(state);
         case ADD_TABLET_AFTER: {
             const tablet = action.tablet ?? selection.tablet;
-            return insert(state, tablet + 1, state[tablet]);
+            return record.update(tablet + 1, () => state[tablet])(state);
         }
         case ADD_TABLET_BEFORE: {
             const tablet = action.tablet ?? selection.tablet;
-            return insert(state, tablet, state[tablet]);
+            return record.update(tablet, () => state[tablet])(state);
         }
         case REMOVE_TABLET:
-            return remove(action.tablet ?? selection.tablet)(state);
+            return record.remove(action.tablet ?? selection.tablet)(state);
         case IMPORT_DESIGN:
-            return action.data.threading.threading;
+            return {}; // FIXME
         case CLEAR:
             return initialThreading;
         default:

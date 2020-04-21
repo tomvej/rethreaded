@@ -29,7 +29,7 @@ type ExportThreading = (state: RootState) => {
     threads: Array<Tablet<number>>;
 }
 export const exportThreading: ExportThreading = (state) => ({
-    threading: getState(state).threading,
+    threading: getTablets(state).map((tablet) => getThreading(state, tablet)),
     threads: getState(state).threads.map(mapTablet((thread) => getThreads(state).indexOf(thread))),
 });
 
