@@ -1,4 +1,5 @@
 import {pipe} from 'fp-ts/es6/pipeable';
+import {createSelector} from 'reselect';
 
 import * as focus from '~core/focus';
 import {RootState} from '~reducer';
@@ -27,6 +28,13 @@ export const getColor = (state: RootState, tablet: TabletId, hole: Hole): Color 
 export const isFocused = (state: RootState): boolean => focus.isFocused(state, NAME);
 export const isTabletSelected = (state: RootState, tablet: TabletId): boolean => getTablets(state)[getSelectedTablet(state)] === tablet;
 export const isThreadingSelected = (state: RootState, tablet: TabletId, hole: Hole): boolean => isTabletSelected(state, tablet) && hole === getSelectedHole(state);
+
+type GetTabletOrder = (state: RootState, tablet: TabletId) => number;
+export const createGetTabletOrder = (): GetTabletOrder => createSelector(
+    getTablets,
+    (_: RootState, tablet: TabletId) => tablet,
+    (tablets, tablet) => tablets.indexOf(tablet),
+);
 
 type ExportThreading = (state: RootState) => {
     threading: Array<ThreadingType>;

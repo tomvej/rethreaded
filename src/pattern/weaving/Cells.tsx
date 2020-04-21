@@ -10,6 +10,7 @@ import Cell from './Cell';
 import RowLabel from './RowLabel';
 import {getRowNumber} from './selectors';
 import TabletInfo from './TabletInfo';
+import TabletLabel from './TabletLabel';
 
 const mapStateToProps = (state: RootState) => ({
     rows: getRowNumber(state),
@@ -24,7 +25,7 @@ const Cells: FC<StateProps> = ({rows, tablets}) => (
         rows={seq(rows)}
         tablets={tablets}
         leftMarginComponent={RowLabel}
-        bottomMarginComponent={({tablet}) => <div>{tablet + 1}</div>} // FIXME needs order not id
+        bottomMarginComponent={TabletLabel}
         topMarginComponent={TabletInfo}
     />
 );
