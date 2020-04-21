@@ -2,7 +2,6 @@ import {array, map as mapArray, unsafeDeleteAt} from 'fp-ts/es6/Array';
 import {pipe} from 'fp-ts/es6/pipeable';
 import {fromFoldable, map} from 'fp-ts/es6/Record';
 import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
-import * as uuid from 'uuid';
 
 import {Direction} from '~types';
 import {insert} from '~utils/array';
@@ -22,13 +21,14 @@ import {
     REMOVE_TABLET,
     SELECT_AND_TOGGLE_DIRECTION,
 } from '../actions';
-import {initialTabletIds} from '../constants';
+import {initialTabletIds, MIN_ROWS} from '../constants';
 import {Context, RowId, TabletId} from '../types';
+import {createIds} from '../utils';
 import {ActionType, SET_DIRECTION, TOGGLE_DIRECTION} from './actions';
 
 
 type RowsState = Array<RowId>;
-const initialRowIds: RowsState = [uuid.v4()] as RowId[];
+const initialRowIds: RowsState = createIds(MIN_ROWS);
 const rows = (state = initialRowIds, action: ActionType, {selection}: Context): RowsState => {
     switch (action.type) {
         case ADD_ROW_AFTER: {

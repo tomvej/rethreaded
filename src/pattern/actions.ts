@@ -1,10 +1,10 @@
-import {makeBy} from 'fp-ts/es6/Array';
 import * as uuid from 'uuid';
 
 import {Hole} from '~types';
 
 import {NAME} from './constants';
 import {IOShape, RowId, TabletId, ThreadId} from './types';
+import {createIds} from './utils';
 
 export const SELECT_AND_APPLY_THREAD = `${NAME}/select-apply-thread` as 'select-apply-thread';
 export const ADD_THREAD = `${NAME}/add-thread` as 'add-thread';
@@ -128,12 +128,11 @@ export const addRowBefore = (row?: RowId): AddRowBeforeActionType => ({
 });
 export const removeRow = (row?: RowId): RemoveRowActionType => ({type: REMOVE_ROW, row});
 
-const createIds = (length: number): Array<string> => makeBy(length, () => uuid.v4());
 export const importDesign = (data: IOShape): ImportDesignActionType => ({
     type: IMPORT_DESIGN,
-    threadIds: createIds(data.threads.length) as ThreadId[],
-    tabletIds: createIds(data.threading.threads.length) as TabletId[],
-    rowIds: createIds(data.weaving.length) as RowId[],
+    threadIds: createIds(data.threads.length),
+    tabletIds: createIds(data.threading.threads.length),
+    rowIds: createIds(data.weaving.length),
     data,
 });
 
