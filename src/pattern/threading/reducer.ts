@@ -1,5 +1,7 @@
-import {unsafeDeleteAt} from 'fp-ts/es6/Array';
-import {map as mapRecord} from 'fp-ts/es6/Record';
+import {array, map, mapWithIndex, unsafeDeleteAt} from 'fp-ts/es6/Array';
+import {pipe} from 'fp-ts/es6/pipeable';
+import {fromFoldable,map as mapRecord} from 'fp-ts/es6/Record';
+import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
 
 import {Hole, Tablet, ThreadingType} from '~types';
 import {insert} from '~utils/array';
@@ -75,8 +77,13 @@ const threading = (state = initialThreading, action: ActionType, {selection, tab
         }
         case REMOVE_TABLET:
             return record.remove(action.tablet ?? tablets[selection.tablet])(state);
-        case IMPORT_DESIGN:
-            return {} as ThreadingState; // FIXME
+        case IMPORT_DESIGN: {
+            const preArray: Array<[TabletId, ThreadingType]> = pipe(
+                action.data.threading.threading,
+                mapWithIndex((index, threading) => [action.tabletIds[index], threading])
+            );
+            return fromFoldable(getLastSemigroup<ThreadingType>(), array)(preArray);
+        }
         case CLEAR:
             return initialThreading;
         default:
@@ -132,12 +139,14 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
         }
         case REMOVE_TABLET:
             return record.remove(action.tablet ?? tablets[selection.tablet])(state);
-        case IMPORT_DESIGN:
-            return {} as ThreadsState; // FIXME
-            /*return pipe(
+        case IMPORT_DESIGN: {
+            const preArray: Array<[TabletId, Tablet<ThreadId>]> = pipe(
                 action.data.threading.threads,
-                map(mapTablet((index) => action.threadIds[index])),
-            );*/
+                map(tablet.map((index) => action.threadIds[index])),
+                mapWithIndex((index, tablet) => [action.tabletIds[index], tablet]),
+            );
+            return fromFoldable(getLastSemigroup<Tablet<ThreadId>>(), array)(preArray);
+        }
         case CLEAR:
             return initialThreads;
         default:
