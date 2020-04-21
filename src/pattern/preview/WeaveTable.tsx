@@ -5,12 +5,12 @@ import {WeaveTable as WeaveTableComponent} from '~components/weave';
 import {RootState} from '~reducer';
 
 import {getTablets} from '../threading';
-import {getRowNumber} from '../weaving';
+import {getRows} from '../weaving';
 import {getNumberOfRepeats} from './selectors';
 import Weave from './Weave';
 
 const mapStateToProps = (state: RootState) => ({
-    rows: getRowNumber(state),
+    rows: getRows(state),
     tablets: getTablets(state),
     repeat: getNumberOfRepeats(state),
 });

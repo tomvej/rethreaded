@@ -7,19 +7,19 @@ import style from './WeaveTable.scss';
 
 type Key = string | number;
 
-type WeaveComponentPropTypes<T extends Key> = {
+type WeaveComponentPropTypes<T extends Key, R extends Key> = {
     tablet: T;
-    row: number;
+    row: R;
 }
 
-type WeaveTablePropTypes<T extends Key> = {
-    weaveComponent: FC<WeaveComponentPropTypes<T>>;
+type WeaveTablePropTypes<T extends Key, R extends Key> = {
+    weaveComponent: FC<WeaveComponentPropTypes<T, R>>;
     tablets: T[];
-    rows: number;
+    rows: R[];
     repeat?: number;
 };
 
-const WeaveTable = <T extends Key>({tablets, rows, weaveComponent: WeaveComponent, repeat = 1}: WeaveTablePropTypes<T>) => {
+const WeaveTable = <T extends Key, R extends Key>({tablets, rows, weaveComponent: WeaveComponent, repeat = 1}: WeaveTablePropTypes<T, R>) => {
     const [zoom, setZoom] = useState(1);
     const onWheel = useCallback((event) => {
         if (event.ctrlKey) {
@@ -41,7 +41,7 @@ const WeaveTable = <T extends Key>({tablets, rows, weaveComponent: WeaveComponen
     }, [ref.current, onWheel]);
 
     const width = tablets.length * THREAD_WIDTH;
-    const height = (rows + 1) * WEAVE_LENGTH * repeat;
+    const height = (rows.length + 1) * WEAVE_LENGTH * repeat;
     return (
         <svg
             viewBox={`${-THREAD_WIDTH / 2}, ${-WEAVE_LENGTH}, ${width}, ${height}`}
@@ -50,14 +50,18 @@ const WeaveTable = <T extends Key>({tablets, rows, weaveComponent: WeaveComponen
             className={style.main}
             ref={ref}
         >
-            {tablets.map((tablet, tabletIndex) => (seq(rows * repeat).map((row) => (
-                <g
-                    key={`${tablet}-${row}`}
-                    transform={`translate(${tabletIndex * THREAD_WIDTH}, ${row * WEAVE_LENGTH})`}
-                >
-                    <WeaveComponent tablet={tablet} row={row % rows} />
-                </g>
-            ))))}
+            {tablets.map(
+                (tablet, tabletIndex) => (seq(repeat).map(
+                    (repetition) => rows.map((row, rowIndex) => (
+                        <g
+                            key={`${tablet}-${row}`}
+                            transform={`translate(${tabletIndex * THREAD_WIDTH}, ${(repetition * rows.length + rowIndex) * WEAVE_LENGTH})`}
+                        >
+                            <WeaveComponent tablet={tablet} row={row}/>
+                        </g>
+                    )),
+                )),
+            )}
         </svg>
     );
 };

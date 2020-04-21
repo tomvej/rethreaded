@@ -97,20 +97,20 @@ const row = (state = 0, action: ActionType, {rows}: Context): number => {
         case SELECT_AND_TOGGLE_DIRECTION:
             return action.row;
         case PREV_ROW:
-            return decrement(rows)(state);
+            return decrement(rows.length)(state);
         case NEXT_ROW:
-            return increment(rows)(state);
+            return increment(rows.length)(state);
         case ADD_ROW_AFTER:
             return (action.row ?? state) + 1;
         case ADD_ROW_BEFORE:
             return action.row ?? state;
         case REMOVE_ROW:
-            return Math.min(state, rows - 2);
+            return Math.min(state, rows.length - 2);
         case IMPORT_DESIGN:
         case CLEAR:
             return 0;
         default:
-            return clamp(state, rows);
+            return clamp(state, rows.length);
     }
 };
 

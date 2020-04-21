@@ -14,7 +14,7 @@ import {getTabletsFromModel} from './threading';
 import * as threads from './threads';
 import {getThreadsFromModel} from './threads';
 import * as weaving from './weaving';
-import {getRowNumberFromModel} from './weaving';
+import {getRowsFromModel} from './weaving';
 
 const emptyContext = {
     selection: {
@@ -25,7 +25,7 @@ const emptyContext = {
     },
     threads: [],
     tablets: [],
-    rows: 0,
+    rows: [],
 };
 
 const modelReducer = createPersistentReducer('patternModel', combineContextReducers({
@@ -49,7 +49,7 @@ const initial = baseReducer(undefined, {} as Action, emptyContext);
 const reducer = (state: StateType = initial, action: Action): StateType => {
     const threads = getThreadsFromModel(undo.getCurrent(state.model).threads);
     const tablets = getTabletsFromModel(undo.getCurrent(state.model).threading);
-    const rowNumber = getRowNumberFromModel(undo.getCurrent(state.model).weaving);
+    const rowNumber = getRowsFromModel(undo.getCurrent(state.model).weaving);
 
     if (action.type === REMOVE_THREAD && threads.length <= MIN_THREADS) {
         return state;
@@ -57,7 +57,7 @@ const reducer = (state: StateType = initial, action: Action): StateType => {
     if (action.type === REMOVE_TABLET && tablets.length <= MIN_TABLETS) {
         return state;
     }
-    if (action.type === REMOVE_ROW && rowNumber <= MIN_ROWS) {
+    if (action.type === REMOVE_ROW && rowNumber.length <= MIN_ROWS) {
         return state;
     }
 

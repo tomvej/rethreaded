@@ -1,4 +1,5 @@
-import {array, map} from 'fp-ts/es6/Array';
+import {array, init, map, snoc} from 'fp-ts/es6/Array';
+import {getOrElse} from 'fp-ts/es6/Option';
 import {pipe} from 'fp-ts/es6/pipeable';
 import {fromFoldable} from 'fp-ts/es6/Record';
 import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
@@ -22,8 +23,27 @@ import {
     SELECT_AND_TOGGLE_DIRECTION,
 } from '../actions';
 import {initialTabletIds, MIN_ROWS} from '../constants';
-import {Context, TabletId} from '../types';
+import {Context, RowId, TabletId} from '../types';
 import {ActionType, SET_DIRECTION, TOGGLE_DIRECTION} from './actions';
+
+
+type RowsState = Array<RowId>;
+const initialRowIds: RowsState = seq(MIN_ROWS);
+const rows = (state = initialRowIds, action: ActionType): RowsState => {
+    switch (action.type) {
+        case ADD_ROW_AFTER:
+        case ADD_ROW_BEFORE:
+            return snoc(state, state.length);
+        case REMOVE_ROW:
+            return getOrElse(() => [] as RowsState)(init(state));
+        case IMPORT_DESIGN:
+            return seq(action.data.weaving.length);
+        case CLEAR:
+            return initialRowIds;
+        default:
+            return state;
+    }
+}
 
 const getOtherDirection = (direction: Direction): Direction => {
     switch (direction) {
@@ -77,6 +97,6 @@ const directions = (state: DirectionsType = initState, action: ActionType, {sele
     }
 };
 
-const reducer = combineContextReducers({directions});
+const reducer = combineContextReducers({directions, rows});
 export type StateType = ReturnType<typeof reducer>;
 export default reducer;

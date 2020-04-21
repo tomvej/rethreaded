@@ -18,7 +18,7 @@ export type Context = {
     selection: SelectionState;
     threads: Array<ThreadId>;
     tablets: Array<TabletId>;
-    rows: number;
+    rows: Array<RowId>;
 }
 
 export type IOShape = {

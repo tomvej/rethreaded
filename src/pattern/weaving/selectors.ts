@@ -22,6 +22,8 @@ export const isFocused = (state: RootState): boolean => focus.isFocused(state, N
 export const getDirection = (state: RootState, row: RowId, tablet: TabletId): Direction => getState(state).directions[row][tablet];
 export const getRowNumberFromModel = (model: StateType): number => model.directions.length;
 export const getRowNumber = (state: RootState): number => getRowNumberFromModel(getState(state));
+export const getRowsFromModel = (model: StateType): Array<RowId> => model.rows;
+export const getRows = (state: RootState): Array<RowId> => getRowsFromModel(getState(state));
 export const isWeavingSelected = (state: RootState, tablet: TabletId, row: number): boolean => isTabletSelected(state, tablet) && getSelectedRow(state) === row;
 
 const createGetColor = (tablet: TabletId, hole: Hole) => (state: RootState): Color => getColor(state, tablet, hole);
