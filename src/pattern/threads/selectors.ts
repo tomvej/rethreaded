@@ -1,5 +1,6 @@
 import {map} from 'fp-ts/es6/Array';
 import {pipe} from 'fp-ts/es6/pipeable';
+import {createSelector} from 'reselect';
 
 import * as focus from '~core/focus';
 import {RootState} from '~reducer';
@@ -26,6 +27,13 @@ export const getColor = (state: RootState, thread: ThreadId): Color => getModel(
 export const isPickerVisible = (state: RootState): boolean => getState(state);
 
 export const getCurrentColor = (state: RootState): Color => getColor(state, getThreads(state)[getSelectedThread(state)]);
+
+type GetThreadOrder = (state: RootState, thread: ThreadId) => number;
+export const createGetThreadOrder = (): GetThreadOrder => createSelector(
+    getThreads,
+    (state: RootState, thread: ThreadId) => thread,
+    (threads, thread) => threads.indexOf(thread),
+);
 
 type ExportThreads = (state: RootState) => Array<Color>;
 export const exportThreads: ExportThreads = (state) => pipe(

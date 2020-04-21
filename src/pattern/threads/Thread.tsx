@@ -9,27 +9,30 @@ import {RootState} from '~reducer';
 import {selectThread} from '../selection';
 import {ThreadId} from '../types';
 import {showPicker} from './actions';
-import {getColor, isFocused, isThreadSelected} from './selectors';
+import {createGetThreadOrder, getColor, isFocused, isThreadSelected} from './selectors';
 
 type OwnProps = {
-    number: number;
     thread: ThreadId;
 };
 
-const mapStateToProps = (state: RootState, {thread}: OwnProps) => ({
-    color: getColor(state, thread),
-    active: isThreadSelected(state, thread),
-    focus: isThreadSelected(state, thread) && isFocused(state),
-});
+const createMapStateToProps = () => {
+    const getThreadOrder = createGetThreadOrder();
+    return (state: RootState, {thread}: OwnProps) => ({
+        color: getColor(state, thread),
+        active: isThreadSelected(state, thread),
+        focus: isThreadSelected(state, thread) && isFocused(state),
+        number: getThreadOrder(state, thread),
+    });
+}
 
-type StateProps = ReturnType<typeof mapStateToProps>;
+type StateProps = ReturnType<ReturnType<typeof createMapStateToProps>>;
 
-const mapDispatchToProps = (dispatch: Dispatch, {number}: OwnProps) => ({
-    select: () => dispatch(selectThread(number)),
-    changeColor: () => dispatch(showPicker()),
-});
+const mapDispatchToProps = {
+    select: selectThread,
+    changeColor: showPicker,
+};
 
-type DispatchProps = ReturnType<typeof mapDispatchToProps>;
+type DispatchProps = typeof mapDispatchToProps;
 
 const getLabel = (number: number): string => {
     if (number < 9) {
@@ -42,17 +45,16 @@ const getLabel = (number: number): string => {
 };
 
 const mergeProps = (
-    {active, ...stateProps}: StateProps,
+    {active, number, ...stateProps}: StateProps,
     {select, changeColor}: DispatchProps,
-    {number}: OwnProps,
 ) => ({
     active,
     ...stateProps,
-    onClick: active ? changeColor : select,
+    onClick: active ? changeColor : () => select(number),
     label: getLabel(number),
 });
 
-const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps);
+const connector = connect(createMapStateToProps, mapDispatchToProps, mergeProps);
 
 const Thread: FC<ConnectedProps<typeof connector>> = (props) => {
     if (props.active) {

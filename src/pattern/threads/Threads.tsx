@@ -17,7 +17,7 @@ type StateProps = ReturnType<typeof mapStateToProps>;
 const mergeProps = ({threads}: StateProps) => ({
     children: threads.map((thread, index) => (
         <RemoveOverlay key={thread} thread={thread}>
-            <Thread thread={thread} number={index} />
+            <Thread thread={thread} />
         </RemoveOverlay>
     )),
 });
