@@ -1,4 +1,4 @@
-import {rotate, zip, array} from 'fp-ts/es6/Array';
+import {array, rotate, zip} from 'fp-ts/es6/Array';
 import {pipe} from 'fp-ts/es6/pipeable';
 import {fromFoldable, map, reduce} from 'fp-ts/es6/Record';
 import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
@@ -26,6 +26,13 @@ export const getRows = (state: RootState): Array<RowId> => getRowsFromModel(getS
 export const getRowNumber = (state: RootState): number => getRows(state).length;
 const isRowSelected = (state: RootState, row: RowId): boolean => getRows(state)[getSelectedRow(state)] === row;
 export const isWeavingSelected = (state: RootState, tablet: TabletId, row: RowId): boolean => isTabletSelected(state, tablet) && isRowSelected(state, row);
+
+type GetRowOrder = (state: RootState, row: RowId) => number;
+export const createGetRowOrder = (): GetRowOrder => createSelector(
+    getRows,
+    (state: RootState, row: RowId) => row,
+    (rows, row) => rows.indexOf(row),
+);
 
 const getPreviousRowTable = createSelector(
     getRows,

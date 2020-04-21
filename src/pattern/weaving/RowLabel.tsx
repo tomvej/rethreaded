@@ -3,27 +3,33 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
 import {ActionIcon, ActionOverlay, CellLabel} from '~components';
+import {RootState} from '~reducer';
 
 import {addRowAfter, addRowBefore, removeRow} from '../actions';
 import {RowId} from '../types';
+import {createGetRowOrder} from './selectors';
+
 
 type OwnProps = {
     row: RowId;
 }
 
-type DispatchProps = {
-    addBefore: () => void;
-    addAfter: () => void;
-    remove: () => void;
-}
+const createMapStateToProps = () => {
+    const getRowOrder = createGetRowOrder();
+    return (state: RootState, {row}: OwnProps) => ({
+        label: getRowOrder(state, row) + 1,
+    });
+};
+type StateProps = ReturnType<ReturnType<typeof createMapStateToProps>>;
 
-const mapDispatchToProps = (dispatch: Dispatch, {row}: OwnProps): DispatchProps => ({
+const mapDispatchToProps = (dispatch: Dispatch, {row}: OwnProps) => ({
     addAfter: () => dispatch(addRowAfter(row)),
     addBefore: () => dispatch(addRowBefore(row)),
     remove: () => dispatch(removeRow(row)),
 });
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 
-const RowLabel: FC<OwnProps & DispatchProps> = ({row, addBefore, addAfter, remove}) => (
+const RowLabel: FC<StateProps & DispatchProps> = ({label, addBefore, addAfter, remove}) => (
     <ActionOverlay
         top={<ActionIcon type="add" onClick={addAfter}/>}
         bottom={<ActionIcon type="add" onClick={addBefore}/>}
@@ -31,9 +37,9 @@ const RowLabel: FC<OwnProps & DispatchProps> = ({row, addBefore, addAfter, remov
         fill
     >
         <CellLabel position="left">
-            {row + 1}
+            {label}
         </CellLabel>
     </ActionOverlay>
 );
 
-export default connect(undefined, mapDispatchToProps)(RowLabel);
+export default connect(createMapStateToProps, mapDispatchToProps)(RowLabel);
