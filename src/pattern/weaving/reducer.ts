@@ -25,7 +25,7 @@ import {ActionType, SET_DIRECTION, TOGGLE_DIRECTION} from './actions';
 
 
 type RowsState = Array<RowId>;
-const initialRowIds: RowsState = [uuid.v4()];
+const initialRowIds: RowsState = [uuid.v4()] as RowId[];
 const rows = (state = initialRowIds, action: ActionType, {selection}: Context): RowsState => {
     switch (action.type) {
         case ADD_ROW_AFTER: {

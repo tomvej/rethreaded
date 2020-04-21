@@ -80,7 +80,7 @@ export interface ImportDesignActionType {
     data: IOShape;
     threadIds: Array<ThreadId>;
     tabletIds: Array<TabletId>;
-    rowIds: Array<string>;
+    rowIds: Array<RowId>;
 }
 export interface ClearActionType {
     type: typeof CLEAR;
@@ -119,12 +119,12 @@ export const selectAndToggleDirection = (tablet: TabletId, row: RowId): SelectAn
 export const addRowAfter = (row?: RowId): AddRowAfterActionType => ({
     type: ADD_ROW_AFTER,
     row,
-    newId: uuid.v4(),
+    newId: uuid.v4() as RowId,
 });
 export const addRowBefore = (row?: RowId): AddRowBeforeActionType => ({
     type: ADD_ROW_BEFORE,
     row,
-    newId: uuid.v4(),
+    newId: uuid.v4() as RowId,
 });
 export const removeRow = (row?: RowId): RemoveRowActionType => ({type: REMOVE_ROW, row});
 
@@ -133,7 +133,7 @@ export const importDesign = (data: IOShape): ImportDesignActionType => ({
     type: IMPORT_DESIGN,
     threadIds: createIds(data.threads.length) as ThreadId[],
     tabletIds: createIds(data.threading.threads.length) as TabletId[],
-    rowIds: createIds(data.weaving.length),
+    rowIds: createIds(data.weaving.length) as RowId[],
     data,
 });
 
