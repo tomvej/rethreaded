@@ -30,11 +30,11 @@ const tablets = (state: TabletState = initialTabletIds, action: ActionType, {sel
     switch (action.type) {
         case ADD_TABLET_AFTER: {
             const index = action.tablet !== undefined ? state.indexOf(action.tablet) : selection.tablet;
-            return insert(state, index, action.newId);
+            return insert(state, index + 1, action.newId);
         }
         case ADD_TABLET_BEFORE: {
             const index = action.tablet !== undefined ? state.indexOf(action.tablet) : selection.tablet;
-            return insert(state, index - 1, action.newId);
+            return insert(state, index, action.newId);
         }
         case REMOVE_TABLET: {
             const index = action.tablet !== undefined ? state.indexOf(action.tablet) : selection.tablet;
