@@ -5,7 +5,7 @@ import {seq} from '~utils/array';
 import {THREAD_WIDTH, WEAVE_LENGTH} from './constants';
 import style from './WeaveTable.scss';
 
-type Key = string; // TODO cannot be `| number` -- why?
+type Key = string | number;
 
 type WeaveComponentPropTypes<T extends Key> = {
     tablet: T;

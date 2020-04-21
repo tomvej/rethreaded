@@ -37,13 +37,13 @@ export interface RemoveThreadActionType {
 
 export interface AddTabletAfterActionType {
     type: typeof ADD_TABLET_AFTER;
-    newId: string;
+    newId: TabletId;
     tablet: TabletId | undefined;
 }
 
 export interface AddTabletBeforeActionType {
     type: typeof ADD_TABLET_BEFORE;
-    newId: string;
+    newId: TabletId;
     tablet: TabletId | undefined;
 }
 
@@ -79,7 +79,7 @@ export interface ImportDesignActionType {
     type: typeof IMPORT_DESIGN;
     data: IOShape;
     threadIds: Array<ThreadId>;
-    tabletIds: Array<string>;
+    tabletIds: Array<TabletId>;
     rowIds: Array<string>;
 }
 export interface ClearActionType {
@@ -101,12 +101,12 @@ export const removeThread = (thread?: ThreadId): RemoveThreadActionType => ({typ
 export const addTabletAfter = (tablet?: TabletId): AddTabletAfterActionType => ({
     type: ADD_TABLET_AFTER,
     tablet,
-    newId: uuid.v4(),
+    newId: uuid.v4() as TabletId,
 });
 export const addTabletBefore = (tablet?: TabletId): AddTabletBeforeActionType => ({
     type: ADD_TABLET_BEFORE,
     tablet,
-    newId: uuid.v4(),
+    newId: uuid.v4() as TabletId,
 });
 export const removeTablet = (tablet?: TabletId): RemoveTabletActionType => ({type: REMOVE_TABLET, tablet});
 
@@ -132,7 +132,7 @@ const createIds = (length: number): Array<string> => makeBy(length, () => uuid.v
 export const importDesign = (data: IOShape): ImportDesignActionType => ({
     type: IMPORT_DESIGN,
     threadIds: createIds(data.threads.length) as ThreadId[],
-    tabletIds: createIds(data.threading.threads.length),
+    tabletIds: createIds(data.threading.threads.length) as TabletId[],
     rowIds: createIds(data.weaving.length),
     data,
 });

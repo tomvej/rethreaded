@@ -1,9 +1,10 @@
 import {Color, Direction, Hole, Tablet, ThreadingType} from '~types';
 
-enum ThreadIdEnum {_= ''}
+enum ThreadIdEnum {_ = ''}
+enum TabletIdEnum {_ = ''}
 
 export type ThreadId = ThreadIdEnum & string;
-export type TabletId = string;
+export type TabletId = TabletIdEnum & string;
 export type RowId = number;
 
 export type SelectionState = {

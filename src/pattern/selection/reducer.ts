@@ -61,9 +61,9 @@ const tablet = (state = 0, action: ActionType, {tablets}: Context): number => {
         case SELECT_AND_APPLY_THREAD:
             return tablets.indexOf(action.tablet);
         case ADD_TABLET_BEFORE:
-            return action.tablet ? tablets.indexOf(action.tablet) : state;
+            return action.tablet !== undefined ? tablets.indexOf(action.tablet) : state;
         case ADD_TABLET_AFTER:
-            return (action.tablet ? tablets.indexOf(action.tablet) : state) + 1;
+            return (action.tablet !== undefined ? tablets.indexOf(action.tablet) : state) + 1;
         case REMOVE_TABLET:
             return Math.min(state, tablets.length - 2);
         case SELECT_AND_TOGGLE_DIRECTION:

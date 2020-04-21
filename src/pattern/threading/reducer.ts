@@ -26,15 +26,15 @@ type TabletState = Array<TabletId>;
 const tablets = (state: TabletState = initialTabletIds, action: ActionType, {selection}: Context): TabletState => {
     switch (action.type) {
         case ADD_TABLET_AFTER: {
-            const index = action.tablet ? state.indexOf(action.tablet) : selection.tablet;
+            const index = action.tablet !== undefined ? state.indexOf(action.tablet) : selection.tablet;
             return insert(state, index, action.newId);
         }
         case ADD_TABLET_BEFORE: {
-            const index = action.tablet ? state.indexOf(action.tablet) : selection.tablet;
+            const index = action.tablet !== undefined ? state.indexOf(action.tablet) : selection.tablet;
             return insert(state, index - 1, action.newId);
         }
         case REMOVE_TABLET: {
-            const index = action.tablet ? state.indexOf(action.tablet) : selection.tablet;
+            const index = action.tablet !== undefined ? state.indexOf(action.tablet) : selection.tablet;
             return unsafeDeleteAt(index, state);
         }
         case IMPORT_DESIGN:
@@ -60,9 +60,9 @@ const initialThreading: ThreadingState = record.fromEntries(initialTabletIds.map
 const threading = (state = initialThreading, action: ActionType, {selection, tablets}: Context): ThreadingState => {
     switch (action.type) {
         case SET_S_THREADING:
-            return record.update(selection.tablet, () => ThreadingType.S)(state);
+            return record.update(tablets[selection.tablet], () => ThreadingType.S)(state);
         case SET_Z_THREADING:
-            return record.update(selection.tablet, () => ThreadingType.Z)(state);
+            return record.update(tablets[selection.tablet], () => ThreadingType.Z)(state);
         case TOGGLE_THREADING:
             return record.update(action.tablet, toggleThreading)(state);
         case ADD_TABLET_AFTER: {
@@ -76,7 +76,7 @@ const threading = (state = initialThreading, action: ActionType, {selection, tab
         case REMOVE_TABLET:
             return record.remove(action.tablet ?? tablets[selection.tablet])(state);
         case IMPORT_DESIGN:
-            return {}; // FIXME
+            return {} as ThreadingState; // FIXME
         case CLEAR:
             return initialThreading;
         default:
@@ -105,7 +105,7 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
         case APPLY_THREAD: {
             const newThread = action.thread ?? selection.thread;
             if (newThread < threads.length) {
-                return record.update(selection.tablet, updateTablet(selection.hole, () => threads[newThread]))(state);
+                return record.update(tablets[selection.tablet], updateTablet(selection.hole, () => threads[newThread]))(state);
             } else {
                 return state;
             }
@@ -113,7 +113,7 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
         case SELECT_AND_APPLY_THREAD:
             return record.update(action.tablet, updateTablet(action.hole, () => threads[selection.thread]))(state);
         case TURN:
-            return record.update(selection.tablet, turnTablet(action.turns))(state);
+            return record.update(tablets[selection.tablet], turnTablet(action.turns))(state);
         case REMOVE_THREAD: {
             const removedThread = action.thread ?? threads[selection.thread];
             const threadIndex = threads.indexOf(removedThread);
@@ -133,7 +133,7 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
         case REMOVE_TABLET:
             return record.remove(action.tablet ?? tablets[selection.tablet])(state);
         case IMPORT_DESIGN:
-            return {}; // FIXME
+            return {} as ThreadsState; // FIXME
             /*return pipe(
                 action.data.threading.threads,
                 map(mapTablet((index) => action.threadIds[index])),
