@@ -68,13 +68,10 @@ const threading = (state = initialThreading, action: ActionType, {selection, tab
             return record.update(tablets[selection.tablet], () => ThreadingType.Z)(state);
         case TOGGLE_THREADING:
             return record.update(action.tablet, toggleThreading)(state);
-        case ADD_TABLET_AFTER: {
-            const tablet = action.tablet ?? tablets[selection.tablet];
-            return record.update(action.newId, () => state[tablet])(state);
-        }
+        case ADD_TABLET_AFTER:
         case ADD_TABLET_BEFORE: {
             const tablet = action.tablet ?? tablets[selection.tablet];
-            return record.update(tablet, () => state[tablet])(state);
+            return record.update(action.newId, () => state[tablet])(state);
         }
         case REMOVE_TABLET:
             return record.remove(action.tablet ?? tablets[selection.tablet])(state);
@@ -129,10 +126,7 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
                 tablet.map((thread: ThreadId) => thread === removedThread ? threads[newThreadIndex] : thread)
             )(state);
         }
-        case ADD_TABLET_AFTER: {
-            const tablet = action.tablet ?? tablets[selection.tablet];
-            return record.update(action.newId, () => state[tablet])(state);
-        }
+        case ADD_TABLET_AFTER:
         case ADD_TABLET_BEFORE: {
             const tablet = action.tablet ?? tablets[selection.tablet];
             return record.update(action.newId, () => state[tablet])(state);
