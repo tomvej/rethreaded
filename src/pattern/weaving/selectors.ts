@@ -19,8 +19,8 @@ import {StateType} from './reducer';
 const getState = (state: RootState): StateType => getParentState(state)[NAME];
 
 export const isFocused = (state: RootState): boolean => focus.isFocused(state, NAME);
-export const getDirection = (state: RootState, row: RowId, tablet: TabletId): Direction => getState(state)[row][tablet];
-export const getRowNumberFromModel = (model: StateType): number => model.length;
+export const getDirection = (state: RootState, row: RowId, tablet: TabletId): Direction => getState(state).directions[row][tablet];
+export const getRowNumberFromModel = (model: StateType): number => model.directions.length;
 export const getRowNumber = (state: RootState): number => getRowNumberFromModel(getState(state));
 export const isWeavingSelected = (state: RootState, tablet: TabletId, row: number): boolean => isTabletSelected(state, tablet) && getSelectedRow(state) === row;
 
@@ -95,4 +95,4 @@ export const createGetTabletTwist = (): GetTabletTwist => {
 }
 
 type ExportWeaving = (state: RootState) => Array<Array<Direction>>;
-export const exportWeaving: ExportWeaving = (state: RootState) => getState(state).map((row) => getTablets(state).map((tablet) => row[tablet]));
+export const exportWeaving: ExportWeaving = (state: RootState) => getState(state).directions.map((row) => getTablets(state).map((tablet) => row[tablet]));

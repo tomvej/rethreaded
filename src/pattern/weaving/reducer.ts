@@ -8,6 +8,7 @@ import {insert, remove, seq, update} from '~utils/array';
 import {addIndices} from '~utils/func';
 import * as record from '~utils/record';
 import {fromEntries} from '~utils/record';
+import {combineContextReducers} from '~utils/redux';
 
 import {
     ADD_ROW_AFTER,
@@ -33,9 +34,9 @@ const getOtherDirection = (direction: Direction): Direction => {
     }
 };
 
-export type StateType = Array<Record<TabletId, Direction>>;
+type DirectionsType = Array<Record<TabletId, Direction>>;
 const initState = seq(MIN_ROWS).map(() => fromEntries(initialTabletIds.map((id) => [id, Direction.Forward])));
-export default (state: StateType = initState, action: ActionType, {selection, tablets}: Context): StateType => {
+const directions = (state: DirectionsType = initState, action: ActionType, {selection, tablets}: Context): DirectionsType => {
     switch (action.type) {
         case SELECT_AND_TOGGLE_DIRECTION:
             return update(action.row, record.update(action.tablet, getOtherDirection))(state);
@@ -75,3 +76,7 @@ export default (state: StateType = initState, action: ActionType, {selection, ta
             return state;
     }
 };
+
+const reducer = combineContextReducers({directions});
+export type StateType = ReturnType<typeof reducer>;
+export default reducer;
