@@ -1,12 +1,14 @@
 import {Color, Direction, Hole, Tablet} from '~types';
 
+import {RowId} from '../types';
+
 const inc = (hole: Hole): Hole => (hole + 1) % 4;
 const dec = (hole: Hole): Hole => (hole + 3) % 4;
 
-export default (directions: Array<Direction>, colors: Tablet<Color>): Array<Color> => {
-    const result = Array(directions.length);
+export default (directions: Record<RowId, Direction>, colors: Tablet<Color>, rows: Array<RowId>): Record<RowId, Color> => {
+    const result = {} as Record<RowId, Color>;
     let hole = Hole.A;
-    for (let row = 0; row < directions.length; row++) {
+    rows.forEach((row) => {
         switch (directions[row]) {
             case Direction.Forward:
                 result[row] = colors[hole];
@@ -17,6 +19,6 @@ export default (directions: Array<Direction>, colors: Tablet<Color>): Array<Colo
                 result[row] = colors[hole];
                 break;
         }
-    }
+    });
     return result;
 };

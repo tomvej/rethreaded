@@ -2,11 +2,10 @@ import {connect} from 'react-redux';
 
 import {Weave} from '~components/weave';
 import {RootState} from '~reducer';
-import {decrement} from '~utils/func';
 
 import {getThreading} from '../threading';
 import {RowId, TabletId} from '../types';
-import {getDirection, getPatternColor, getRowNumber} from '../weaving';
+import {getDirection, getPatternColor, getPreviousRow} from '../weaving';
 
 type OwnProps = {
     row: RowId;
@@ -17,7 +16,7 @@ const mapStateToProps = (state: RootState, {tablet, row}: OwnProps) => ({
     color: getPatternColor(state, tablet, row),
     threading: getThreading(state, tablet),
     direction: getDirection(state, row, tablet),
-    prevDirection: getDirection(state, decrement(getRowNumber(state))(row), tablet),
+    prevDirection: getDirection(state, getPreviousRow(state, row), tablet),
 });
 
 export default connect(mapStateToProps)(Weave);

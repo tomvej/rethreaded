@@ -60,13 +60,13 @@ export interface SelectAndToggleDirectionActionType {
 
 export interface AddRowAfterActionType {
     type: typeof ADD_ROW_AFTER;
-    newId: string;
+    newId: RowId;
     row?: RowId;
 }
 
 export interface AddRowBeforeActionType {
     type: typeof ADD_ROW_BEFORE;
-    newId: string;
+    newId: RowId;
     row?: RowId;
 }
 

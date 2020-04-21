@@ -1,11 +1,12 @@
-import {map, reduce} from 'fp-ts/es6/Array';
+import {rotate, zip, array} from 'fp-ts/es6/Array';
 import {pipe} from 'fp-ts/es6/pipeable';
+import {fromFoldable, map, reduce} from 'fp-ts/es6/Record';
+import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
 import {createSelector, createStructuredSelector} from 'reselect';
 
 import * as focus from '~core/focus';
 import {RootState} from '~reducer';
 import {Color, Direction, Hole, Tablet} from '~types';
-import {seq} from '~utils/array';
 import {fromEntries} from '~utils/record';
 
 import {getSelectedRow} from '../selection';
@@ -23,7 +24,17 @@ export const getDirection = (state: RootState, row: RowId, tablet: TabletId): Di
 export const getRowsFromModel = (model: StateType): Array<RowId> => model.rows;
 export const getRows = (state: RootState): Array<RowId> => getRowsFromModel(getState(state));
 export const getRowNumber = (state: RootState): number => getRows(state).length;
-export const isWeavingSelected = (state: RootState, tablet: TabletId, row: RowId): boolean => isTabletSelected(state, tablet) && getSelectedRow(state) === row;
+const isRowSelected = (state: RootState, row: RowId): boolean => getRows(state)[getSelectedRow(state)] === row;
+export const isWeavingSelected = (state: RootState, tablet: TabletId, row: RowId): boolean => isTabletSelected(state, tablet) && isRowSelected(state, row);
+
+const getPreviousRowTable = createSelector(
+    getRows,
+    (rows) => pipe(
+        zip(rows, rotate(1)(rows)),
+        fromFoldable(getLastSemigroup<RowId>(), array),
+    ),
+);
+export const getPreviousRow = (state: RootState, row: RowId): RowId => getPreviousRowTable(state)[row];
 
 const createGetColor = (tablet: TabletId, hole: Hole) => (state: RootState): Color => getColor(state, tablet, hole);
 type GetTabletColors = (state: RootState) => Tablet<Color>;
@@ -35,31 +46,32 @@ const createGetTabletColors = (tablet: TabletId): GetTabletColors => createSelec
     (colorA, colorB, colorC, colorD) => [colorA, colorB, colorC, colorD],
 );
 
-type GetTabletDirectionsType = (state: RootState) => (state: RootState) => Array<Direction>;
+const createGetDirection = (row: RowId, tablet: TabletId) => (state: RootState): Direction => getDirection(state, row, tablet);
+type GetTabletDirectionsType = (state: RootState) => (state: RootState) => Record<RowId, Direction>;
 const createGetTabletDirectionsSelector = (tablet: TabletId): GetTabletDirectionsType => createSelector(
-    getRowNumber,
-    (rows) => createSelector(
-        seq(rows).map((row) => (state: RootState): Direction => getDirection(state, row, tablet)),
-        (...directions) => directions,
+    getRows,
+    (rows) => createStructuredSelector(
+        fromEntries(rows.map((row) => [row, createGetDirection(row, tablet)])),
     ),
 );
-const createGetTabletDirections = (tablet: TabletId): (state: RootState) => Array<Direction> => {
+const createGetTabletDirections = (tablet: TabletId): (state: RootState) => Record<RowId, Direction> => {
     const getTabletDirectionsSelector = createGetTabletDirectionsSelector(tablet);
-    return (state: RootState): Array<Direction> => getTabletDirectionsSelector(state)(state);
+    return (state): Record<RowId, Direction> => getTabletDirectionsSelector(state)(state);
 }
 
-type GetTabletPattern = (state: RootState) => Array<Color>;
+type GetTabletPattern = (state: RootState) => Record<RowId, Color>;
 const createGetTabletPattern = (tablet: TabletId): GetTabletPattern => {
     const getTabletDirections = createGetTabletDirections(tablet);
     const getTabletColors = createGetTabletColors(tablet);
     return createSelector(
         getTabletDirections,
         getTabletColors,
+        getRows,
         computePattern,
     );
 };
 
-type GetTabletPatternTable = (state: RootState) => (state: RootState) => Record<TabletId, Array<Color>>;
+type GetTabletPatternTable = (state: RootState) => (state: RootState) => Record<TabletId, Record<RowId, Color>>;
 const getTabletPatternTable: GetTabletPatternTable = createSelector(
     getTablets,
     (tablets) => createStructuredSelector(

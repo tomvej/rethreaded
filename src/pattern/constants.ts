@@ -8,5 +8,6 @@ export const MIN_THREADS = 2;
 export const MIN_TABLETS = 4;
 export const MIN_ROWS = 1;
 
+// FIXME make it as mapping
 export const initialThreadIds = [uuid.v4(), uuid.v4()] as ThreadId[];
 export const initialTabletIds = [uuid.v4(), uuid.v4(), uuid.v4(), uuid.v4()] as TabletId[];

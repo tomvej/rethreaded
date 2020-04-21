@@ -5,7 +5,7 @@ enum TabletIdEnum {_ = ''}
 
 export type ThreadId = ThreadIdEnum & string;
 export type TabletId = TabletIdEnum & string;
-export type RowId = number;
+export type RowId = string;
 
 export type SelectionState = {
     row: number;

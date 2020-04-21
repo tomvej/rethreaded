@@ -95,15 +95,15 @@ const hole = (state = Hole.A, action: ActionType): Hole => {
 const row = (state = 0, action: ActionType, {rows}: Context): number => {
     switch (action.type) {
         case SELECT_AND_TOGGLE_DIRECTION:
-            return action.row;
+            return rows.indexOf(action.row);
         case PREV_ROW:
             return decrement(rows.length)(state);
         case NEXT_ROW:
             return increment(rows.length)(state);
         case ADD_ROW_AFTER:
-            return (action.row ?? state) + 1;
+            return (action.row !== undefined ? rows.indexOf(action.row) : state) + 1;
         case ADD_ROW_BEFORE:
-            return action.row ?? state;
+            return (action.row !== undefined ? rows.indexOf(action.row) : state);
         case REMOVE_ROW:
             return Math.min(state, rows.length - 2);
         case IMPORT_DESIGN:
