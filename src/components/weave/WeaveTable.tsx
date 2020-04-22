@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
+import React, {FC, ReactNode, useCallback, useEffect, useRef, useState} from 'react';
 
 import {seq} from '~utils/array';
 
@@ -42,6 +42,15 @@ const WeaveTable = <T extends Key, R extends Key>({tablets, rows, weaveComponent
 
     const width = tablets.length * THREAD_WIDTH;
     const height = (rows.length + 1) * WEAVE_LENGTH * repeat;
+
+    const createLine = (tablet: T): ReactNode => seq(repeat).map((repetition) => rows.map((row, index) => (
+        <g
+            key={row}
+            transform={`translate(0, ${(repetition * rows.length + index) * WEAVE_LENGTH})`}
+        >
+            <WeaveComponent tablet={tablet} row={row} />
+        </g>
+    )))
     return (
         <svg
             viewBox={`${-THREAD_WIDTH / 2}, ${-WEAVE_LENGTH}, ${width}, ${height}`}
@@ -50,18 +59,14 @@ const WeaveTable = <T extends Key, R extends Key>({tablets, rows, weaveComponent
             className={style.main}
             ref={ref}
         >
-            {tablets.map(
-                (tablet, tabletIndex) => (seq(repeat).map(
-                    (repetition) => rows.map((row, rowIndex) => (
-                        <g
-                            key={`${tablet}-${row}`}
-                            transform={`translate(${tabletIndex * THREAD_WIDTH}, ${(repetition * rows.length + rowIndex) * WEAVE_LENGTH})`}
-                        >
-                            <WeaveComponent tablet={tablet} row={row}/>
-                        </g>
-                    )),
-                )),
-            )}
+            {tablets.map((tablet, index) => (
+                <g
+                    key={tablet}
+                    transform={`translate(${index * THREAD_WIDTH})`}
+                >
+                    {createLine(tablet)}
+                </g>
+            ))}
         </svg>
     );
 };
