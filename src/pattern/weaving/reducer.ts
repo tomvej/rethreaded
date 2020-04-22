@@ -33,11 +33,11 @@ const rows = (state = initialRowIds, action: ActionType, {selection}: Context): 
     switch (action.type) {
         case ADD_ROW_AFTER: {
             const index = action.row !== undefined ? state.indexOf(action.row) : selection.row;
-            return insert(state, index, action.newId);
+            return insert(state, index + 1, action.newId);
         }
         case ADD_ROW_BEFORE: {
             const index = action.row !== undefined ? state.indexOf(action.row) : selection.row;
-            return insert(state, index - 1, action.newId);
+            return insert(state, index, action.newId);
         }
         case REMOVE_ROW: {
             const index = action.row !== undefined ? state.indexOf(action.row) : selection.row;
