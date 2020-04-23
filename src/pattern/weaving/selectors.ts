@@ -1,10 +1,10 @@
-import * as array from 'fp-ts/es6/Array';
 import {pipe} from 'fp-ts/es6/pipeable';
 import * as record from 'fp-ts/es6/Record';
 import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
 import {createSelector, createStructuredSelector} from 'reselect';
 
 import * as focus from '~core/focus';
+import * as array from '~func/array';
 import {RootState} from '~reducer';
 import {Color, Direction, Hole, Tablet} from '~types';
 
@@ -59,7 +59,7 @@ const createGetTabletDirectionsSelector = (tablet: TabletId): GetTabletDirection
     getRows,
     (rows) => createStructuredSelector(pipe(
         rows,
-        array.map((row) => [row, createGetDirection(row, tablet)] as [RowId, GetDirection]),
+        array.addValues((row) => createGetDirection(row, tablet)),
         record.fromFoldable(getLastSemigroup(), array.array),
     )),
 );
@@ -85,7 +85,7 @@ const getTabletPatternTable: GetTabletPatternTable = createSelector(
     getTablets,
     (tablets) => createStructuredSelector(pipe(
         tablets,
-        array.map((id) => [id, createGetTabletPattern(id)] as [TabletId, GetTabletPattern]),
+        array.addValues(createGetTabletPattern),
         record.fromFoldable(getLastSemigroup(), array.array),
     )),
 );

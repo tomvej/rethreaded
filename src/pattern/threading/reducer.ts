@@ -1,7 +1,5 @@
-import {map} from 'fp-ts/es6/Array';
 import {getOrElse} from 'fp-ts/es6/Option';
 import {pipe} from 'fp-ts/es6/pipeable';
-import {fromFoldable} from 'fp-ts/es6/Record';
 import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
 
 import * as array from '~func/array';
@@ -72,7 +70,7 @@ const toggleThreading = (threading: ThreadingType): ThreadingType => {
 type ThreadingState = Record<TabletId, ThreadingType>;
 const initialThreading: ThreadingState = pipe(
     initialTabletIds,
-    map((id) => [id, ThreadingType.S] as [TabletId, ThreadingType]),
+    array.addValues(() => ThreadingType.S),
     record.fromFoldable(getLastSemigroup(), array.array),
 );
 
@@ -114,7 +112,7 @@ const threading = (state = initialThreading, action: ActionType, {selection, tab
             return pipe(
                 action.data.threading.threading,
                 array.addIndices((i) => action.tabletIds[i]),
-                fromFoldable(getLastSemigroup(), array.array),
+                record.fromFoldable(getLastSemigroup(), array.array),
             );
         case CLEAR:
             return initialThreading;
@@ -137,7 +135,7 @@ const turnTablet = (turns: number) => <T>(tablet: Tablet<T>): Tablet<T> => [
 type ThreadsState = Record<TabletId, Tablet<ThreadId>>;
 const initialThreads: ThreadsState = pipe(
     initialTabletIds,
-    array.map((id) => [id, [initialThreadIds[0], initialThreadIds[1], initialThreadIds[0], initialThreadIds[1]]] as [TabletId, Tablet<ThreadId>]),
+    array.addValues(() => [initialThreadIds[0], initialThreadIds[1], initialThreadIds[0], initialThreadIds[1]] as Tablet<ThreadId>),
     record.fromFoldable(getLastSemigroup(), array.array),
 )
 
@@ -192,9 +190,9 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
         case IMPORT_DESIGN:
             return pipe(
                 action.data.threading.threads,
-                map(tablet.map((index) => action.threadIds[index])),
+                array.map(tablet.map((index) => action.threadIds[index])),
                 array.addIndices((i) => action.tabletIds[i]),
-                fromFoldable(getLastSemigroup<Tablet<ThreadId>>(), array.array),
+                record.fromFoldable(getLastSemigroup<Tablet<ThreadId>>(), array.array),
             );
         case CLEAR:
             return initialThreads;

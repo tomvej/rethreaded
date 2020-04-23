@@ -74,12 +74,12 @@ type RowType = Record<TabletId, Direction>;
 type DirectionsType = Record<RowId, RowType>;
 const initialRow = pipe(
     initialTabletIds,
-    array.map((id) => [id, Direction.Forward] as [TabletId, Direction]),
+    array.addValues(() => Direction.Forward),
     record.fromFoldable(getLastSemigroup<Direction>(), array.array),
 );
 const initialState = pipe(
     initialRowIds,
-    array.map((id) => [id, initialRow] as [RowId, RowType]),
+    array.addValues(() => initialRow),
     record.fromFoldable(getLastSemigroup<RowType>(), array.array),
 )
 const directions = (state: DirectionsType = initialState, action: ActionType, {selection, tablets, rows}: Context): DirectionsType => {
