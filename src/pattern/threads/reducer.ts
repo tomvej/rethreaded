@@ -1,12 +1,10 @@
-import {array as FoldableArray, snoc} from 'fp-ts/es6/Array';
+import {getOrElse} from 'fp-ts/es6/Option';
 import {pipe} from 'fp-ts/es6/pipeable';
-import {fromFoldable} from 'fp-ts/es6/Record';
 import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
 
 import * as array from '~func/array';
 import * as record from '~func/record';
 import {Color} from '~types';
-import {addIndices} from '~utils/func';
 import palette from '~utils/palette';
 import {combineContextReducers} from '~utils/redux';
 
@@ -18,11 +16,15 @@ import {ActionType, SET_COLOR, TOGGLE_PICKER} from './actions';
 const threads = (state: Array<ThreadId> = initialThreadIds, action: ActionType, {selection}: Context): Array<ThreadId> => {
     switch (action.type) {
         case ADD_THREAD:
-            return snoc(state, action.newId);
+            return array.snoc(state, action.newId);
         case IMPORT_DESIGN:
             return action.threadIds;
         case REMOVE_THREAD:
-            return array.remove(action.thread ? state.indexOf(action.thread) : selection.thread)(state);
+            return pipe(
+                state,
+                array.deleteAt(action.thread ? state.indexOf(action.thread) : selection.thread),
+                getOrElse(() => state),
+            );
         case CLEAR:
             return initialThreadIds;
         default:
@@ -38,16 +40,27 @@ const initialColors: ColorState = {
 const colors = (state = initialColors, action: ActionType, {selection, threads}: Context): ColorState => {
     switch(action.type) {
         case SET_COLOR:
-            return record.update(threads[selection.thread], () => action.color)(state);
+            return pipe(
+                state,
+                record.updateAt(threads[selection.thread], action.color),
+                getOrElse(() => state),
+            )
         case ADD_THREAD:
-            return record.update(action.newId, () => palette[0][0])(state);
+            return pipe(
+                state,
+                record.updateAt(action.newId, palette[0][0]),
+                getOrElse(() => state),
+            )
         case REMOVE_THREAD:
-            return record.remove(action.thread ?? threads[selection.thread])(state);
+            return pipe(
+                state,
+                record.deleteAt(action.thread ?? threads[selection.thread]),
+            );
         case IMPORT_DESIGN:
             return pipe(
                 action.data.threads,
-                addIndices((i) => action.threadIds[i]),
-                fromFoldable(getLastSemigroup<Color>(), FoldableArray)
+                array.addIndices((i) => action.threadIds[i]),
+                record.fromFoldable(getLastSemigroup(), array.array)
             );
         case CLEAR:
             return initialColors;
