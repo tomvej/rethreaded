@@ -6,4 +6,5 @@ export const increment = (limit: number) => (value: number): number => value < l
 export const decrement = (limit: number) => (value: number): number => value > 0 ? value - 1 : limit - 1;
 
 type AddIndices<I, T> = (target: Array<T>) => Array<[I, T]>;
+/** @deprecated */
 export const addIndices = <I, T>(getIndex: (index: number) => I): AddIndices<I, T> => mapWithIndex((index, element) => [getIndex(index), element]);
