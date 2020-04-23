@@ -1,3 +1,4 @@
+import {flow} from 'fp-ts/es6/function';
 import {pipe} from 'fp-ts/es6/pipeable';
 import * as record from 'fp-ts/es6/Record';
 import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
@@ -105,11 +106,10 @@ const createGetTabletTwistSelector = (): GetTabletTwistSelector => createSelecto
     (state: unknown, tablet: TabletId) => tablet,
     (tablet) => createSelector(
         createGetTabletDirections(tablet),
-        (directions): number => pipe(
-            directions,
+        flow(
             record.map(getDirectionTwist),
             record.reduce(0, (a, b) => a + b),
-        )
+        ),
     ),
 );
 type GetTabletTwist = (state: RootState, tablet: TabletId) => number;
