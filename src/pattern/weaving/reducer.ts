@@ -121,8 +121,7 @@ const directions = (state: DirectionsType = initialState, action: ActionType, {s
                 state,
                 record.map((row) => pipe(
                     row,
-                    record.updateAt(action.newId, row[tablet]),
-                    getOrElse(() => row),
+                    record.insertAt(action.newId, row[tablet]),
                 )),
             );
         }
@@ -138,12 +137,14 @@ const directions = (state: DirectionsType = initialState, action: ActionType, {s
             const row = action.row ?? rows[selection.row];
             return pipe(
                 state,
-                record.updateAt(action.newId, state[row]),
-                getOrElse(() => state),
+                record.insertAt(action.newId, state[row]),
             );
         }
         case REMOVE_ROW:
-            return record.remove(action.row ?? rows[selection.row])(state);
+            return pipe(
+                state,
+                record.deleteAt(action.row ?? rows[selection.row]),
+            );
         case IMPORT_DESIGN:
             return pipe(
                 action.data.weaving,

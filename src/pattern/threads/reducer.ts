@@ -48,8 +48,7 @@ const colors = (state = initialColors, action: ActionType, {selection, threads}:
         case ADD_THREAD:
             return pipe(
                 state,
-                record.updateAt(action.newId, palette[0][0]),
-                getOrElse(() => state),
+                record.insertAt(action.newId, palette[0][0]),
             )
         case REMOVE_THREAD:
             return pipe(
