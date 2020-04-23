@@ -1,6 +1,6 @@
 import {Action} from 'redux';
 
-import {append} from '~utils/array';
+import {append} from '~func/array';
 import {ContextReducer} from '~utils/redux';
 
 import {REDO, UNDO} from './actions';

@@ -3,11 +3,11 @@ import {pipe} from 'fp-ts/es6/pipeable';
 import {fromFoldable, map as mapRecord} from 'fp-ts/es6/Record';
 import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
 
+import {insert} from '~func/array';
+import * as record from '~func/record';
+import {fromEntries} from '~func/record';
 import {Hole, Tablet, ThreadingType} from '~types';
-import {insert} from '~utils/array';
 import {addIndices} from '~utils/func';
-import * as record from '~utils/record';
-import {fromEntries} from '~utils/record';
 import {combineContextReducers} from '~utils/redux';
 import * as tablet from '~utils/tablet';
 import {update as updateTablet} from '~utils/tablet';

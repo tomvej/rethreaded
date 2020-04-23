@@ -1,9 +1,9 @@
 import React, {FC, useCallback, useState} from 'react';
 
 import {ColorPicker as ColorPickerComponent} from '~components';
+import {aperture} from '~func/array';
 import {APPLY, CANCEL, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, MOVE_UP} from '~shortcuts';
 import {Color} from '~types';
-import {aperture} from '~utils/array';
 import {isEqual, toHex} from '~utils/color';
 import {decrement, increment} from '~utils/func';
 import palette from '~utils/palette';

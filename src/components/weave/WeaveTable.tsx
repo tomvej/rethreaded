@@ -1,6 +1,6 @@
 import React, {FC, ReactNode, useCallback, useEffect, useRef, useState} from 'react';
 
-import {seq} from '~utils/array';
+import {seq} from '~func/array';
 
 import {THREAD_WIDTH, WEAVE_LENGTH} from './constants';
 import style from './WeaveTable.scss';

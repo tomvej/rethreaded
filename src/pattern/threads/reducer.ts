@@ -3,11 +3,11 @@ import {pipe} from 'fp-ts/es6/pipeable';
 import {fromFoldable} from 'fp-ts/es6/Record';
 import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
 
+import * as array from '~func/array';
+import * as record from '~func/record';
 import {Color} from '~types';
-import * as array from '~utils/array';
 import {addIndices} from '~utils/func';
 import palette from '~utils/palette';
-import * as record from '~utils/record';
 import {combineContextReducers} from '~utils/redux';
 
 import {ADD_THREAD, CLEAR, IMPORT_DESIGN, REMOVE_THREAD} from '../actions';

@@ -5,9 +5,9 @@ import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
 import {createSelector, createStructuredSelector} from 'reselect';
 
 import * as focus from '~core/focus';
+import {fromEntries} from '~func/record';
 import {RootState} from '~reducer';
 import {Color, Direction, Hole, Tablet} from '~types';
-import {fromEntries} from '~utils/record';
 
 import {getSelectedRow} from '../selection';
 import {getModel as getParentState} from '../selectors';
