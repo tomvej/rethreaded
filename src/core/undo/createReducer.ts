@@ -1,6 +1,6 @@
+import {snoc} from 'fp-ts/es6/Array';
 import {Action} from 'redux';
 
-import {append} from '~func/array';
 import {ContextReducer} from '~utils/redux';
 
 import {REDO, UNDO} from './actions';
@@ -25,7 +25,7 @@ const createReducer = <C, S, A extends Action>(reducer: ContextReducer<C, S, A>,
                 return {
                     current: state.undo[state.undo.length - 1],
                     undo: state.undo.slice(0, state.undo.length - 1),
-                    redo: append(state.redo, state.current),
+                    redo: snoc(state.redo, state.current),
                 }
             } else {
                 return state;
@@ -35,7 +35,7 @@ const createReducer = <C, S, A extends Action>(reducer: ContextReducer<C, S, A>,
             if (state.redo.length > 0) {
                 return {
                     current: state.redo[state.redo.length - 1],
-                    undo: append(state.undo, state.current),
+                    undo: snoc(state.undo, state.current),
                     redo: state.redo.slice(0, state.redo.length - 1),
                 }
             } else {
@@ -47,7 +47,7 @@ const createReducer = <C, S, A extends Action>(reducer: ContextReducer<C, S, A>,
             if (newState !== state.current) {
                 return {
                     current: newState,
-                    undo: append(state.undo, state.current),
+                    undo: snoc(state.undo, state.current),
                     redo: [],
                 };
             } else {

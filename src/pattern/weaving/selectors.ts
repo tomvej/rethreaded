@@ -1,11 +1,10 @@
-import {array, rotate, zip} from 'fp-ts/es6/Array';
+import * as array from 'fp-ts/es6/Array';
 import {pipe} from 'fp-ts/es6/pipeable';
-import {fromFoldable, map, reduce} from 'fp-ts/es6/Record';
+import * as record from 'fp-ts/es6/Record';
 import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
 import {createSelector, createStructuredSelector} from 'reselect';
 
 import * as focus from '~core/focus';
-import {fromEntries} from '~func/record';
 import {RootState} from '~reducer';
 import {Color, Direction, Hole, Tablet} from '~types';
 
@@ -37,8 +36,8 @@ export const createGetRowOrder = (): GetRowOrder => createSelector(
 const getPreviousRowTable = createSelector(
     getRows,
     (rows) => pipe(
-        zip(rows, rotate(1)(rows)),
-        fromFoldable(getLastSemigroup<RowId>(), array),
+        array.zip(rows, array.rotate(1)(rows)),
+        record.fromFoldable(getLastSemigroup<RowId>(), array.array),
     ),
 );
 export const getPreviousRow = (state: RootState, row: RowId): RowId => getPreviousRowTable(state)[row];
@@ -53,13 +52,16 @@ const createGetTabletColors = (tablet: TabletId): GetTabletColors => createSelec
     (colorA, colorB, colorC, colorD) => [colorA, colorB, colorC, colorD],
 );
 
+type GetDirection = (state: RootState) => Direction;
 const createGetDirection = (row: RowId, tablet: TabletId) => (state: RootState): Direction => getDirection(state, row, tablet);
 type GetTabletDirectionsType = (state: RootState) => (state: RootState) => Record<RowId, Direction>;
 const createGetTabletDirectionsSelector = (tablet: TabletId): GetTabletDirectionsType => createSelector(
     getRows,
-    (rows) => createStructuredSelector(
-        fromEntries(rows.map((row) => [row, createGetDirection(row, tablet)])),
-    ),
+    (rows) => createStructuredSelector(pipe(
+        rows,
+        array.map((row) => [row, createGetDirection(row, tablet)] as [RowId, GetDirection]),
+        record.fromFoldable(getLastSemigroup(), array.array),
+    )),
 );
 const createGetTabletDirections = (tablet: TabletId): (state: RootState) => Record<RowId, Direction> => {
     const getTabletDirectionsSelector = createGetTabletDirectionsSelector(tablet);
@@ -81,9 +83,11 @@ const createGetTabletPattern = (tablet: TabletId): GetTabletPattern => {
 type GetTabletPatternTable = (state: RootState) => (state: RootState) => Record<TabletId, Record<RowId, Color>>;
 const getTabletPatternTable: GetTabletPatternTable = createSelector(
     getTablets,
-    (tablets) => createStructuredSelector(
-        fromEntries(tablets.map((id) => [id, createGetTabletPattern(id)])),
-    ),
+    (tablets) => createStructuredSelector(pipe(
+        tablets,
+        array.map((id) => [id, createGetTabletPattern(id)] as [TabletId, GetTabletPattern]),
+        record.fromFoldable(getLastSemigroup(), array.array),
+    )),
 );
 
 export const getPatternColor = (state: RootState, tablet: TabletId, row: RowId): Color => getTabletPatternTable(state)(state)[tablet][row];
@@ -103,8 +107,8 @@ const createGetTabletTwistSelector = (): GetTabletTwistSelector => createSelecto
         createGetTabletDirections(tablet),
         (directions): number => pipe(
             directions,
-            map(getDirectionTwist),
-            reduce(0, (a, b) => a + b),
+            record.map(getDirectionTwist),
+            record.reduce(0, (a, b) => a + b),
         )
     ),
 );
