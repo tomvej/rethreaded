@@ -1,4 +1,4 @@
-import {cons, lookup,makeBy, map, reduce, replicate, zipWith} from 'fp-ts/es6/Array';
+import {lookup, makeBy, map, reduce, replicate, snoc, zipWith} from 'fp-ts/es6/Array';
 import {getOrElse} from 'fp-ts/es6/Option';
 import {pipe} from 'fp-ts/es6/pipeable';
 
@@ -36,7 +36,7 @@ export default function encode(data: IOShape): BasicTwtFileType {
         data.threading.threads,
         reduce(
             replicate(4, [] as number[]),
-            (result, tablet) => zipWith(tablet, result, cons),
+            (result, tablet) => zipWith(result, tablet.reverse(), snoc),
         ),
     )
 
