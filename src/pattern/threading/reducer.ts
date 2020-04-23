@@ -1,13 +1,12 @@
-import {array, map, unsafeDeleteAt} from 'fp-ts/es6/Array';
+import {map} from 'fp-ts/es6/Array';
+import {getOrElse} from 'fp-ts/es6/Option';
 import {pipe} from 'fp-ts/es6/pipeable';
-import {fromFoldable, map as mapRecord} from 'fp-ts/es6/Record';
+import {fromFoldable} from 'fp-ts/es6/Record';
 import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
 
-import {insert} from '~func/array';
+import * as array from '~func/array';
 import * as record from '~func/record';
-import {fromEntries} from '~func/record';
 import {Hole, Tablet, ThreadingType} from '~types';
-import {addIndices} from '~utils/func';
 import {combineContextReducers} from '~utils/redux';
 import * as tablet from '~utils/tablet';
 import {update as updateTablet} from '~utils/tablet';
@@ -30,15 +29,27 @@ const tablets = (state: TabletState = initialTabletIds, action: ActionType, {sel
     switch (action.type) {
         case ADD_TABLET_AFTER: {
             const index = action.tablet !== undefined ? state.indexOf(action.tablet) : selection.tablet;
-            return insert(state, index + 1, action.newId);
+            return pipe(
+                state,
+                array.insertAt(index + 1, action.newId),
+                getOrElse(() => state),
+            )
         }
         case ADD_TABLET_BEFORE: {
             const index = action.tablet !== undefined ? state.indexOf(action.tablet) : selection.tablet;
-            return insert(state, index, action.newId);
+            return pipe(
+                state,
+                array.insertAt(index, action.newId),
+                getOrElse(() => state),
+            )
         }
         case REMOVE_TABLET: {
             const index = action.tablet !== undefined ? state.indexOf(action.tablet) : selection.tablet;
-            return unsafeDeleteAt(index, state);
+            return pipe(
+                state,
+                array.deleteAt(index),
+                getOrElse(() => state),
+            )
         }
         case IMPORT_DESIGN:
             return action.tabletIds;
@@ -59,27 +70,51 @@ const toggleThreading = (threading: ThreadingType): ThreadingType => {
 };
 
 type ThreadingState = Record<TabletId, ThreadingType>;
-const initialThreading: ThreadingState = record.fromEntries(initialTabletIds.map((id) => [id, ThreadingType.S]));
+const initialThreading: ThreadingState = pipe(
+    initialTabletIds,
+    map((id) => [id, ThreadingType.S] as [TabletId, ThreadingType]),
+    record.fromFoldable(getLastSemigroup(), array.array),
+);
+
 const threading = (state = initialThreading, action: ActionType, {selection, tablets}: Context): ThreadingState => {
     switch (action.type) {
         case SET_S_THREADING:
-            return record.update(tablets[selection.tablet], () => ThreadingType.S)(state);
+            return pipe(
+                state,
+                record.updateAt(tablets[selection.tablet], ThreadingType.S),
+                getOrElse(() => state),
+            );
         case SET_Z_THREADING:
-            return record.update(tablets[selection.tablet], () => ThreadingType.Z)(state);
+            return pipe(
+                state,
+                record.updateAt(tablets[selection.tablet], ThreadingType.Z),
+                getOrElse(() => state),
+            )
         case TOGGLE_THREADING:
-            return record.update(action.tablet, toggleThreading)(state);
+            return pipe(
+                state,
+                record.modifyAt(action.tablet, toggleThreading),
+                getOrElse(() => state),
+            )
         case ADD_TABLET_AFTER:
         case ADD_TABLET_BEFORE: {
             const tablet = action.tablet ?? tablets[selection.tablet];
-            return record.update(action.newId, () => state[tablet])(state);
+            return pipe(
+                state,
+                record.updateAt(action.newId, state[tablet]),
+                getOrElse(() => state),
+            )
         }
         case REMOVE_TABLET:
-            return record.remove(action.tablet ?? tablets[selection.tablet])(state);
+            return pipe(
+                state,
+                record.deleteAt(action.tablet ?? tablets[selection.tablet]),
+            );
         case IMPORT_DESIGN:
             return pipe(
                 action.data.threading.threading,
-                addIndices((i) => action.tabletIds[i]),
-                fromFoldable(getLastSemigroup<ThreadingType>(), array)
+                array.addIndices((i) => action.tabletIds[i]),
+                fromFoldable(getLastSemigroup(), array.array),
             );
         case CLEAR:
             return initialThreading;
@@ -100,45 +135,67 @@ const turnTablet = (turns: number) => <T>(tablet: Tablet<T>): Tablet<T> => [
 ];
 
 type ThreadsState = Record<TabletId, Tablet<ThreadId>>;
-const initialThreads: ThreadsState = fromEntries(initialTabletIds.map(
-    (id) => [id, [initialThreadIds[0], initialThreadIds[1], initialThreadIds[0], initialThreadIds[1]]]
-));
+const initialThreads: ThreadsState = pipe(
+    initialTabletIds,
+    array.map((id) => [id, [initialThreadIds[0], initialThreadIds[1], initialThreadIds[0], initialThreadIds[1]]] as [TabletId, Tablet<ThreadId>]),
+    record.fromFoldable(getLastSemigroup(), array.array),
+)
 
 const threads = (state = initialThreads, action: ActionType, {selection, threads, tablets}: Context): ThreadsState => {
     switch (action.type) {
         case APPLY_THREAD: {
             const newThread = action.thread ?? selection.thread;
             if (newThread < threads.length) {
-                return record.update(tablets[selection.tablet], updateTablet(selection.hole, () => threads[newThread]))(state);
+                return pipe(
+                    state,
+                    record.modifyAt(tablets[selection.tablet], updateTablet(selection.hole, () => threads[newThread])),
+                    getOrElse(() => state),
+                );
             } else {
                 return state;
             }
         }
         case SELECT_AND_APPLY_THREAD:
-            return record.update(action.tablet, updateTablet(action.hole, () => threads[selection.thread]))(state);
+            return pipe(
+                state,
+                record.modifyAt(action.tablet, updateTablet(action.hole, () => threads[selection.thread])),
+                getOrElse(() => state),
+            );
         case TURN:
-            return record.update(tablets[selection.tablet], turnTablet(action.turns))(state);
+            return pipe(
+                state,
+                record.modifyAt(tablets[selection.tablet], turnTablet(action.turns)),
+                getOrElse(() => state),
+            );
         case REMOVE_THREAD: {
             const removedThread = action.thread ?? threads[selection.thread];
             const threadIndex = threads.indexOf(removedThread);
             const newThreadIndex = threadIndex > 0 ? threadIndex - 1 : threadIndex + 1;
-            return mapRecord(
-                tablet.map((thread: ThreadId) => thread === removedThread ? threads[newThreadIndex] : thread)
-            )(state);
+            return pipe(
+                state,
+                record.map(tablet.map((thread: ThreadId) => thread === removedThread ? threads[newThreadIndex] : thread)),
+            );
         }
         case ADD_TABLET_AFTER:
         case ADD_TABLET_BEFORE: {
             const tablet = action.tablet ?? tablets[selection.tablet];
-            return record.update(action.newId, () => state[tablet])(state);
+            return pipe(
+                state,
+                record.updateAt(action.newId, state[tablet]),
+                getOrElse(() => state),
+            );
         }
         case REMOVE_TABLET:
-            return record.remove(action.tablet ?? tablets[selection.tablet])(state);
+            return pipe(
+                state,
+                record.deleteAt(action.tablet ?? tablets[selection.tablet]),
+            );
         case IMPORT_DESIGN:
             return pipe(
                 action.data.threading.threads,
                 map(tablet.map((index) => action.threadIds[index])),
-                addIndices((i) => action.tabletIds[i]),
-                fromFoldable(getLastSemigroup<Tablet<ThreadId>>(), array),
+                array.addIndices((i) => action.tabletIds[i]),
+                fromFoldable(getLastSemigroup<Tablet<ThreadId>>(), array.array),
             );
         case CLEAR:
             return initialThreads;
