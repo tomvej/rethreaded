@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import {Reference} from 'react-popper';
 import {connect, ConnectedProps} from 'react-redux';
-import {Dispatch} from 'redux';
 
 import {Thread as ThreadComponent} from '~components';
 import {RootState} from '~reducer';

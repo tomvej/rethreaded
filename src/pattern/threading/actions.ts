@@ -1,5 +1,5 @@
 import {ActionType as ParentActionType} from '../actions';
-import {TabletId, ThreadId} from '../types';
+import {TabletId} from '../types';
 import {FULL_NAME} from './constants';
 
 export const SET_S_THREADING = `${FULL_NAME}/set-s-threading` as 'set-s-threading';
