@@ -71,7 +71,7 @@ type ThreadingState = Record<TabletId, ThreadingType>;
 const initialThreading: ThreadingState = pipe(
     initialTabletIds,
     array.addValues(() => ThreadingType.S),
-    record.fromFoldable(getLastSemigroup(), array.array),
+    record.getFromEntries(),
 );
 
 const threading = (state = initialThreading, action: ActionType, {selection, tablets}: Context): ThreadingState => {
@@ -112,7 +112,7 @@ const threading = (state = initialThreading, action: ActionType, {selection, tab
             return pipe(
                 action.data.threading.threading,
                 array.addIndices((i) => action.tabletIds[i]),
-                record.fromFoldable(getLastSemigroup(), array.array),
+                record.getFromEntries(),
             );
         case CLEAR:
             return initialThreading;
@@ -136,7 +136,7 @@ type ThreadsState = Record<TabletId, Tablet<ThreadId>>;
 const initialThreads: ThreadsState = pipe(
     initialTabletIds,
     array.addValues(() => [initialThreadIds[0], initialThreadIds[1], initialThreadIds[0], initialThreadIds[1]] as Tablet<ThreadId>),
-    record.fromFoldable(getLastSemigroup(), array.array),
+    record.getFromEntries(),
 )
 
 const threads = (state = initialThreads, action: ActionType, {selection, threads, tablets}: Context): ThreadsState => {
@@ -192,7 +192,7 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
                 action.data.threading.threads,
                 array.map(tablet.map((index) => action.threadIds[index])),
                 array.addIndices((i) => action.tabletIds[i]),
-                record.fromFoldable(getLastSemigroup<Tablet<ThreadId>>(), array.array),
+                record.getFromEntries(),
             );
         case CLEAR:
             return initialThreads;

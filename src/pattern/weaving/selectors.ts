@@ -1,11 +1,11 @@
 import {flow} from 'fp-ts/es6/function';
 import {pipe} from 'fp-ts/es6/pipeable';
-import * as record from 'fp-ts/es6/Record';
 import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
 import {createSelector, createStructuredSelector} from 'reselect';
 
 import * as focus from '~core/focus';
 import * as array from '~func/array';
+import * as record from '~func/record';
 import {RootState} from '~reducer';
 import {Color, Direction, Hole, Tablet} from '~types';
 
@@ -38,7 +38,7 @@ const getPreviousRowTable = createSelector(
     getRows,
     (rows) => pipe(
         array.zip(rows, array.rotate(1)(rows)),
-        record.fromFoldable(getLastSemigroup<RowId>(), array.array),
+        record.getFromEntries(),
     ),
 );
 export const getPreviousRow = (state: RootState, row: RowId): RowId => getPreviousRowTable(state)[row];
@@ -61,7 +61,7 @@ const createGetTabletDirectionsSelector = (tablet: TabletId): GetTabletDirection
     (rows) => createStructuredSelector(pipe(
         rows,
         array.addValues((row) => createGetDirection(row, tablet)),
-        record.fromFoldable(getLastSemigroup(), array.array),
+        record.getFromEntries(),
     )),
 );
 const createGetTabletDirections = (tablet: TabletId): (state: RootState) => Record<RowId, Direction> => {
@@ -87,7 +87,7 @@ const getTabletPatternTable: GetTabletPatternTable = createSelector(
     (tablets) => createStructuredSelector(pipe(
         tablets,
         array.addValues(createGetTabletPattern),
-        record.fromFoldable(getLastSemigroup(), array.array),
+        record.getFromEntries(),
     )),
 );
 

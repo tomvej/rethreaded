@@ -59,7 +59,7 @@ const colors = (state = initialColors, action: ActionType, {selection, threads}:
             return pipe(
                 action.data.threads,
                 array.addIndices((i) => action.threadIds[i]),
-                record.fromFoldable(getLastSemigroup(), array.array)
+                record.getFromEntries(),
             );
         case CLEAR:
             return initialColors;

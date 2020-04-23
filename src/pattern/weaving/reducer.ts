@@ -75,12 +75,12 @@ type DirectionsType = Record<RowId, RowType>;
 const initialRow = pipe(
     initialTabletIds,
     array.addValues(() => Direction.Forward),
-    record.fromFoldable(getLastSemigroup<Direction>(), array.array),
+    record.getFromEntries(),
 );
 const initialState = pipe(
     initialRowIds,
     array.addValues(() => initialRow),
-    record.fromFoldable(getLastSemigroup<RowType>(), array.array),
+    record.getFromEntries(),
 )
 const directions = (state: DirectionsType = initialState, action: ActionType, {selection, tablets, rows}: Context): DirectionsType => {
     switch (action.type) {
@@ -149,9 +149,9 @@ const directions = (state: DirectionsType = initialState, action: ActionType, {s
             return pipe(
                 action.data.weaving,
                 array.map(array.addIndices((i) => action.tabletIds[i])),
-                array.map(record.fromFoldable(getLastSemigroup<Direction>(), array.array)),
+                array.map(record.getFromEntries()),
                 array.addIndices((i) => action.rowIds[i]),
-                record.fromFoldable(getLastSemigroup(), array.array),
+                record.getFromEntries(),
             );
         case CLEAR:
             return initialState;
