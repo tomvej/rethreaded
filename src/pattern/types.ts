@@ -1,5 +1,13 @@
 import {Color, Direction, Hole, Tablet, ThreadingType} from '~types';
 
+enum ThreadIdEnum {_ = ''}
+enum TabletIdEnum {_ = ''}
+enum RowIdEnum {_ = ''}
+
+export type ThreadId = ThreadIdEnum & string;
+export type TabletId = TabletIdEnum & string;
+export type RowId = RowIdEnum & string;
+
 export type SelectionState = {
     row: number;
     thread: number;
@@ -9,9 +17,9 @@ export type SelectionState = {
 
 export type Context = {
     selection: SelectionState;
-    threads: number;
-    tablets: number;
-    rows: number;
+    threads: Array<ThreadId>;
+    tablets: Array<TabletId>;
+    rows: Array<RowId>;
 }
 
 export type IOShape = {

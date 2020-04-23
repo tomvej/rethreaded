@@ -6,11 +6,11 @@ import {RootState} from '~reducer';
 import {Direction, Hole} from '~types';
 
 import {selectAndApplyThread} from '../actions';
-import {isThreadingSelected} from '../selection';
-import {getColor, getThreading, isFocused} from './selectors';
+import {TabletId} from '../types';
+import {getColor, getThreading, isFocused, isThreadingSelected} from './selectors';
 
 type OwnProps = {
-    tablet: number;
+    tablet: TabletId;
     row: Hole;
 }
 

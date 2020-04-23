@@ -35,44 +35,44 @@ const clamp = (number: number, max: number): number => Math.max(Math.min(max - 1
 const thread = (state = 0, action: ActionType, {threads}: Context): number => {
     switch (action.type) {
         case NEXT_THREAD:
-            return increment(threads)(state);
+            return increment(threads.length)(state);
         case PREV_THREAD:
-            return decrement(threads)(state);
+            return decrement(threads.length)(state);
         case SELECT_THREAD:
-            return action.thread < threads ? action.thread : state;
+            return action.thread < threads.length ? action.thread : state;
         case ADD_THREAD:
-            return threads;
+            return threads.length;
         case REMOVE_THREAD:
-            return Math.min(state, threads - 2);
+            return Math.min(state, threads.length - 2);
         case IMPORT_DESIGN:
         case CLEAR:
             return 0;
         default:
-            return clamp(state, threads);
+            return clamp(state, threads.length);
     }
 };
 
 const tablet = (state = 0, action: ActionType, {tablets}: Context): number => {
     switch (action.type) {
         case NEXT_TABLET:
-            return increment(tablets)(state);
+            return increment(tablets.length)(state);
         case PREV_TABLET:
-            return decrement(tablets)(state);
+            return decrement(tablets.length)(state);
         case SELECT_AND_APPLY_THREAD:
-            return action.tablet;
+            return tablets.indexOf(action.tablet);
         case ADD_TABLET_BEFORE:
-            return action.tablet ?? state;
+            return action.tablet !== undefined ? tablets.indexOf(action.tablet) : state;
         case ADD_TABLET_AFTER:
-            return (action.tablet ?? state) + 1;
+            return (action.tablet !== undefined ? tablets.indexOf(action.tablet) : state) + 1;
         case REMOVE_TABLET:
-            return Math.min(state, tablets - 2);
+            return Math.min(state, tablets.length - 2);
         case SELECT_AND_TOGGLE_DIRECTION:
-            return action.tablet;
+            return tablets.indexOf(action.tablet);
         case IMPORT_DESIGN:
         case CLEAR:
             return 0;
         default:
-            return clamp(state, tablets);
+            return clamp(state, tablets.length);
     }
 };
 
@@ -95,22 +95,22 @@ const hole = (state = Hole.A, action: ActionType): Hole => {
 const row = (state = 0, action: ActionType, {rows}: Context): number => {
     switch (action.type) {
         case SELECT_AND_TOGGLE_DIRECTION:
-            return action.row;
+            return rows.indexOf(action.row);
         case PREV_ROW:
-            return decrement(rows)(state);
+            return decrement(rows.length)(state);
         case NEXT_ROW:
-            return increment(rows)(state);
+            return increment(rows.length)(state);
         case ADD_ROW_AFTER:
-            return (action.row ?? state) + 1;
+            return (action.row !== undefined ? rows.indexOf(action.row) : state) + 1;
         case ADD_ROW_BEFORE:
-            return action.row ?? state;
+            return (action.row !== undefined ? rows.indexOf(action.row) : state);
         case REMOVE_ROW:
-            return Math.min(state, rows - 2);
+            return Math.min(state, rows.length - 2);
         case IMPORT_DESIGN:
         case CLEAR:
             return 0;
         default:
-            return clamp(state, rows);
+            return clamp(state, rows.length);
     }
 };
 

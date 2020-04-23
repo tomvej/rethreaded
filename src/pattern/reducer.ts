@@ -10,11 +10,11 @@ import * as importExport from './importexport';
 import * as preview from './preview';
 import * as selection from './selection';
 import * as threading from './threading';
-import {getTabletNumberFromModel} from './threading';
+import {getTabletsFromModel} from './threading';
 import * as threads from './threads';
-import {getThreadNumberFromModel} from './threads';
-import {getRowNumberFromModel} from './weaving';
+import {getThreadsFromModel} from './threads';
 import * as weaving from './weaving';
+import {getRowsFromModel} from './weaving';
 
 const emptyContext = {
     selection: {
@@ -23,9 +23,9 @@ const emptyContext = {
         hole: Hole.A,
         row: 0,
     },
-    threads: 0,
-    tablets: 0,
-    rows: 0,
+    threads: [],
+    tablets: [],
+    rows: [],
 };
 
 const modelReducer = createPersistentReducer('patternModel', combineContextReducers({
@@ -47,24 +47,24 @@ export type StateType = ReturnType<typeof baseReducer>;
 
 const initial = baseReducer(undefined, {} as Action, emptyContext);
 const reducer = (state: StateType = initial, action: Action): StateType => {
-    const threadNumber = getThreadNumberFromModel(undo.getCurrent(state.model).threads);
-    const tabletNumber = getTabletNumberFromModel(undo.getCurrent(state.model).threading);
-    const rowNumber = getRowNumberFromModel(undo.getCurrent(state.model).weaving);
+    const threads = getThreadsFromModel(undo.getCurrent(state.model).threads);
+    const tablets = getTabletsFromModel(undo.getCurrent(state.model).threading);
+    const rowNumber = getRowsFromModel(undo.getCurrent(state.model).weaving);
 
-    if (action.type === REMOVE_THREAD && threadNumber <= MIN_THREADS) {
+    if (action.type === REMOVE_THREAD && threads.length <= MIN_THREADS) {
         return state;
     }
-    if (action.type === REMOVE_TABLET && tabletNumber <= MIN_TABLETS) {
+    if (action.type === REMOVE_TABLET && tablets.length <= MIN_TABLETS) {
         return state;
     }
-    if (action.type === REMOVE_ROW && rowNumber <= MIN_ROWS) {
+    if (action.type === REMOVE_ROW && rowNumber.length <= MIN_ROWS) {
         return state;
     }
 
     return baseReducer(state, action, {
         selection: state.selection,
-        threads: threadNumber,
-        tablets: tabletNumber,
+        threads,
+        tablets,
         rows: rowNumber,
     });
 };

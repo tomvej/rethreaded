@@ -4,16 +4,15 @@ import {connect} from 'react-redux';
 import {ThreadingTable} from '~components';
 import {RootState} from '~reducer';
 import {Hole} from '~types';
-import {seq} from '~utils/array';
 
 import {HoleLabel} from '../components';
 import Cell from './Cell';
-import {getTabletNumber} from './selectors';
+import {getTablets} from './selectors';
 import TabletLabel from './TabletLabel';
 import ThreadingSwitch from './ThreadingSwitch';
 
 const mapStateToProps = (state: RootState) => ({
-    tablets: getTabletNumber(state),
+    tablets: getTablets(state),
 });
 
 type StateProps = ReturnType<typeof mapStateToProps>;
@@ -22,7 +21,7 @@ const Cells: FC<StateProps> = ({tablets}) => (
     <ThreadingTable
         cellComponent={Cell}
         rows={[Hole.A, Hole.B, Hole.C, Hole.D]}
-        tablets={seq(tablets)}
+        tablets={tablets}
         leftMarginComponent={HoleLabel}
         topMarginComponent={TabletLabel}
         bottomMarginComponent={ThreadingSwitch}

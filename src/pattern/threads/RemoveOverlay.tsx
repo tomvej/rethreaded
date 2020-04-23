@@ -5,10 +5,11 @@ import {Dispatch} from 'redux';
 import {ActionIcon, ActionOverlay} from '~components';
 
 import {removeThread} from '../actions';
+import {ThreadId} from '../types';
 
 
 type OwnProps = {
-    thread: number;
+    thread: ThreadId;
 }
 
 type DispatchProps = {

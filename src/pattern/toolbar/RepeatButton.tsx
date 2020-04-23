@@ -1,7 +1,6 @@
 import {faRetweet} from '@fortawesome/free-solid-svg-icons';
-import {either, fold, left} from 'fp-ts/es6/Either';
+import {fold, left} from 'fp-ts/es6/Either';
 import {pipe} from 'fp-ts/es6/pipeable';
-import * as t from 'io-ts';
 import {PathReporter} from 'io-ts/es6/PathReporter';
 import {connect} from 'react-redux';
 

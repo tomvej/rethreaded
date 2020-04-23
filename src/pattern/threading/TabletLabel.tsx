@@ -3,26 +3,32 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
 import {ActionIcon, ActionOverlay, CellLabel} from '~components';
+import {RootState} from '~reducer';
 
 import {addTabletAfter, addTabletBefore, removeTablet} from '../actions';
+import {TabletId} from '../types';
+import {createGetTabletOrder} from './selectors';
 
 type OwnProps = {
-    tablet: number;
+    tablet: TabletId;
 }
 
-type DispatchProps = {
-    addBefore: () => void;
-    addAfter: () => void;
-    remove: () => void;
-}
+const createMapStateToProps = () => {
+    const getTabletOrder = createGetTabletOrder();
+    return (state: RootState, {tablet}: OwnProps) => ({
+        label: getTabletOrder(state, tablet) + 1,
+    });
+};
+type StateProps = ReturnType<ReturnType<typeof createMapStateToProps>>;
 
-const mapDispatchToProps = (dispatch: Dispatch, {tablet}: OwnProps): DispatchProps => ({
+const mapDispatchToProps = (dispatch: Dispatch, {tablet}: OwnProps) => ({
     addBefore: () => dispatch(addTabletBefore(tablet)),
     addAfter: () => dispatch(addTabletAfter(tablet)),
     remove: () => dispatch(removeTablet(tablet)),
 });
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 
-const TabletLabel: FC<DispatchProps & OwnProps> = ({tablet, addBefore, addAfter, remove}) => (
+const TabletLabel: FC<StateProps & DispatchProps> = ({label, addBefore, addAfter, remove}) => (
     <ActionOverlay
         fill
         top={<ActionIcon type="remove" onClick={remove} />}
@@ -30,9 +36,9 @@ const TabletLabel: FC<DispatchProps & OwnProps> = ({tablet, addBefore, addAfter,
         right={<ActionIcon type="add" onClick={addAfter} />}
     >
         <CellLabel position="top">
-        {tablet + 1}
+        {label}
         </CellLabel>
     </ActionOverlay>
 );
 
-export default connect(undefined, mapDispatchToProps)(TabletLabel);
+export default connect(createMapStateToProps, mapDispatchToProps)(TabletLabel);

@@ -5,13 +5,13 @@ import {ThreadingCell} from '~components';
 import {RootState} from '~reducer';
 
 import {selectAndToggleDirection} from '../actions';
-import {isWeavingSelected} from '../selection';
 import {getThreading} from '../threading';
-import {getDirection, getPatternColor, isFocused} from './selectors';
+import {RowId, TabletId} from '../types';
+import {getDirection, getPatternColor, isFocused, isWeavingSelected} from './selectors';
 
 type OwnProps = {
-    tablet: number;
-    row: number;
+    tablet: TabletId;
+    row: RowId;
 }
 
 const mapStateToProps = (state: RootState, {tablet, row}: OwnProps) => ({
