@@ -13,21 +13,4 @@ export const aperture = <T>(array: Array<T>, length: number): Array<Array<T>> =>
     .map((index) => array.slice(index * length, (index + 1) * length));
 
 /** @deprecated */
-export const update = <T>(index: number, updater: (item: T) => T) => (array: Array<T>): Array<T> => {
-    const elem = array[index];
-    const updated = updater(elem);
-    if (updated !== elem) {
-        return array.map((item, i) => i === index ? updated : item);
-    } else {
-        return array;
-    }
-};
-
-/** @deprecated */
-export const insert = <T>(array: Array<T>, index: number, item: T): Array<T> => array.slice(0, index).concat([item], array.slice(index));
-
-/** @deprecated */
-export const remove = (index: number) => <T>(array: Array<T>): Array<T> => array.filter((_, i) => i !== index);
-
-/** @deprecated */
 export const append = <T>(array: Array<T>, item: T): Array<T> => array.concat([item]);
