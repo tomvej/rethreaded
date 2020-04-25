@@ -99,8 +99,7 @@ const threading = (state = initialThreading, action: ActionType, {selection, tab
             const tablet = action.tablet ?? tablets[selection.tablet];
             return pipe(
                 state,
-                record.updateAt(action.newId, state[tablet]),
-                getOrElse(() => state),
+                record.insertAt(action.newId, state[tablet]),
             )
         }
         case REMOVE_TABLET:
