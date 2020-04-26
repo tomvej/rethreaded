@@ -20,7 +20,7 @@ module.exports = (env, {mode}) => ({
             __DEVELOPMENT__: mode === 'development',
             __PRODUCTION__: mode === 'production',
         }),
-        mode === 'development' && new CssExtractPlugin(),
+        mode !== 'development' && new CssExtractPlugin(),
     ),
     module: {
         rules: [{
