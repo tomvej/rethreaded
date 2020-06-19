@@ -3,3 +3,4 @@ export {showImportDialog, showExportDialog, showTextExportDialog} from './action
 export {stateReducer, modelReducer} from './reducer';
 export {default as ImportDialog} from './ImportDialog';
 export {default as ExportDialog} from './ExportDialog';
+export {default as TextExportDialog} from './TextExportDialog';
