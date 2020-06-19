@@ -16,14 +16,14 @@ import {
     SELECT_THREAD_8,
     SELECT_THREAD_9,
     SET_S_THREADING,
-    SET_Z_THREADING,
+    SET_Z_THREADING, TURN_ALL_BACKWARD, TURN_ALL_FORWARD,
     TURN_BACKWARD,
     TURN_FORWARD,
 } from '~shortcuts';
 
 import {addTabletAfter, addTabletBefore, removeTablet} from '../actions';
 import {selectNextHole, selectNextTablet, selectPrevHole, selectPrevTablet} from '../selection';
-import {applyThread, setSThreading, setZThreading, turnTablet} from './actions';
+import {applyThread, setSThreading, setZThreading, turnAllTablets, turnTablet} from './actions';
 
 const createApplyThread = (number?: number) => () => applyThread(number);
 
@@ -47,6 +47,8 @@ export default {
     [APPLY]: createApplyThread(),
     [TURN_FORWARD]: () => turnTablet(1),
     [TURN_BACKWARD]: () => turnTablet(-1),
+    [TURN_ALL_FORWARD]: () => turnAllTablets(1),
+    [TURN_ALL_BACKWARD]: () => turnAllTablets(-1),
     [ADD]: addTabletAfter,
     [ADD_ALT]: addTabletBefore,
     [REMOVE]: removeTablet,

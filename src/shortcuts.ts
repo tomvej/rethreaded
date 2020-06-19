@@ -20,6 +20,8 @@ export const APPLY = 'apply';
 export const CANCEL = 'cancel';
 export const TURN_FORWARD = 'turn-forward';
 export const TURN_BACKWARD = 'turn-backward';
+export const TURN_ALL_FORWARD = 'turn-all-forward';
+export const TURN_ALL_BACKWARD = 'turn-all-backward';
 export const ADD = 'add';
 export const ADD_ALT = 'add-alt';
 export const REMOVE = 'remove';
@@ -50,6 +52,8 @@ const shortcuts: {[command: string]: string | string[]} = {
     [CANCEL]: 'escape',
     [TURN_BACKWARD]: 'b',
     [TURN_FORWARD]: 'f',
+    [TURN_ALL_BACKWARD]: 'ctrl+b',
+    [TURN_ALL_FORWARD]: 'ctrl+f',
     [ADD]: 'ins',
     [ADD_ALT]: 'shift+ins',
     [REMOVE]: 'del',

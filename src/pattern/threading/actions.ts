@@ -7,6 +7,7 @@ export const SET_Z_THREADING = `${FULL_NAME}/set-z-threading` as 'set-z-threadin
 export const APPLY_THREAD = `${FULL_NAME}/apply-thread` as 'apply-thread';
 export const TOGGLE_THREADING = `${FULL_NAME}/toggle-threading` as 'toggle-threading';
 export const TURN = `${FULL_NAME}/turn` as 'turn';
+export const TURN_ALL = `${FULL_NAME}/turn-all` as 'turn-all';
 
 export interface SetSThreadingActionType {
     type: typeof SET_S_THREADING;
@@ -26,6 +27,10 @@ export interface TurnActionType {
     type: typeof TURN;
     turns: number;
 }
+export interface TurnAllActionType {
+    type: typeof TURN_ALL;
+    turns: number;
+}
 
 export const setSThreading = (): SetSThreadingActionType => ({type: SET_S_THREADING});
 export const setZThreading = (): SetZThreadingActionType => ({type: SET_Z_THREADING});
@@ -41,6 +46,10 @@ export const turnTablet = (turns: number): TurnActionType => ({
     type: TURN,
     turns,
 });
+export const turnAllTablets = (turns: number): TurnAllActionType => ({
+    type: TURN_ALL,
+    turns,
+});
 
 export type ActionType =
     SetSThreadingActionType
@@ -48,4 +57,5 @@ export type ActionType =
     | ApplyThreadActionType
     | ToggleThreadingActionType
     | TurnActionType
+    | TurnAllActionType
     | ParentActionType

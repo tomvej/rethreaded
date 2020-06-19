@@ -19,7 +19,7 @@ import {
 } from '../actions';
 import {initialTabletIds, initialThreadIds} from '../constants';
 import {Context, TabletId, ThreadId} from '../types';
-import {ActionType, APPLY_THREAD, SET_S_THREADING, SET_Z_THREADING, TOGGLE_THREADING, TURN} from './actions';
+import {ActionType, APPLY_THREAD, SET_S_THREADING, SET_Z_THREADING, TOGGLE_THREADING, TURN, TURN_ALL} from './actions';
 
 type TabletState = Array<TabletId>;
 const tablets = (state: TabletState = initialTabletIds, action: ActionType, {selection}: Context): TabletState => {
@@ -162,6 +162,11 @@ const threads = (state = initialThreads, action: ActionType, {selection, threads
                 state,
                 record.modifyAt(tablets[selection.tablet], turnTablet(action.turns)),
                 getOrElse(() => state),
+            );
+        case TURN_ALL:
+            return pipe(
+                state,
+                record.map(turnTablet(action.turns)),
             );
         case REMOVE_THREAD: {
             const removedThread = action.thread ?? threads[selection.thread];
