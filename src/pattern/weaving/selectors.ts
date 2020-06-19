@@ -1,6 +1,5 @@
 import {flow} from 'fp-ts/es6/function';
 import {pipe} from 'fp-ts/es6/pipeable';
-import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
 import {createSelector, createStructuredSelector} from 'reselect';
 
 import * as focus from '~core/focus';

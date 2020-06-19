@@ -15,14 +15,14 @@ type KeyBinderProps = {
 
 const KeyBinder: FC<KeyBinderProps> = ({children}) => {
     const rootListener = useRef<ListenerType | null>(null);
-    const register = useCallback((listener) => {
+    const register = useCallback((listener: ListenerType) => {
         rootListener.current = listener;
         return (): void => {
             rootListener.current = null;
         };
     }, []);
     const modalListener = useRef<SimpleListenerType | null>(null);
-    const registerModal = useCallback((listener) => {
+    const registerModal = useCallback((listener: SimpleListenerType) => {
         assert(modalListener.current === null, 'Too many registered modal listeners');
         modalListener.current = listener;
         return (): void => {

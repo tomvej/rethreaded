@@ -46,7 +46,7 @@ export default function decode(twtFile: TwtFileType): IOShape {
         twtFile['Threading chart'],
         reduce(
             replicate(twtFile['Number of tablets'], [] as number[]),
-            (array, item) => zipWith(item, array, cons),
+            (array, item) => zipWith(item, array, (head, tail) => cons(head, tail)),
         ),
     );
 

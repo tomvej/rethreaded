@@ -20,7 +20,7 @@ type WeaveTablePropTypes<T extends Key, R extends Key> = {
 
 const WeaveTable = <T extends Key, R extends Key>({tablets, rows, weaveComponent: WeaveComponent, repeat = 1}: WeaveTablePropTypes<T, R>) => {
     const [zoom, setZoom] = useState(1);
-    const onWheel = useCallback((event) => {
+    const onWheel = useCallback((event: WheelEvent) => {
         if (event.ctrlKey) {
             event.preventDefault();
             if (event.deltaY > 0) {

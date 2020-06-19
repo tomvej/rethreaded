@@ -29,4 +29,9 @@ module.exports = {
         'simple-import-sort/sort': 'error',
         '@typescript-eslint/unbound-method': 'off', // does not work with fp-ts
     },
+    settings: {
+        react: {
+            version: 'detect',
+        },
+    },
 };

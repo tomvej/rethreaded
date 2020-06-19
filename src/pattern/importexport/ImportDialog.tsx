@@ -46,7 +46,7 @@ const ImportDialog: FC<ImportDialogProps> = ({visible, hide, importDesign}) => {
                         (data) => () => importDesign(data),
                     )
                 )();
-            });
+            }).catch(() => alert('Canot read file.'));
         }
     };
 

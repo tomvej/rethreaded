@@ -17,7 +17,7 @@ const ModalKeyHandler: FC<ModalKeyHandlerProps> = ({children, handlers}) => {
         const applicableHandlers = Object.entries(handlers)
             .filter(([command]) => commands.includes(command))
             .map(([, handler]) => handler);
-        assert(applicableHandlers.length <= 1, `There are too many active handlers for commands ${commands}`);
+        assert(applicableHandlers.length <= 1, `There are too many active handlers for commands: ${commands.join(', ')}`);
         if (applicableHandlers.length === 1) {
             applicableHandlers[0]();
             event.preventDefault();

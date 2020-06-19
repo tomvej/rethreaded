@@ -24,7 +24,7 @@ const KeyHandler: FC<KeyHandlerProps> = ({focus, handlers, children}) => {
             } else if (applicableHandlers.length === 1) {
                 applicableHandlers[0]();
             } else {
-                throw new Error(`There are too many active handlers for commands ${commands}`);
+                throw new Error(`There are too many active handlers for commands: ${commands.join(', ')}`);
             }
         };
 

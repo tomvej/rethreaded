@@ -27,10 +27,12 @@ export function combineContextReducers(reducers: ContextReducersMapObject) {
         let hasChanged = false;
         const nextState: StateFromCRMO<typeof reducers> = {};
         reducerEntries.forEach(([key, reducer]) => {
+            /* eslint-disable @typescript-eslint/no-unsafe-assignment */
             const prevStateForKey = state[key];
             const nextStateForKey = reducer(prevStateForKey, action, context);
             nextState[key] = nextStateForKey;
             hasChanged = hasChanged || nextStateForKey !== prevStateForKey;
+            /* eslint-enable @typescript-eslint/no-unsafe-assignment */
         });
         return hasChanged ? nextState : state;
     }

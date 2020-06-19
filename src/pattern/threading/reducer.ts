@@ -1,6 +1,5 @@
 import {getOrElse} from 'fp-ts/es6/Option';
 import {pipe} from 'fp-ts/es6/pipeable';
-import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
 
 import * as array from '~func/array';
 import * as record from '~func/record';
