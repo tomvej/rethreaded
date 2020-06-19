@@ -7,6 +7,7 @@ import {CANCEL} from '~shortcuts';
 
 import {hideTextExportDialog} from './actions';
 import {isTextExportDialogVisible} from './selectors';
+import TextExport from './TextExport';
 
 const mapStateToProps = (state: RootState) => ({
     visible: isTextExportDialogVisible(state),
@@ -20,7 +21,7 @@ type TextExportDialogProps = ReturnType<typeof mapStateToProps> & typeof mapDisp
 
 const TextExportDialog: FC<TextExportDialogProps> = ({visible, hide}) => visible ? (
     <ModalDialog keyHandlers={{[CANCEL]: hide}} onOutsideClick={hide}>
-        15: 2F 2B 3F
+        <TextExport />
     </ModalDialog>
 ) : null;
 
