@@ -1,6 +1,5 @@
+import {range} from 'fp-ts/es6/Array';
 import React, {FC, ReactNode, useCallback, useEffect, useRef, useState} from 'react';
-
-import {seq} from '~utils/array';
 
 import {THREAD_WIDTH, WEAVE_LENGTH} from './constants';
 import style from './WeaveTable.scss';
@@ -43,7 +42,7 @@ const WeaveTable = <T extends Key, R extends Key>({tablets, rows, weaveComponent
     const width = tablets.length * THREAD_WIDTH;
     const height = (rows.length + 1) * WEAVE_LENGTH * repeat;
 
-    const createLine = (tablet: T): ReactNode => seq(repeat).map((repetition) => rows.map((row, index) => (
+    const createLine = (tablet: T): ReactNode => range(0, repeat - 1).map((repetition) => rows.map((row, index) => (
         <g
             key={row}
             transform={`translate(0, ${(repetition * rows.length + index) * WEAVE_LENGTH})`}

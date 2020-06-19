@@ -17,7 +17,8 @@
             "~reducer": ["src/reducer"],
             "~shortcuts": ["src/shortcuts"],
             "~core/*": ["src/core/*"],
-            "~utils/*": ["src/utils/*"]
+            "~utils/*": ["src/utils/*"],
+            "~func/*": ["src/func/*"]
         }
     },
     "include": [

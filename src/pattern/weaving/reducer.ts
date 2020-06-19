@@ -1,13 +1,10 @@
-import {array, map as mapArray, unsafeDeleteAt} from 'fp-ts/es6/Array';
+import {getOrElse} from 'fp-ts/es6/Option';
 import {pipe} from 'fp-ts/es6/pipeable';
-import {fromFoldable, map} from 'fp-ts/es6/Record';
 import {getLastSemigroup} from 'fp-ts/es6/Semigroup';
 
+import * as array from '~func/array';
+import * as record from '~func/record';
 import {Direction} from '~types';
-import {insert} from '~utils/array';
-import {addIndices} from '~utils/func';
-import * as record from '~utils/record';
-import {fromEntries} from '~utils/record';
 import {combineContextReducers} from '~utils/redux';
 
 import {
@@ -33,15 +30,27 @@ const rows = (state = initialRowIds, action: ActionType, {selection}: Context): 
     switch (action.type) {
         case ADD_ROW_AFTER: {
             const index = action.row !== undefined ? state.indexOf(action.row) : selection.row;
-            return insert(state, index + 1, action.newId);
+            return pipe(
+                state,
+                array.insertAt(index + 1, action.newId),
+                getOrElse(() => state),
+            )
         }
         case ADD_ROW_BEFORE: {
             const index = action.row !== undefined ? state.indexOf(action.row) : selection.row;
-            return insert(state, index, action.newId);
+            return pipe(
+                state,
+                array.insertAt(index + 1, action.newId),
+                getOrElse(() => state),
+            )
         }
         case REMOVE_ROW: {
             const index = action.row !== undefined ? state.indexOf(action.row) : selection.row;
-            return unsafeDeleteAt(index, state);
+            return pipe(
+                state,
+                array.deleteAt(index),
+                getOrElse(() => state),
+            );
         }
         case IMPORT_DESIGN:
             return action.rowIds;
@@ -63,41 +72,89 @@ const getOtherDirection = (direction: Direction): Direction => {
 
 type RowType = Record<TabletId, Direction>;
 type DirectionsType = Record<RowId, RowType>;
-const initState = fromEntries(initialRowIds.map((id) => [id, fromEntries(initialTabletIds.map((id) => [id, Direction.Forward]))]));
-const directions = (state: DirectionsType = initState, action: ActionType, {selection, tablets, rows}: Context): DirectionsType => {
+const initialRow = pipe(
+    initialTabletIds,
+    array.addValues(() => Direction.Forward),
+    record.getFromEntries(),
+);
+const initialState = pipe(
+    initialRowIds,
+    array.addValues(() => initialRow),
+    record.getFromEntries(),
+)
+const directions = (state: DirectionsType = initialState, action: ActionType, {selection, tablets, rows}: Context): DirectionsType => {
     switch (action.type) {
         case SELECT_AND_TOGGLE_DIRECTION:
-            return record.update(action.row, record.update(action.tablet, getOtherDirection))(state);
+            return pipe(
+                state,
+                record.modifyAt(action.row, (row) => pipe(
+                    row,
+                    record.modifyAt(action.tablet, getOtherDirection),
+                    getOrElse(() => row),
+                )),
+                getOrElse(() => state),
+            );
         case TOGGLE_DIRECTION:
-            return record.update(rows[selection.row], record.update(tablets[selection.tablet], getOtherDirection))(state);
+            return pipe(
+                state,
+                record.modifyAt(rows[selection.row], (row) => pipe(
+                    row,
+                    record.modifyAt(tablets[selection.tablet], getOtherDirection),
+                    getOrElse(() => row),
+                )),
+                getOrElse(() => state),
+            );
         case SET_DIRECTION:
-            return record.update(rows[selection.row], record.update(tablets[selection.tablet], () => action.direction))(state);
+            return pipe(
+                state,
+                record.modifyAt(rows[selection.row], (row) => pipe(
+                    row,
+                    record.updateAt(tablets[selection.tablet], action.direction),
+                    getOrElse(() => row),
+                )),
+                getOrElse(() => state),
+            )
         case ADD_TABLET_AFTER:
         case ADD_TABLET_BEFORE: {
             const tablet = action.tablet ?? tablets[selection.tablet];
-            return map((row: RowType) => record.update(action.newId, () => row[tablet])(row))(state);
+            return pipe(
+                state,
+                record.map((row) => pipe(
+                    row,
+                    record.insertAt(action.newId, row[tablet]),
+                )),
+            );
         }
         case REMOVE_TABLET: {
             const tablet = action.tablet ?? tablets[selection.tablet];
-            return map((row: RowType) => record.remove(tablet)(row))(state);
+            return pipe(
+                state,
+                record.map(record.deleteAt(tablet)),
+            )
         }
         case ADD_ROW_BEFORE:
         case ADD_ROW_AFTER: {
             const row = action.row ?? rows[selection.row];
-            return record.update(action.newId, () => state[row])(state);
+            return pipe(
+                state,
+                record.insertAt(action.newId, state[row]),
+            );
         }
         case REMOVE_ROW:
-            return record.remove(action.row ?? rows[selection.row])(state);
+            return pipe(
+                state,
+                record.deleteAt(action.row ?? rows[selection.row]),
+            );
         case IMPORT_DESIGN:
             return pipe(
                 action.data.weaving,
-                mapArray(addIndices((i) => action.tabletIds[i])),
-                mapArray(fromFoldable(getLastSemigroup<Direction>(), array)),
-                addIndices((i) => action.rowIds[i]),
-                fromFoldable(getLastSemigroup(), array),
+                array.map(array.addIndices((i) => action.tabletIds[i])),
+                array.map(record.getFromEntries()),
+                array.addIndices((i) => action.rowIds[i]),
+                record.getFromEntries(),
             );
         case CLEAR:
-            return initState;
+            return initialState;
         default:
             return state;
     }

@@ -37,6 +37,7 @@ export const createGetThreadOrder = (): GetThreadOrder => createSelector(
 
 type ExportThreads = (state: RootState) => Array<Color>;
 export const exportThreads: ExportThreads = (state) => pipe(
-    getThreads(state),
+    state,
+    getThreads,
     map((id) => getColor(state, id)),
 );

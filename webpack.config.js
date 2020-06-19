@@ -61,6 +61,7 @@ module.exports = (env, {mode}) => ({
             '~types': `${__dirname}/src/types`,
             '~reducer': `${__dirname}/src/reducer`,
             '~shortcuts': `${__dirname}/src/shortcuts`,
+            '~func': `${__dirname}/src/func`,
         },
     },
     devServer: {
