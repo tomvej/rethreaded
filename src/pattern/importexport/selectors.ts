@@ -11,3 +11,5 @@ export const getInfo = (state: RootState): Info => getParentModel(state)[NAME];
 export const isImportDialogVisible = (state: RootState): boolean => getState(state).importDialogVisible;
 
 export const isExportDialogVisible = (state: RootState): boolean => getState(state).exportDialogVisible;
+
+export const isTextExportDialogVisible = (state: RootState): boolean => getState(state).textExportDialogVisible;
