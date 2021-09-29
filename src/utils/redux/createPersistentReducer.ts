@@ -4,10 +4,14 @@ import {ContextReducer} from '~utils/redux/types';
 
 const cleanup = window.location.search.includes('clear');
 
+const parseItem = <S>(identifier: string): S | undefined => {
+    const value = localStorage.getItem(identifier);
+    return value ? JSON.parse(value) as S : undefined;
+}
+
 export default <C, S, A extends Action>(identifier: string, reducer: ContextReducer<C, S, A>): ContextReducer<C, S, A> => {
     // TODO io-ts input checking
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const initial: S | undefined = cleanup ? undefined : JSON.parse(localStorage.getItem(identifier) ?? '{}');
+    const initial: S | undefined = cleanup ? undefined : parseItem(identifier);
 
     let persistedState: S | undefined = undefined;
     window.addEventListener('unload', () => {
